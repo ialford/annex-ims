@@ -11,7 +11,31 @@ class ReportsController < ApplicationController
 
   # GET /reports/1
   # GET /reports/1.json
-  def show; end
+  def show
+    @results = BuildReport.call(
+      @report.fields,
+      @report.start_date,
+      @report.end_date,
+      @report.activity,
+      @report.status
+    )
+  end
+
+  def export
+    @results = BuildReport.call(
+      @report.fields,
+      @report.start_date,
+      @report.end_date,
+      @report.activity,
+      @report.status
+    )
+
+    headers['Content-Disposition'] = \
+      "attachment; filename=\"#{@report.name}.csv\""
+    headers['Content-Type'] ||= 'text/csv'
+
+    render 'export.csv'
+  end
 
   # GET /reports/new
   def new
@@ -70,6 +94,6 @@ class ReportsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def report_params
-    params.require(:report).permit(:name, :start_date, :end_date, :activity, :status, :fields)
+    params.require(:report).permit(:name, :start_date, :end_date, :activity, :status, fields: [])
   end
 end

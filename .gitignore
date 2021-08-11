@@ -47,3 +47,6 @@ bower.json
 
 # Because we don't want Solr indexing in the repository:
 /solr
+
+# For the canned reports
+/config/canned_reports

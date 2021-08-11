@@ -156,6 +156,12 @@ class BuildReport
     @selects.append('r.req_type AS "request_type"')
   end
 
+  def handle_delivery_type
+    @tables_needed << 'requests'
+
+    @selects.append('r.del_type AS "delivery_type"')
+  end
+
   def handle_patron_status
     @tables_needed << 'requests'
 

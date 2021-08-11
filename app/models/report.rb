@@ -22,6 +22,7 @@ class Report < ApplicationRecord
     'pulled' => 'Pulled',
     'source' => 'Source',
     'request_type' => 'Request Type',
+    'delivery_type' => 'Delivery Type',
     'patron_status' => 'Patron Status',
     'institution' => 'Institution',
     'department' => 'Department',

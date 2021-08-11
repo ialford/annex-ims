@@ -196,14 +196,29 @@ class BuildReport
     handle_requested
     handle_pulled
 
-    @selects.append("age(Date_trunc('minute', p.created_at), Date_trunc('minute', b.created_at)) AS \"time_to_pull\"")
+    time_to_pull = <<-SQL
+    TRUNC(EXTRACT(EPOCH FROM Date_trunc('minute',Age(p.created_at, b.created_at))) / 3600)   || ':' ||
+    LPAD(TRUNC(( EXTRACT(EPOCH FROM Date_trunc('minute',Age(p.created_at, b.created_at))) / 3600
+      - TRUNC(EXTRACT(EPOCH FROM Date_trunc('minute',Age(p.created_at, b.created_at))) / 3600)) * 60)::text, '2','0')
+    AS "time_to_pull"
+    SQL
+
+    @selects.append(time_to_pull)
   end
 
   def handle_time_to_fill
     handle_requested
     handle_filled
 
-    @selects.append("age(Date_trunc('minute', f.created_at), Date_trunc('minute', b.created_at)) AS \"time_to_fill\"")
+    time_to_fill = <<-SQL
+    TRUNC(EXTRACT(EPOCH FROM Date_trunc('minute',Age(f.created_at, b.created_at))) / 3600) || ':' ||
+		LPAD( TRUNC(( EXTRACT(EPOCH FROM Date_trunc('minute',Age(f.created_at, b.created_at))) / 3600
+		  - TRUNC(EXTRACT(EPOCH FROM Date_trunc('minute',Age(f.created_at, b.created_at))) / 3600) ) * 60)::text, '2','0')
+    AS "time_to_fill"
+
+    SQL
+
+    @selects.append(time_to_fill)
   end
 
   def handle_start_date

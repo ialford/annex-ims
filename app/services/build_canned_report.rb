@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class BuildCannedReport
-  def self.call(fields, start_date, end_date, preset_date_range, activity, request_status, item_status)
-    new(fields, start_date, end_date, preset_date_range, activity, request_status, item_status).build!
-    end
+  def self.call(params)
+    new(params).build!
+  end
 
-  def initialize(fields, start_date, end_date, preset_date_range, activity, request_status, item_status); end
+  def initialize(params); end
 
   def build!
     sql = to_sql

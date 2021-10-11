@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CannedReportsController < ApplicationController
-  before_action :set_report, only: %i[show export]
+  before_action :set_report, only: %i[show export run export]
 
   # GET /reports
   # GET /reports.json
@@ -12,12 +12,7 @@ class CannedReportsController < ApplicationController
   # GET /reports/1
   # GET /reports/1.json
   def show
-    output = @report.run
-
-    @results = output[:results]
-    @sql = output[:sql]
-
-    @report.fields << 'activity'
+    @report.load
   end
 
   def export
@@ -26,13 +21,18 @@ class CannedReportsController < ApplicationController
     @results = output[:results]
     @sql = output[:sql]
 
-    @report.fields << 'activity'
-
     headers['Content-Disposition'] = \
       "attachment; filename=\"#{@report.name}.csv\""
     headers['Content-Type'] ||= 'text/csv'
 
     render 'export.csv'
+  end
+
+  def run
+    output = @report.run
+
+    @results = output[:results]
+    @sql = output[:sql]
   end
 
     private
@@ -47,7 +47,7 @@ class CannedReportsController < ApplicationController
     preprocess_start_date(params)
     preprocess_end_date(params)
 
-    params.require(:report).permit(:name, :start_date, :end_date, :preset_date_range, :activity, :request_status, :item_status, fields: [])
+    params.require(:canned_report)
   end
 
   def preprocess_start_date(params)

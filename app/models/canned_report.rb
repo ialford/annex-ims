@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 class CannedReport
-  attr_reader :id, :name, :file, :contents
+  attr_reader :id, :name, :file
+  attr_accessor :contents
 
   def initialize(id)
     @id = id
     @name = id.titleize
-    @file = File.join(Rails.root, 'config', 'canned_reports', "#{id}.yaml")
+    @file = File.join(Rails.root, 'reports', "#{id}.yaml")
   end
 
   def valid?
@@ -21,7 +22,13 @@ class CannedReport
     # BuildCannedReport.call(fields, start_date, end_date, preset_date_range, activity, request_status, item_status) # ????
   end
 
+  def save
+    File.open(@file,"w") do |file|
+      file.write @contents.to_yaml
+    end
+  end
+
   def self.all
-    Dir.glob(File.join(Rails.root, 'config', 'canned_reports', '*.yaml')).sort.map { |file| CannedReport.new(File.basename(file, File.extname(file))) }
+    Dir.glob(File.join(Rails.root, 'reports', '*.yaml')).sort.map { |file| CannedReport.new(File.basename(file, File.extname(file))) }
   end
 end

@@ -49,4 +49,4 @@ bower.json
 /solr
 
 # For the canned reports
-/config/canned_reports
+/reports

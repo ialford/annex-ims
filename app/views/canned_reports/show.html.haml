@@ -1,0 +1,27 @@
+%h4= @report.contents['name']
+- multiselects = []
+= form_tag run_canned_report_path(@report.id) do
+  - @report.contents['inputs'].each do |input|
+    .field
+      = label_tag input['name'], input['label']
+      - case input['type']
+      - when 'checkbox'
+        = check_box_tag input['name']
+      - when 'multi-select'
+        - multiselects << input['name']
+        = select_tag input['name'], options_for_select(input['options']), include_blank: true
+      - when 'radio'
+        .input-group
+          - input['options'].each do |option|
+            - option.select do |key, _|
+              = radio_button_tag input['name'], key
+              = label_tag input['name'], key.titleize
+            %br
+  .actions
+    = submit_tag "Run",
+                class: "btn btn-primary"
+- if multiselects.count > 0
+
+  - multiselects.each do |multiselect|
+    :javascript
+      $("##{multiselect}").multiSelect();

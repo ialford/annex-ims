@@ -13,10 +13,12 @@ class CannedReportsController < ApplicationController
   # GET /reports/1.json
   def show
     @report.load
+    @results = []
+    @sql = ''
   end
 
   def export
-    output = @report.run
+    output = @report.run(params)
 
     @results = output[:results]
     @sql = output[:sql]
@@ -29,63 +31,25 @@ class CannedReportsController < ApplicationController
   end
 
   def run
-    output = @report.run
+    output = @report.run(params)
 
+    @errors = output[:errors]
     @results = output[:results]
     @sql = output[:sql]
+
+    render 'show'
   end
 
-    private
+  private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_report
     @report = CannedReport.new(params[:id])
+    @report.load
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
+  # Never trust parameters from the scary internet.
   def report_params
-    preprocess_start_date(params)
-    preprocess_end_date(params)
-
     params.require(:canned_report)
   end
-
-  def preprocess_start_date(params)
-    if params[:report]['start_date(1i)'].present?
-      params[:report]['start_date'] = Date.new(
-        params[:report]['start_date(1i)'].to_i,
-        params[:report]['start_date(2i)'].present? ? params[:report]['start_date(2i)'].to_i : 1,
-        params[:report]['start_date(3i)'].present? ? params[:report]['start_date(3i)'].to_i : 1
-      ).to_s
-
-      params[:report].delete('start_date(1i)')
-      params[:report].delete('start_date(2i)')
-      params[:report].delete('start_date(3i)')
-    end
-
-    params
-  end
-
-  def preprocess_end_date(params)
-    if params[:report]['end_date(1i)'].present?
-      year = params[:report]['end_date(1i)'].to_i
-      month = params[:report]['end_date(2i)'].present? ? params[:report]['end_date(2i)'].to_i : 12
-      day = if params[:report]['end_date(3i)'].present? && params[:report]['end_date(3i)'].to_i <= Time.days_in_month(month, year)
-              params[:report]['end_date(3i)'].to_i
-            else
-              Time.days_in_month(month, year)
-            end
-
-      params[:report]['end_date'] = Date.new(
-        year,
-        month,
-        day
-      ).to_s
-
-      params[:report].delete('end_date(1i)')
-      params[:report].delete('end_date(2i)')
-      params[:report].delete('end_date(3i)')
-    end
-    params
-  end
-  end
+end

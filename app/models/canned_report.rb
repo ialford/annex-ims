@@ -23,7 +23,6 @@ class CannedReport
     return { errors: errors, results: [], sql: '' } if errors.any?
 
     sql, errors = to_sql(params)
-    sql, errors = nil, []
 
     return { errors: errors, results: [], sql: sql } if errors.any?
 
@@ -50,7 +49,14 @@ class CannedReport
       when 'date'
 
       when 'multi-select'
-
+        param['sql'].each do |sql|
+          if params.key?(param['name']) && !params[param['name']].empty?
+            tmp = sql['value'].gsub('PARAMS', "'" + params[param['name']].join("', '") + "'")
+            base_sql = base_sql.gsub(/#{sql['key']}/, tmp)
+          else
+            base_sql = base_sql.gsub(/#{sql['key']}/, '')
+          end
+        end
       when 'preset-date-range'
         case params[param['name']]
         when 'current_day'
@@ -84,7 +90,11 @@ class CannedReport
           use_date_range = true
         end
       when 'radio'
-
+        if params.key?(param['name']) && !params[param['name']].empty?
+          param['values'][params[param['name']]]['sql'].each do |sql|
+            base_sql = base_sql.gsub(/#{sql['key']}/, sql['value'])
+          end
+        end
       when 'text'
 
       end
@@ -94,39 +104,43 @@ class CannedReport
 
     end
 
-    return base_sql, errors
+    [base_sql, errors]
   end
 
   def validate(params)
     errors = []
-      @contents['parameters'].each do |param|
-        if param['required'] && !params.key?(param['name'])
-          errors << "Missing required parameter: #{param['name']}"
-        end
+    @contents['parameters'].each do |param|
+      if param['required'] && !params.key?(param['name'])
+        errors << "Missing required parameter: #{param['name']}"
+      end
 
-        case param['type']
-        when 'checkbox'
-          if params.key?(param['name']) && !['0', '1'].include?(param['name'])
-            errors << "Invalid value for checkbox: #{param['name']} - #{params[param['name']]}"
-          end
-        when 'date'
-          if params.key?(param['name']) && params[param['name']] != '' && !(Date.strptime(params[param['name']], "%Y-%m-%d") rescue false)
-            errors << "Invalid date: #{param['name']} - #{params[param['name']]}"
-          end
-        when 'multi-select'
-          if params.key?(param['name']) && !params[param['name']].is_a?(Array) && !(params[param['name']] - param['values']).empty?
-            errors << "Invalid value for multi-select: #{param['name']} - #{params[param['name']]}"
-          end
-        when 'preset-date-range'
-          if params.key?(param['name']) && params[param['name']] != '' && !Report::PRESET_DATE_RANGES.keys.include?(params[param['name']])
-            errors << "Invalid preset date range: #{param['name']} - #{params[param['name']]}"
-          end
-        when 'radio'
-          if params.key?(param['name']) && !param['values'].keys.include?(params[param['name']])
-            errors << "Invalid value for radio: #{param['name']} - #{params[param['name']]}"
-          end
+      case param['type']
+      when 'checkbox'
+        if params.key?(param['name']) && !%w[0 1].include?(param['name'])
+          errors << "Invalid value for checkbox: #{param['name']} - #{params[param['name']]}"
+        end
+      when 'date'
+        if params.key?(param['name']) && params[param['name']] != '' && !(begin
+                                                                              Date.strptime(params[param['name']], '%Y-%m-%d')
+                                                                          rescue StandardError
+                                                                            false
+                                                                            end)
+          errors << "Invalid date: #{param['name']} - #{params[param['name']]}"
+        end
+      when 'multi-select'
+        if params.key?(param['name']) && !params[param['name']].is_a?(Array) && !(params[param['name']] - param['values']).empty?
+          errors << "Invalid value for multi-select: #{param['name']} - #{params[param['name']]}"
+        end
+      when 'preset-date-range'
+        if params.key?(param['name']) && params[param['name']] != '' && !Report::PRESET_DATE_RANGES.keys.include?(params[param['name']])
+          errors << "Invalid preset date range: #{param['name']} - #{params[param['name']]}"
+        end
+      when 'radio'
+        if params.key?(param['name']) && !param['values'].keys.include?(params[param['name']])
+          errors << "Invalid value for radio: #{param['name']} - #{params[param['name']]}"
         end
       end
+    end
 
     errors
   end

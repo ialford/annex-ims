@@ -1,0 +1,11 @@
+.results
+  %table.table.table-striped.condensed.datatable{ "id" => "results" }
+    %thead
+      %tr
+        - @results[0].keys.each do |key|
+          %th= key.titleize
+    %tbody
+      - @results.each do |result|
+        %tr
+          - result.each do |key, value|
+            %th= value&.to_s&.gsub('"', '')

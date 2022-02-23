@@ -1,6 +1,6 @@
-= CSV.generate_line(@report.fields.map { |field| (field == 'activity') ? @report.activity.to_str.titleize : Report::FIELDS[field] }, {:force_quotes=>true}).strip.html_safe
+= CSV.generate_line(@results[0].keys.map { |key| key.titleize }, {:force_quotes=>true}).strip.html_safe
 - @results.each do |result|
   - row = []
-  - @report.fields.each do |field|
-    - row << result[field]&.gsub('"', '')
+  - result.each do |key, value|
+    - row << value&.to_s&.gsub('"', '')
   = CSV.generate_line(row, {:force_quotes=>true}).strip.html_safe

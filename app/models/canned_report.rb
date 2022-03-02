@@ -7,7 +7,11 @@ class CannedReport
   def initialize(id)
     @id = id
     @name = id.titleize
-    @file = File.join(Rails.root, 'reports', "#{id}.yaml")
+    @file = if Rails.env.test?
+              File.join(Rails.root, 'spec', 'fixtures', 'files', 'canned_reports', "#{id}.yaml")
+            else
+              File.join(Rails.root, 'reports', "#{id}.yaml")
+            end
   end
 
   def valid?
@@ -100,11 +104,7 @@ class CannedReport
       end
     end
 
-    if base_sql
-
-    end
-
-    [base_sql, errors]
+    [base_sql.squeeze(' ').strip, errors]
   end
 
   def validate(params)

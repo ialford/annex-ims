@@ -70,7 +70,7 @@ RSpec.describe CannedReport, type: :model do
       expect(result[:sql]).to eq(sql)
     end
 
-    it 'should generate sql for all shelves oof types BH and BL' do
+    it 'should generate sql for all shelves of types BH and BL' do
       sql = "SELECT s.barcode AS \"shelf\", count (t.id) AS \"trays\", tt.trays_per_shelf AS \"expected\" , s.size AS \"tray_type\" FROM shelves s INNER JOIN trays t ON s.id = t.shelf_id INNER JOIN tray_types tt ON s.size = tt.code WHERE s.size IN ('BH', 'BL') GROUP BY s.barcode, tt.trays_per_shelf, s.size"
 
       report = CannedReport.new('shelf_report')
@@ -79,6 +79,38 @@ RSpec.describe CannedReport, type: :model do
       params = {
         'tray_type' => %w[BH BL],
         'shelf_limits' => 'all'
+      }
+      result = report.run(params)
+
+      expect(result[:errors]).to be_empty
+      expect(result[:sql]).to eq(sql)
+    end
+
+    it 'should generate sql properly for a checkbox true (and a date range)' do
+      sql = "SELECT DATE(a.action_timestamp at time zone 'UTC' at time zone 'US/East-Indiana'), a.username, SUBSTR(a.data->'tray'->>'barcode',6,2) AS tray_type, COUNT ( DISTINCT CASE WHEN d.data IS NULL AND a.data->'tray'->>'shelf_id' IS NULL THEN a.id WHEN d.data IS NOT NULL THEN NULL END ) AS NEW_INGEST, COUNT ( DISTINCT CASE WHEN d.data IS NULL AND a.data->'tray'->>'shelf_id' IS NOT NULL THEN a.id WHEN d.data IS NOT NULL THEN NULL END ) AS NEW_BACKFILL, COUNT( DISTINCT CASE WHEN d.data IS NULL THEN NULL WHEN d.data IS NOT NULL THEN a.id END ) AS CONSOLIDATE, COUNT(DISTINCT a.id) AS ALL_ITEMS FROM activity_logs a LEFT JOIN activity_logs d ON ( d.data->'item'->>'barcode' = a.data->'item'->>'barcode' AND date(a.action_timestamp) > date(d.action_timestamp) AND a.action = 'AssociatedItemAndTray' AND d.action = 'DissociatedItemAndTray' ) WHERE a.action = 'AssociatedItemAndTray' AND DATE(a.action_timestamp at time zone 'UTC' at time zone 'US/East-Indiana') BETWEEN '" + Time.zone.today.beginning_of_day.strftime('%Y-%m-%d %H:%M:%S') + "' AND '" + Time.zone.today.end_of_day.strftime('%Y-%m-%d %H:%M:%S') + "' GROUP BY a.username, SUBSTR(a.data->'tray'->>'barcode',6,2), DATE(a.action_timestamp at time zone 'UTC' at time zone 'US/East-Indiana')"
+
+      report = CannedReport.new('item_ingest_and_consolidation')
+      report.load
+
+      params = {
+        'tray_types' => '1',
+        'preset_date_range' => 'current_day'
+      }
+      result = report.run(params)
+
+      expect(result[:errors]).to be_empty
+      expect(result[:sql]).to eq(sql)
+    end
+
+    it 'should generate sql properly for a checkbox false (and a date range)' do
+      sql = "SELECT DATE(a.action_timestamp at time zone 'UTC' at time zone 'US/East-Indiana'), a.username, COUNT ( DISTINCT CASE WHEN d.data IS NULL AND a.data->'tray'->>'shelf_id' IS NULL THEN a.id WHEN d.data IS NOT NULL THEN NULL END ) AS NEW_INGEST, COUNT ( DISTINCT CASE WHEN d.data IS NULL AND a.data->'tray'->>'shelf_id' IS NOT NULL THEN a.id WHEN d.data IS NOT NULL THEN NULL END ) AS NEW_BACKFILL, COUNT( DISTINCT CASE WHEN d.data IS NULL THEN NULL WHEN d.data IS NOT NULL THEN a.id END ) AS CONSOLIDATE, COUNT(DISTINCT a.id) AS ALL_ITEMS FROM activity_logs a LEFT JOIN activity_logs d ON ( d.data->'item'->>'barcode' = a.data->'item'->>'barcode' AND date(a.action_timestamp) > date(d.action_timestamp) AND a.action = 'AssociatedItemAndTray' AND d.action = 'DissociatedItemAndTray' ) WHERE a.action = 'AssociatedItemAndTray' AND DATE(a.action_timestamp at time zone 'UTC' at time zone 'US/East-Indiana') BETWEEN '" + Time.zone.today.beginning_of_week(start_day = :monday).beginning_of_day.strftime('%Y-%m-%d %H:%M:%S') + "' AND '" + Time.zone.today.end_of_day.strftime('%Y-%m-%d %H:%M:%S') + "' GROUP BY a.username, DATE(a.action_timestamp at time zone 'UTC' at time zone 'US/East-Indiana')"
+
+      report = CannedReport.new('item_ingest_and_consolidation')
+      report.load
+
+      params = {
+        'tray_types' => '0',
+        'preset_date_range' => 'current_week'
       }
       result = report.run(params)
 

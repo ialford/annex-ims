@@ -45,10 +45,8 @@ class CannedReport
     @contents['parameters'].each do |param|
       case param['type']
       when 'checkbox'
-        if params.key?(param['name']) && params[param['name']] == '1'
-          param['sql'].each do |sql|
-            base_sql = base_sql.gsub(/#{sql['key']}/, sql['value'])
-          end
+        param['value'][params[param['name']]]['sql'].each do |sql|
+          base_sql = base_sql.gsub(/#{sql['key']}/, sql['value'])
         end
       when 'date'
 
@@ -90,8 +88,11 @@ class CannedReport
           start = start.change(month: 7).beginning_of_month
           start_date = start.beginning_of_day
           end_date = Time.zone.today.end_of_day
-        else
-          use_date_range = true
+        end
+        param['sql'].each do |sql|
+          tmp = sql['value'].gsub('START_DATE', start_date.strftime('%Y-%m-%d %H:%M:%S'))
+          tmp = tmp.gsub('END_DATE', end_date.strftime('%Y-%m-%d %H:%M:%S'))
+          base_sql = base_sql.gsub(/#{sql['key']}/, tmp)
         end
       when 'radio'
         if params.key?(param['name']) && !params[param['name']].empty?
@@ -116,7 +117,7 @@ class CannedReport
 
       case param['type']
       when 'checkbox'
-        if params.key?(param['name']) && !%w[0 1].include?(param['name'])
+        if params.key?(param['name']) && !%w[0 1].include?(params[param['name']])
           errors << "Invalid value for checkbox: #{param['name']} - #{params[param['name']]}"
         end
       when 'date'

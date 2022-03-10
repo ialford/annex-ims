@@ -1,0 +1,65 @@
+---
+base_sql: SELECT DATE(a.action_timestamp at time zone 'UTC' at time zone 'US/East-Indiana'),
+  a.username, TRAY_TYPES_VALUE COUNT ( DISTINCT CASE WHEN d.data IS NULL AND a.data->'tray'->>'shelf_id'
+  IS NULL THEN a.id WHEN d.data IS NOT NULL THEN NULL END ) AS NEW_INGEST, COUNT (
+  DISTINCT CASE WHEN d.data IS NULL AND a.data->'tray'->>'shelf_id' IS NOT NULL THEN
+  a.id WHEN d.data IS NOT NULL THEN NULL END ) AS NEW_BACKFILL, COUNT( DISTINCT CASE
+  WHEN d.data IS NULL THEN NULL WHEN d.data IS NOT NULL THEN a.id END ) AS CONSOLIDATE,
+  COUNT(DISTINCT a.id) AS ALL_ITEMS FROM activity_logs a LEFT JOIN activity_logs d
+  ON ( d.data->'item'->>'barcode' = a.data->'item'->>'barcode' AND date(a.action_timestamp)
+  > date(d.action_timestamp) AND a.action = 'AssociatedItemAndTray' AND d.action =
+  'DissociatedItemAndTray' ) WHERE a.action = 'AssociatedItemAndTray' DATE_RANGE TRAY_TYPES_LIMIT
+  GROUP BY a.username, TRAY_TYPES_GROUP DATE(a.action_timestamp at time zone 'UTC'
+  at time zone 'US/East-Indiana')
+parameters:
+- name: tray_types
+  label: Tray Types
+  type: checkbox
+  value:
+    '0':
+      sql:
+      - key: TRAY_TYPES_VALUE
+        value: ''
+      - key: TRAY_TYPES_GROUP
+        value: ''
+    '1':
+      sql:
+      - key: TRAY_TYPES_VALUE
+        value: SUBSTR(a.data->'tray'->>'barcode',6,2) AS tray_type,
+      - key: TRAY_TYPES_GROUP
+        value: SUBSTR(a.data->'tray'->>'barcode',6,2),
+- name: preset_date_range
+  label: Preset Date Range
+  type: preset-date-range
+  required: true
+  sql:
+  - key: DATE_RANGE
+    value: AND DATE(a.action_timestamp at time zone 'UTC' at time zone 'US/East-Indiana')
+      BETWEEN 'START_DATE' AND 'END_DATE'
+- name: limit_by_tray_type
+  label: Limit by Tray Type
+  type: multi-select
+  values:
+  - - AL
+    - AL
+  - - BH
+    - BH
+  - - BL
+    - BL
+  - - CH
+    - CH
+  - - CL
+    - CL
+  - - DH
+    - DH
+  - - DL
+    - DL
+  - - EH
+    - EH
+  - - EL
+    - EL
+  - - SHELF
+    - SHELF
+  sql:
+  - key: TRAY_TYPES_LIMIT
+    value: AND SUBSTR(a.data->'tray'->>'barcode',6,2) IN (PARAMS)

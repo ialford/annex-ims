@@ -117,5 +117,20 @@ RSpec.describe CannedReport, type: :model do
       expect(result[:errors]).to be_empty
       expect(result[:sql]).to eq(sql)
     end
+
+    it 'should generate sql properly for a number field' do
+      sql = "SELECT shelf, size, tray, COUNT(item) AS \"items\", SUM(thickness) AS \"width\", tt.capacity AS \"capacity\", TRUNC(SUM(thickness)/tt.capacity::decimal * 100,2) AS \"percent full\"\nFROM (\n SELECT shelves.barcode AS \"shelf\", shelves.size AS \"size\", trays.barcode AS \"tray\", items.barcode AS \"item\", items.thickness\n FROM shelves INNER JOIN trays ON shelves.id = trays.shelf_id\n LEFT JOIN items ON trays.id = items.tray_id\n) stocked_items\nINNER JOIN tray_types tt ON size = tt.code\n\nGROUP BY shelf, size, tray, tt.capacity\nHAVING SUM(thickness)/tt.capacity::decimal * 100 < 85"
+
+      report = CannedReport.new('tray_fill')
+      report.load
+
+      params = {
+        'tray_fill' => '85'
+      }
+      result = report.run(params)
+
+      expect(result[:errors]).to be_empty
+      expect(result[:sql]).to eq(sql)
+    end
   end
 end

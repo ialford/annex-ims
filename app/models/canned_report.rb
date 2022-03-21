@@ -50,6 +50,15 @@ class CannedReport
         end
       when 'date'
 
+      when 'number'
+        param['sql'].each do |sql|
+          if params.key?(param['name']) && !params[param['name']].empty?
+            tmp = sql['value'].gsub('VALUE', params[param['name']])
+            base_sql = base_sql.gsub(/#{sql['key']}/, tmp)
+          else
+            base_sql = base_sql.gsub(/#{sql['key']}/, '')
+          end
+        end
       when 'multi-select'
         param['sql'].each do |sql|
           if params.key?(param['name']) && !params[param['name']].empty?
@@ -127,6 +136,15 @@ class CannedReport
                                                                             false
                                                                             end)
           errors << "Invalid date: #{param['name']} - #{params[param['name']]}"
+        end
+      when 'number'
+        if params.key?(param['name']) && params[param['name']] != ''
+          fail = if param['step'].to_i == param['step']
+            !(params[param['name']].to_i % param['step']).zero?
+          else
+            !(params[param['name']].to_f % param['step']).zero?
+          end
+          errors << "Invalid number: #{param['name']} - #{params[param['name']]}" if fail
         end
       when 'multi-select'
         if params.key?(param['name']) && !params[param['name']].is_a?(Array) && !(params[param['name']] - param['values']).empty?

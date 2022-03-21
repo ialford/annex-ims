@@ -13,6 +13,8 @@
       - when 'multi-select'
         - multiselects << input['name']
         = select_tag input['name'], options_for_select(input['values']), include_blank: true, multiple: true
+      - when 'number'
+        = number_field_tag input['name'], nil, step: input['step']
       - when 'preset-date-range'
         = select_tag input['name'], options_from_collection_for_select(Report::PRESET_DATE_RANGES, 'first', 'last'), { include_hidden: false, default: nil }
       - when 'radio'

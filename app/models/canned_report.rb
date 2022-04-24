@@ -144,6 +144,23 @@ class CannedReport
           else
             !(params[param['name']].to_f % param['step']).zero?
           end
+
+          fail = fail || if param['min']
+            if param['min'].to_i == param['min']
+              params[param['name']].to_i < param['min']
+            else
+              params[param['name']].to_f < param['min']
+            end
+          end
+
+          fail = fail || if param['max']
+            if param['max'].to_i == param['max']
+              params[param['name']].to_i > param['max']
+            else
+              params[param['name']].to_f > param['max']
+            end
+          end
+
           errors << "Invalid number: #{param['name']} - #{params[param['name']]}" if fail
         end
       when 'multi-select'

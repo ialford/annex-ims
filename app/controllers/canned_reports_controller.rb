@@ -14,6 +14,7 @@ class CannedReportsController < ApplicationController
   def show
     @report.load
     @results = []
+    @params = params || []
     @sql = ''
   end
 
@@ -33,6 +34,7 @@ class CannedReportsController < ApplicationController
   def run
     output = @report.run(params)
 
+    @params = params || []
     @errors = output[:errors]
     @results = output[:results]
     @sql = output[:sql]

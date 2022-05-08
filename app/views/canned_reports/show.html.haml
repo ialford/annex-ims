@@ -29,12 +29,14 @@
     = submit_tag "Run",
                 class: "btn btn-primary"
 
-- if @results.count == 0 && @params.present?
+- if @results.blank?
+  %br
+- elsif @results.count == 0
   %h3 No Results
   %br
 - elsif @results.count > 0
   = render 'results'
-  = button_to 'Export', export_canned_report_path(:id => @report.id), method: :get, class: 'btn pull-right btn-primary'
+  = button_to 'Export', export_canned_report_path(:id => @report.id), params: @params, method: :get, class: 'btn pull-right btn-primary'
 %button{ "data-toggle" => "collapse", :href => "#sql" } Show SQL
 .collapse#sql
   %p

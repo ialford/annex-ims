@@ -13,13 +13,13 @@ class CannedReportsController < ApplicationController
   # GET /reports/1.json
   def show
     @report.load
-    @results = []
-    @params = params || []
+    @results = nil
+    @params = report_params || []
     @sql = ''
   end
 
   def export
-    output = @report.run(params)
+    output = @report.run(report_params)
 
     @results = output[:results]
     @sql = output[:sql]
@@ -32,9 +32,9 @@ class CannedReportsController < ApplicationController
   end
 
   def run
-    output = @report.run(params)
+    output = @report.run(report_params)
 
-    @params = params || []
+    @params = report_params || []
     @errors = output[:errors]
     @results = output[:results]
     @sql = output[:sql]
@@ -50,8 +50,12 @@ class CannedReportsController < ApplicationController
     @report.load
   end
 
+  def allowed_keys
+    @report.contents['parameters'].map { |p| p['name'].to_sym }
+  end
+
   # Never trust parameters from the scary internet.
   def report_params
-    params.require(:canned_report)
+    params.permit(allowed_keys)
   end
 end

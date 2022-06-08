@@ -4,6 +4,29 @@ class CannedReport
   attr_reader :id, :name, :file
   attr_accessor :contents
 
+  UNSAFE_SQL = %w[
+    INSERT
+    UPDATE
+    DELETE
+    CREATE
+    ALTER
+    DROP
+    TRUNCATE
+    GRANT
+    REVOKE
+    LOCK
+    UNLOCK
+    REPAIR
+    OPTIMIZE
+    ANALYZE
+    BACKUP
+    RESTORE
+    EXPLAIN
+    SHOW
+    DESCRIBE
+    DESC
+  ].freeze
+
   def initialize(id)
     @id = id
     @name = id.titleize
@@ -27,6 +50,10 @@ class CannedReport
     return { errors: errors, results: [], sql: '' } if errors.any?
 
     sql, errors = to_sql(params)
+
+    return { errors: errors, results: [], sql: sql } if errors.any?
+
+    errors = CannedReport.validate_sql(sql)
 
     return { errors: errors, results: [], sql: sql } if errors.any?
 
@@ -140,28 +167,30 @@ class CannedReport
       when 'number'
         if params.key?(param['name']) && params[param['name']] != ''
           fail = if param['step'].to_i == param['step']
-            !(params[param['name']].to_i % param['step']).zero?
-          else
-            !(params[param['name']].to_f % param['step']).zero?
+                   !(params[param['name']].to_i % param['step']).zero?
+                 else
+                   !(params[param['name']].to_f % param['step']).zero?
           end
 
-          fail = fail || if param['min']
-            if param['min'].to_i == param['min']
-              params[param['name']].to_i < param['min']
-            else
-              params[param['name']].to_f < param['min']
-            end
+          fail ||= if param['min']
+                     if param['min'].to_i == param['min']
+                       params[param['name']].to_i < param['min']
+                     else
+                       params[param['name']].to_f < param['min']
+                     end
           end
 
-          fail = fail || if param['max']
-            if param['max'].to_i == param['max']
-              params[param['name']].to_i > param['max']
-            else
-              params[param['name']].to_f > param['max']
-            end
+          fail ||= if param['max']
+                     if param['max'].to_i == param['max']
+                       params[param['name']].to_i > param['max']
+                     else
+                       params[param['name']].to_f > param['max']
+                     end
           end
 
-          errors << "Invalid number: #{param['name']} - #{params[param['name']]}" if fail
+          if fail
+            errors << "Invalid number: #{param['name']} - #{params[param['name']]}"
+          end
         end
       when 'multi-select'
         if params.key?(param['name']) && !params[param['name']].is_a?(Array) && !(params[param['name']] - param['values']).empty?
@@ -189,5 +218,16 @@ class CannedReport
 
   def self.all
     Dir.glob(File.join(Rails.root, 'reports', '*.yaml')).sort.map { |file| CannedReport.new(File.basename(file, File.extname(file))) }
+  end
+
+  def self.valid_sql(sql)
+    errors = []
+    UNSAFE_SQL.each do |bad|
+      if sql.downcase.match(/\b+#{bad.downcase}\b+/)
+        errors << "Invalid SQL: #{sql} contains #{bad}"
+      end
+    end
+
+    errors
   end
 end

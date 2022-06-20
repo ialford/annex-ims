@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CannedReportsController < ApplicationController
-  before_action :set_report, only: %i[show export run export]
+  before_action :set_report, except: %i[index]
 
   # GET /reports
   # GET /reports.json
@@ -42,6 +42,19 @@ class CannedReportsController < ApplicationController
     render 'show'
   end
 
+  def email
+    output = @report.run(report_params)
+
+    @params = report_params || []
+    @errors = output[:errors]
+    @results = output[:results]
+    @sql = output[:sql]
+
+    CannedReportMailer.ad_hoc(params: report_params).deliver_now
+
+    render 'show'
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -51,7 +64,7 @@ class CannedReportsController < ApplicationController
   end
 
   def allowed_keys
-    @report.contents['parameters'].map { |p| p['name'].to_sym }
+    @report.contents['parameters'].map { |p| p['name'].to_sym } << :email
   end
 
   # Never trust parameters from the scary internet.

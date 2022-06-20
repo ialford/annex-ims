@@ -25,9 +25,15 @@
             %br
       - when 'text'
         = text_field_tag input['name'], @params[input['name']]
+  .field
+    = label_tag 'email', 'Email'
+    = email_field_tag 'email', @params['email']
   .actions
     = submit_tag "Run",
                 class: "btn btn-primary"
+    = submit_tag 'Email',
+                class: "btn btn-secondary",
+                formaction: email_canned_report_path
 
 - if @results.blank?
   %br

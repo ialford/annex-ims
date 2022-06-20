@@ -220,7 +220,7 @@ class CannedReport
     Dir.glob(File.join(Rails.root, 'reports', '*.yaml')).sort.map { |file| CannedReport.new(File.basename(file, File.extname(file))) }
   end
 
-  def self.valid_sql(sql)
+  def self.validate_sql(sql)
     errors = []
     UNSAFE_SQL.each do |bad|
       if sql.downcase.match(/\b+#{bad.downcase}\b+/)

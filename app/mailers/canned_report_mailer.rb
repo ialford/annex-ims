@@ -16,9 +16,9 @@ class CannedReportMailer < ApplicationMailer
   #
   #   en.canned_report_mailer.ad_hoc.subject
   #
-  def ad_hoc
+  def ad_hoc(params:)
     @greeting = "Hi"
 
-    mail to: "to@example.org"
+    mail to: params[:email]
   end
 end

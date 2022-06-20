@@ -200,6 +200,14 @@ GEM
       activerecord
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.8.1)
+      launchy (>= 2.2, < 3)
+    letter_opener_web (1.4.1)
+      actionmailer (>= 3.2)
+      letter_opener (~> 1.0)
+      railties (>= 3.2)
     libv8 (7.3.492.27.1)
     libv8 (7.3.492.27.1-x86_64-darwin-17)
     loofah (2.3.1)
@@ -465,6 +473,8 @@ DEPENDENCIES
   jquery-datatables-rails (~> 3.4.0)
   jquery-rails (~> 4.3.5)
   kaminari
+  letter_opener
+  letter_opener_web
   loofah (~> 2.3.1)
   mini_racer
   multi-select-rails

@@ -18,7 +18,30 @@ class CannedReportMailer < ApplicationMailer
   #
   def ad_hoc(params:)
     @greeting = "Hi"
+    @report_name = params[:id].titleize
 
-    mail to: params[:email]
+    report = CannedReport.new(params[:id])
+    report.load
+    results = report.run(params)
+
+    tempfile = Tempfile.new(['canned_report_mailer', '.csv']).tap do |fh|
+      csv = CSV.open(fh, "wb")
+      csv << results[:results].first.keys.map { |key| key.titleize }
+      results[:results].each do |result|
+        row = []
+        result.each do |key, value|
+          row << value&.to_s&.gsub('"', '')
+        end
+
+        csv << row
+      end
+    end
+
+    run_time = Time.now.strftime('%Y_%m_%d_%H_%M_%S')
+
+    attachments["#{params[:id]}_#{run_time}.csv"] = tempfile.read
+    mail to: params[:email], subject: "Canned Report: #{params[:id]}"
+
+    tempfile.unlink
   end
 end

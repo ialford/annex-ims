@@ -64,7 +64,7 @@ class CannedReportsController < ApplicationController
   end
 
   def allowed_keys
-    @report.contents['parameters'].map { |p| p['name'].to_sym } << :email
+    (@report.contents['parameters'].map { |p| p['name'].to_sym } << [:email, :id]).flatten
   end
 
   # Never trust parameters from the scary internet.

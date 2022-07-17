@@ -1,3 +1,10 @@
 Canned Report Ad Hoc
 
-= @greeting + ", attached please find the report for " + @report_name + "."
+= "Hello, attached please find the report for #{@report_name} run at #{@run_time_text}."
+
+Params:
+
+Name: Value
+
+- @params.each do |key, value|
+  = raw("#{key}: #{value}")

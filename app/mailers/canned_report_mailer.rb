@@ -18,8 +18,8 @@ class CannedReportMailer < ApplicationMailer
   #   en.canned_report_mailer.ad_hoc.subject
   #
   def ad_hoc(params:)
-    @greeting = 'Hi'
     @report_name = params[:id].titleize
+    @params = params
 
     report = CannedReport.new(params[:id])
     report.load
@@ -27,20 +27,26 @@ class CannedReportMailer < ApplicationMailer
 
     tempfile = Tempfile.new(['canned_report_mailer', '.csv']).tap do |fh|
       csv = CSV.open(fh, 'wb')
-      csv << results[:results].first.keys.map(&:titleize)
-      results[:results].each do |result|
-        row = []
-        result.each do |_key, value|
-          row << value&.to_s&.gsub('"', '')
-        end
+      unless results[:results].empty?
+        csv << results[:results].first.keys.map(&:titleize)
+        results[:results].each do |result|
+          row = []
+          result.each do |_key, value|
+            row << value&.to_s&.gsub('"', '')
+          end
 
-        csv << row
+          csv << row
+        end
       end
     end
 
-    run_time = Time.now.strftime('%Y_%m_%d_%H_%M_%S')
+    run_time = Time.now
+    run_time_file = run_time.strftime('%Y_%m_%d_%H_%M_%S')
+    filename = "#{@report_name}_#{run_time_file}.csv"
 
-    attachments["#{params[:id]}_#{run_time}.csv"] = tempfile.read
+    @run_time_text = run_time.strftime('%Y-%m-%d %H:%M:%S')
+
+    attachments[filename] = tempfile.read
     mail to: params[:email], subject: "Canned Report: #{params[:id]}"
 
     tempfile.unlink

@@ -64,7 +64,15 @@ class CannedReportsController < ApplicationController
   end
 
   def allowed_keys
-    (@report.contents['parameters'].map { |p| p['name'].to_sym } << %i[email id]).flatten
+    keys = %i[email id]
+    @report.contents['parameters'].each do |param|
+      keys << if param['type'] == 'multi-select'
+                { param['name'].to_sym => [] }
+              else
+                param['name'].to_sym
+              end
+    end
+    keys
   end
 
   # Never trust parameters from the scary internet.

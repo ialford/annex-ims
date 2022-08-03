@@ -47,7 +47,7 @@ class CannedReportMailer < ApplicationMailer
     @run_time_text = run_time.strftime('%Y-%m-%d %H:%M:%S')
 
     attachments[filename] = tempfile.read
-    mail to: params[:email], subject: "Canned Report: #{params[:id]}"
+    mail to: params[:email], subject: "Canned Report: #{params[:id]} - #{@run_time_text} on #{Socket.gethostname}"
 
     tempfile.unlink
   end

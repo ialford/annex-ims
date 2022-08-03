@@ -7,7 +7,7 @@
       - case input['type']
       - when 'checkbox'
         = hidden_field_tag input['name'], '0'
-        = check_box_tag input['name'], 1, @params[input['name']]
+        = check_box_tag input['name'], 1, '1' == @params[input['name']]
       - when 'date'
         = date_field_tag input['name'], @params[input['name']], { include_blank: true, default: nil, use_short_month: true }
       - when 'multi-select'

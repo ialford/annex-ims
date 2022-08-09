@@ -31,9 +31,9 @@ class CannedReport
     @id = id
     @name = id.titleize
     @file = if Rails.env.test?
-              File.join(Rails.root, 'spec', 'fixtures', 'files', 'canned_reports', "#{id}.yaml")
+              Rails.root.join('spec', 'fixtures', 'files', 'canned_reports', "#{id}.yaml")
             else
-              File.join(Rails.root, 'reports', "#{id}.yaml")
+              Rails.root.join('reports', "#{id}.yaml")
             end
   end
 

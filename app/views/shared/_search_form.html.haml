@@ -10,7 +10,7 @@
   %a.list-group-item.list-group-item-success{"data-toggle" => "collapse", :href => "#date-range"}
     %span.glyphicon.glyphicon-plus
     Date Range
-  #date-range.collapse
+  .collapse#date-range
     = select_tag :date_type, options_for_select([["Request Date", "request"],["Initial Ingest Date", "initial"],["Last Ingest Date", "last"]], @params[:date_type]), include_blank: true
     %span.input-daterange{"data-provide" => "datepicker", "data-date-format" => "yyyy-mm-dd"}
       = text_field_tag :start, @params[:start] ||= Time.now.strftime("%Y-%m-%d")
@@ -20,7 +20,7 @@
   %a.list-group-item.list-group-item-success{"data-toggle" => "collapse", :href => "#conditions"}
     %span.glyphicon.glyphicon-plus
     Conditions
-  #conditions.collapse
+  .collapse#conditions
     .input-group
       = radio_button_tag :condition_bool, :any, @params[:condition_bool] == 'any'
       = label_tag :condition_bool_any, "Any"

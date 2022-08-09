@@ -65,7 +65,6 @@ class CannedReport
     base_sql = @contents['base_sql']
     errors = []
 
-    use_date_range = false
     start_date = nil
     end_date = nil
 
@@ -76,7 +75,7 @@ class CannedReport
           base_sql = base_sql.gsub(/#{sql['key']}/, sql['value'])
         end
       when 'date'
-
+        # TODO: implement
       when 'number'
         param['sql'].each do |sql|
           if params.key?(param['name']) && !params[param['name']].empty?
@@ -104,11 +103,11 @@ class CannedReport
           start_date = Time.zone.yesterday.beginning_of_day
           end_date = Time.zone.yesterday.end_of_day
         when 'current_week'
-          start_date = Time.zone.today.beginning_of_week(start_day = :monday).beginning_of_day
+          start_date = Time.zone.today.beginning_of_week(:monday).beginning_of_day
           end_date = Time.zone.today.end_of_day
         when 'previous_week'
-          start_date = Time.zone.today.beginning_of_week(start_day = :monday).last_week.beginning_of_day
-          end_date = (Time.zone.today.beginning_of_week(start_day = :monday).last_week + 6).end_of_day
+          start_date = Time.zone.today.beginning_of_week(:monday).last_week.beginning_of_day
+          end_date = (Time.zone.today.beginning_of_week(:monday).last_week + 6).end_of_day
         when 'current_month'
           start_date = Time.zone.today.beginning_of_month.beginning_of_day
           end_date = Time.zone.today.end_of_day
@@ -137,7 +136,7 @@ class CannedReport
           end
         end
       when 'text'
-
+        # TODO: implement
       end
     end
 
@@ -158,10 +157,10 @@ class CannedReport
         end
       when 'date'
         if params.key?(param['name']) && params[param['name']] != '' && !(begin
-                                                                              Date.strptime(params[param['name']], '%Y-%m-%d')
+                                                                            Date.strptime(params[param['name']], '%Y-%m-%d')
                                                                           rescue StandardError
                                                                             false
-                                                                            end)
+                                                                          end)
           errors << "Invalid date: #{param['name']} - #{params[param['name']]}"
         end
       when 'number'
@@ -170,7 +169,7 @@ class CannedReport
                    !(params[param['name']].to_i % param['step']).zero?
                  else
                    !(params[param['name']].to_f % param['step']).zero?
-          end
+                 end
 
           fail ||= if param['min']
                      if param['min'].to_i == param['min']
@@ -178,7 +177,7 @@ class CannedReport
                      else
                        params[param['name']].to_f < param['min']
                      end
-          end
+                   end
 
           fail ||= if param['max']
                      if param['max'].to_i == param['max']
@@ -186,7 +185,7 @@ class CannedReport
                      else
                        params[param['name']].to_f > param['max']
                      end
-          end
+                   end
 
           if fail
             errors << "Invalid number: #{param['name']} - #{params[param['name']]}"
@@ -217,7 +216,7 @@ class CannedReport
   end
 
   def self.all
-    Dir.glob(File.join(Rails.root, 'reports', '*.yaml')).sort.map { |file| CannedReport.new(File.basename(file, File.extname(file))) }
+    Dir.glob(Rails.root.join('reports', '*.yaml')).sort.map { |file| CannedReport.new(File.basename(file, File.extname(file))) }
   end
 
   def self.validate_sql(sql)

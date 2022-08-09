@@ -7,9 +7,9 @@ class CannedReportMailer < ApplicationMailer
   #   en.canned_report_mailer.scheduled.subject
   #
   def scheduled
-    @greeting = 'Hi'
+    # @greeting = 'Hi'
 
-    mail to: 'to@example.org'
+    # mail to: 'to@example.org'
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -40,7 +40,7 @@ class CannedReportMailer < ApplicationMailer
       end
     end
 
-    run_time = Time.now
+    run_time = Time.current
     run_time_file = run_time.strftime('%Y_%m_%d_%H_%M_%S')
     filename = "#{@report_name}_#{run_time_file}.csv"
 

@@ -215,6 +215,10 @@ class CannedReport
     end
   end
 
+  def save!
+    save
+  end
+
   def self.all
     Dir.glob(Rails.root.join('reports', '*.yaml')).sort.map { |file| CannedReport.new(File.basename(file, File.extname(file))) }
   end

@@ -1,0 +1,47 @@
+---
+base_sql: |-
+  SELECT shelf, size, tray, COUNT(item) AS "items", SUM(thickness) AS "width", tt.capacity AS "capacity", TRUNC(SUM(thickness)/tt.capacity::decimal * 100,2) AS "percent full"
+  FROM (
+        SELECT shelves.barcode AS "shelf", shelves.size AS "size", trays.barcode AS "tray", items.barcode AS "item", items.thickness
+        FROM shelves INNER JOIN trays ON shelves.id = trays.shelf_id
+        LEFT JOIN items ON trays.id = items.tray_id
+  ) stocked_items
+  INNER JOIN tray_types tt ON size = tt.code
+  TRAY_TYPES
+  GROUP BY shelf, size, tray, tt.capacity
+  TRAY_FILL
+parameters:
+- name: tray_type
+  label: Tray Type
+  type: multi-select
+  values:
+  - - AL
+    - AL
+  - - BH
+    - BH
+  - - BL
+    - BL
+  - - CH
+    - CH
+  - - CL
+    - CL
+  - - DH
+    - DH
+  - - DL
+    - DL
+  - - EH
+    - EH
+  - - EL
+    - EL
+  - - SHELF
+    - SHELF
+  sql:
+  - key: TRAY_TYPES
+    value: WHERE size IN (PARAMS)
+- name: tray_fill
+  label: Tray Fill
+  type: number
+  step: 1
+  sql:
+    - key: TRAY_FILL
+      value: HAVING SUM(thickness)/tt.capacity::decimal * 100 < VALUE

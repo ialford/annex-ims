@@ -1,0 +1,51 @@
+---
+name: Shelf Report
+base_sql: SELECT s.barcode AS "shelf", count (t.id) AS "trays", tt.trays_per_shelf
+  AS "expected" , s.size AS "tray_type" FROM shelves s INNER JOIN trays t ON s.id
+  = t.shelf_id INNER JOIN tray_types tt ON s.size = tt.code TRAY_TYPES GROUP BY s.barcode,
+  tt.trays_per_shelf, s.size LIMITS
+parameters:
+- name: tray_type
+  label: Tray Type
+  type: multi-select
+  values:
+  - - AL
+    - AL
+  - - BH
+    - BH
+  - - BL
+    - BL
+  - - CH
+    - CH
+  - - CL
+    - CL
+  - - DH
+    - DH
+  - - DL
+    - DL
+  - - EH
+    - EH
+  - - EL
+    - EL
+  - - SHELF
+    - SHELF
+  sql:
+  - key: TRAY_TYPES
+    value: WHERE s.size IN (PARAMS)
+- name: shelf_limits
+  label: Include Shelves
+  type: radio
+  required: true
+  values:
+    all:
+      sql:
+      - key: LIMITS
+        value: ''
+    under_capacity:
+      sql:
+      - key: LIMITS
+        value: HAVING count(t.id) < tt.trays_per_shelf
+    over_capacity:
+      sql:
+      - key: LIMITS
+        value: HAVING count(t.id) > tt.trays_per_shelf

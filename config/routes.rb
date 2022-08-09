@@ -4,6 +4,11 @@ Rails.application.routes.draw do
   resources :reports
   get 'reports/:id/export', to: 'reports#export', as: 'export_report'
 
+  resources :canned_reports, only: %i[index show]
+  post 'canned_reports/:id/run', to: 'canned_reports#run', as: 'run_canned_report'
+  post 'canned_reports/:id/email', to: 'canned_reports#email', as: 'email_canned_report'
+  get 'canned_reports/:id/export', to: 'canned_reports#export', as: 'export_canned_report'
+
   resources :tray_types do
     member do
       post 'activation'

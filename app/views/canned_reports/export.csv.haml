@@ -1,0 +1,6 @@
+= CSV.generate_line(@results[0].keys.map { |key| key.titleize }, {:force_quotes=>true}).strip.html_safe
+- @results.each do |result|
+  - row = []
+  - result.each do |key, value|
+    - row << value&.to_s&.gsub('"', '')
+  = CSV.generate_line(row, {:force_quotes=>true}).strip.html_safe

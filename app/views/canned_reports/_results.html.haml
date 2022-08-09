@@ -1,0 +1,31 @@
+.results
+  %table.table.table-striped.condensed.datatable{ "id" => "results" }
+    %thead
+      %tr
+        - @results[0].keys.each do |key|
+          %th= key.titleize
+    %tbody
+      - @results.each do |result|
+        %tr
+          - result.each do |key, value|
+            %th= value&.to_s&.gsub('"', '')
+  :javascript
+      $(document).ready(function() {
+        window.table = $('#results').DataTable( {
+          "dom": 'T<"clear">lfrtip',
+          "tableTools": {
+            "aButtons": [
+                {
+                  "sExtends": "print",
+                  "sTitle": "",
+                  "sInfo": "",
+                  "sMessage": "",
+                  "fnComplete": function ( nButton, oConfig, oFlash, sFlash ) {
+                      alert('Use Browser Print feature. When done, hit "esc" on your keyboard to return to IMS.');
+
+                      $('.ui-dialog,.ui-widget-overlay').addClass('doNotPrint');
+                  }
+              } ]
+          }
+        } );
+      } );

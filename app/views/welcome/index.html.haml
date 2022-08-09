@@ -5,7 +5,7 @@
       :href => "#stocking" }
       %span.glyphicon.glyphicon-plus
       Stocking
-    #stocking.collapse
+    .collapse#stocking
       %a.list-group-item.barcode{ :href => items_path } Directed Put Away
       %a.list-group-item.itemt{ :href => trays_items_path } Items to Tray
       %a.list-group-item.items{ :href => shelves_path } Item Direct to Shelf
@@ -16,7 +16,7 @@
       :href => "#items" }
       %span.glyphicon.glyphicon-plus
       Items
-    #items.collapse
+    .collapse#items
       - if user_admin?
         %a.list-group-item.barcode{ :href => deaccessioning_path }= t("main_menu.deaccessioning")
       %a.list-group-item.barcode{ :href => search_path } Item Search
@@ -28,7 +28,7 @@
         :href => "#batches" }
         %span.glyphicon.glyphicon-plus
         Batches
-      #batches.collapse
+      .collapse#batches
         %a.list-group-item{ :href => batches_path } Create Batch
         %a.list-group-item{ :href => retrieve_batch_path } Retrieve Batch
         %a.list-group-item{ :href => bins_path } Process Bins
@@ -44,7 +44,7 @@
         :href => "#qc" }
         %span.glyphicon.glyphicon-plus
         Quality Control
-      #qc.collapse
+      .collapse#qc
         %a.list-group-item{ :href => check_items_new_path } Items in Tray
         %a.list-group-item{ :href => check_trays_new_path } Trays on Shelf
     %a.list-group-item.list-group-item-success{ "data-parent" => "#MainMenu",
@@ -52,7 +52,7 @@
       :href => "#reports" }
       %span.glyphicon.glyphicon-plus
       Reports
-    #reports.collapse
+    .collapse#reports
       %a.list-group-item{ :href => reporting_path } Report By Barcode
       %a.list-group-item{ :href => issues_path } Items with Issues
       %a.list-group-item{ :href => trays_issues_path } Trays with Issues
@@ -63,16 +63,25 @@
           :href => "#saved-reports" }
           %span.glyphicon.glyphicon-plus
           Saved Reports
-        #saved-reports.collapse
+        .collapse#saved-reports
           - Report.all.order(name: :asc).each do |report|
             %a.list-group-item{ :href => report_path(report.id) } #{report.name}
+      - if CannedReport.all.count > 0
+        %a.list-group-item.list-group-item-success{ "data-parent" => "#reports",
+          "data-toggle" => "collapse",
+          :href => "#canned-reports" }
+          %span.glyphicon.glyphicon-plus
+          Canned Reports
+        .collapse#canned-reports
+          - CannedReport.all.each do |report|
+            %a.list-group-item{ :href => canned_report_path(report.id) } #{report.name}
     - if user_admin?
       %a.list-group-item.list-group-item-success{ "data-parent" => "#MainMenu",
         "data-toggle" => "collapse",
         :href => "#settings" }
         %span.glyphicon.glyphicon-plus
         Settings
-      #settings.collapse
+      .collapse#settings
         %a.list-group-item{ :href => users_path } Update users
         %a.list-group-item{ :href => dispositions_path } Manage dispositions
         %a.list-group-item{ :href => tray_types_path } Manage tray types

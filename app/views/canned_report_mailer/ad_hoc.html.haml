@@ -1,0 +1,19 @@
+%h1
+  Canned Report Ad Hoc
+
+%p
+  = "Hello, attached please find the report for #{@report_name} run at #{@run_time_text} on #{Socket.gethostname}."
+
+%p
+  Params:
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Name
+      %th Value
+  %tbody
+    - @params.each do |key, value|
+      %tr
+        %td= key
+        %td= value

@@ -28,6 +28,9 @@
   .field
     = label_tag 'email', 'Email'
     = email_field_tag 'email', @params['email']
+  .field
+    = label 'schedule', 'Schedule'
+    = select_recurring_tag 'schedule', @params['schedule']
   .actions
     = submit_tag "Run",
                 class: "btn btn-primary"

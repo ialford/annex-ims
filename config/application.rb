@@ -44,8 +44,7 @@ module AnnexIms
       config.dsn = Rails.application.secrets.sentrydn
     end
 
-    # It appears that we are not using helpers, so don"t make it
-    # easy to keep using them.
-    config.action_controller.include_all_helpers = false
+    # It appears that we are using helpers, so make it easy to keep using them.
+    config.action_controller.include_all_helpers = true
   end
 end

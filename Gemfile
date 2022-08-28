@@ -80,6 +80,9 @@ end
 # For cron tasks
 gem 'whenever', require: false
 
+# For scheduled tasks stored in the database
+gem 'recurring_select'
+
 group :deployment do
   # Use Capistrano for deployment
   gem 'capistrano', '= 3.11.2'

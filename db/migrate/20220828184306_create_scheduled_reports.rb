@@ -6,7 +6,7 @@ class CreateScheduledReports < ActiveRecord::Migration[5.2]
       t.jsonb :params, null: false
       t.timestamp :last_run_at
       t.string :cancel, null: false
-      t.string :schedule, null: false
+      t.jsonb :schedule, null: false
 
       t.timestamps
     end

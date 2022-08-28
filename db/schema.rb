@@ -157,7 +157,7 @@ ActiveRecord::Schema.define(version: 2022_08_28_184306) do
     t.jsonb "params", null: false
     t.datetime "last_run_at"
     t.string "cancel", null: false
-    t.string "schedule", null: false
+    t.jsonb "schedule", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cancel"], name: "index_scheduled_reports_on_cancel", unique: true

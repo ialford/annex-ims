@@ -7,18 +7,10 @@
   %b Email:
   = @scheduled_report.email
 %p
-  %b Params:
-  = @scheduled_report.params
-%p
   %b Last run at:
   = @scheduled_report.last_run_at
 %p
-  %b Cancel:
-  = @scheduled_report.cancel
-%p
   %b Schedule:
-  = @scheduled_report.schedule
+  = IceCube::Schedule.from_hash(@scheduled_report.schedule).to_s
 
-= link_to 'Edit', edit_scheduled_report_path(@scheduled_report)
-\|
 = link_to 'Back', scheduled_reports_path

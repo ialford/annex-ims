@@ -29,7 +29,7 @@ class CannedReport
 
   def initialize(id)
     @id = id
-    @name = id.titleize
+    @name = id.nil? ? '' : id.titleize
     @file = if Rails.env.test?
               Rails.root.join('spec', 'fixtures', 'files', 'canned_reports', "#{id}.yaml")
             else

@@ -1,0 +1,2 @@
+class ScheduledReport < ApplicationRecord
+end

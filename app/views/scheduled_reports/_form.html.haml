@@ -1,0 +1,28 @@
+= form_for @scheduled_report do |f|
+  - if @scheduled_report.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@scheduled_report.errors.count, "error")} prohibited this scheduled_report from being saved:"
+      %ul
+        - @scheduled_report.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :canned_report_id
+    = f.text_field :canned_report_id
+  .field
+    = f.label :email
+    = f.text_field :email
+  .field
+    = f.label :params
+    = f.text_field :params
+  .field
+    = f.label :last_run_at
+    = f.datetime_select :last_run_at
+  .field
+    = f.label :cancel
+    = f.text_field :cancel
+  .field
+    = f.label :schedule
+    = f.text_field :schedule
+  .actions
+    = f.submit 'Save'

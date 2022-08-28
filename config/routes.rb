@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :scheduled_reports
   resources :reports
   get 'reports/:id/export', to: 'reports#export', as: 'export_report'
 

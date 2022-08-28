@@ -1,0 +1,31 @@
+%h1 Listing scheduled_reports
+
+%table
+  %thead
+    %tr
+      %th Canned report
+      %th Email
+      %th Params
+      %th Last run at
+      %th Cancel
+      %th Schedule
+      %th
+      %th
+      %th
+
+  %tbody
+    - @scheduled_reports.each do |scheduled_report|
+      %tr
+        %td= scheduled_report.canned_report_id
+        %td= scheduled_report.email
+        %td= scheduled_report.params
+        %td= scheduled_report.last_run_at
+        %td= scheduled_report.cancel
+        %td= scheduled_report.schedule
+        %td= link_to 'Show', scheduled_report
+        %td= link_to 'Edit', edit_scheduled_report_path(scheduled_report)
+        %td= link_to 'Destroy', scheduled_report, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Scheduled report', new_scheduled_report_path

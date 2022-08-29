@@ -11,6 +11,6 @@
   = @scheduled_report.last_run_at
 %p
   %b Schedule:
-  = IceCube::Schedule.from_hash(@scheduled_report.schedule).to_s
+  = @scheduled_report.schedule_humanize
 
 = link_to 'Back', scheduled_reports_path

@@ -1,5 +1,5 @@
 class ScheduledReportsController < ApplicationController
-  before_action :set_scheduled_report, only: [:show, :edit, :update, :destroy]
+  before_action :set_scheduled_report, only: %i[show edit update destroy]
 
   # GET /scheduled_reports
   # GET /scheduled_reports.json
@@ -67,8 +67,28 @@ class ScheduledReportsController < ApplicationController
       @scheduled_report = ScheduledReport.find(params[:id])
     end
 
+    def allowed_keys
+      report = CannedReport.new(params[:canned_report_id])
+      report.load
+      keys = %i[email id]
+      report.contents['parameters'].each do |param|
+        keys << if param['type'] == 'multi-select'
+                  { param['name'].to_sym => [] }
+                else
+                  param['name'].to_sym
+                end
+      end
+      keys
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def scheduled_report_params
-      params.require(:scheduled_report).permit(:canned_report_id, :email, :params, :last_run_at, :cancel, :schedule)
+      report_params = params.permit(allowed_keys)
+      report_params[:id] = params[:canned_report_id]
+      params[:params] = report_params
+      params[:params].delete(:canned_report_id)
+      schedule = { rrules: [RecurringSelect.dirty_hash_to_rule(JSON.parse(params[:schedule])).to_hash] }
+      params[:schedule] = schedule
+      params.permit(:canned_report_id, :email, schedule: {}, params: {})
     end
 end

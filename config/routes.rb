@@ -2,6 +2,8 @@
 
 Rails.application.routes.draw do
   resources :scheduled_reports
+  post 'scheduled_reports', to: 'scheduled_reports#create', as: 'create_scheduled_report'
+
   resources :reports
   get 'reports/:id/export', to: 'reports#export', as: 'export_report'
 

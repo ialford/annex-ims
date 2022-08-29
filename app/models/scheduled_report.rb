@@ -17,6 +17,14 @@ class ScheduledReport < ApplicationRecord
     self.canned_report_id = canned_report.id
   end
 
+  def schedule_humanize
+    IceCube::Schedule.from_hash(schedule).to_s
+  end
+
+  def schedule_ical
+    IceCube::Schedule.from_hash(schedule).to_ical
+  end
+
   private
 
   def canned_report_exists

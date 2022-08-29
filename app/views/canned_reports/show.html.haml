@@ -26,17 +26,22 @@
       - when 'text'
         = text_field_tag input['name'], @params[input['name']]
   .field
+    = hidden_field_tag :canned_report_id, @report.id
+  .field
     = label_tag 'email', 'Email'
     = email_field_tag 'email', @params['email']
   .field
     = label 'schedule', 'Schedule'
     = select_recurring_tag 'schedule', @params['schedule']
   .actions
-    = submit_tag "Run",
+    = submit_tag 'Run',
                 class: "btn btn-primary"
     = submit_tag 'Email',
                 class: "btn btn-secondary",
                 formaction: email_canned_report_path
+    = submit_tag 'Create Sheduled Report',
+                class: "btn btn-secondary",
+                formaction: create_scheduled_report_path
 
 - if @results.blank?
   %br

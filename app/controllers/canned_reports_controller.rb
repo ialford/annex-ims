@@ -50,7 +50,7 @@ class CannedReportsController < ApplicationController
     @results = output[:results]
     @sql = output[:sql]
 
-    CannedReportMailer.ad_hoc(params: report_params).deliver_now
+    CannedReportMailer.email(params: report_params).deliver_now
 
     render 'show'
   end

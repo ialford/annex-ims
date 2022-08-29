@@ -30,3 +30,7 @@ end
 every 5.minutes do
   rake "annex:get_active_requests"
 end
+
+every 1.day, at: 'midnight' do
+  rake "annex:run_scheduled_reports"
+end

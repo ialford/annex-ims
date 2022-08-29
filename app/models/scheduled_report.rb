@@ -25,6 +25,27 @@ class ScheduledReport < ApplicationRecord
     IceCube::Schedule.from_hash(schedule).to_ical
   end
 
+  def due?
+    sched = IceCube::Schedule.from_hash(schedule)
+    sched.occurs_between?(last_run_at || created_at, Time.current)
+  end
+
+  def run
+    canned_report.load
+    sym_params = params.symbolize_keys
+    output = canned_report.run(sym_params)
+
+    @params = params || []
+    @errors = output[:errors]
+    @results = output[:results]
+    @sql = output[:sql]
+
+    CannedReportMailer.email(params: sym_params).deliver_now
+
+    last_run_at = Time.current
+    save!
+  end
+
   private
 
   def canned_report_exists

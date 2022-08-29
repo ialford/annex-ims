@@ -4,23 +4,8 @@ require 'rails_helper'
 
 RSpec.describe CannedReportMailer, type: :mailer do
 =begin
-  describe 'scheduled' do
-    let(:mail) { CannedReportMailer.scheduled }
-
-    it 'renders the headers' do
-      expect(mail.subject).to eq('Scheduled')
-      expect(mail.to).to eq(['to@example.org'])
-      expect(mail.from).to eq(['from@example.com'])
-    end
-
-    it 'renders the body' do
-      expect(mail.body.encoded).to match('Hi')
-    end
-  end
-=end
-=begin
-  describe 'ad_hoc' do
-    let(:mail) { CannedReportMailer.ad_hoc }
+  describe 'email' do
+    let(:mail) { CannedReportMailer.email }
 
     it 'renders the headers' do
       expect(mail.subject).to eq('Ad hoc')

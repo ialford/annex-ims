@@ -160,10 +160,10 @@ ActiveRecord::Schema.define(version: 2022_09_18_174913) do
     t.jsonb "schedule", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "nickname", null: false
+    t.string "name", null: false
     t.index ["cancel"], name: "index_scheduled_reports_on_cancel", unique: true
     t.index ["canned_report_id"], name: "index_scheduled_reports_on_canned_report_id"
-    t.index ["nickname"], name: "index_scheduled_reports_on_nickname", unique: true
+    t.index ["name"], name: "index_scheduled_reports_on_name", unique: true
   end
 
   create_table "shelves", id: :serial, force: :cascade do |t|

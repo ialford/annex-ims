@@ -7,8 +7,8 @@ class ScheduledReport < ApplicationRecord
   validates :cancel, presence: true
   validates :cancel, uniqueness: true
   validates :schedule, presence: true
-  validates :nickname, presence: true
-  validates :nickname, uniqueness: true
+  validates :name, presence: true
+  validates :name, uniqueness: true
   validate :canned_report_exists
 
   def canned_report

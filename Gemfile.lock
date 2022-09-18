@@ -211,7 +211,6 @@ GEM
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     libv8 (7.3.492.27.1)
-    libv8 (7.3.492.27.1-x86_64-darwin-17)
     loofah (2.3.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -240,8 +239,6 @@ GEM
     nio4r (2.5.5)
     nokogiri (1.11.1)
       mini_portile2 (~> 2.5.0)
-      racc (~> 1.4)
-    nokogiri (1.11.1-x86_64-darwin)
       racc (~> 1.4)
     oauth2 (1.4.2)
       faraday (>= 0.8, < 2.0)
@@ -442,7 +439,6 @@ GEM
 
 PLATFORMS
   ruby
-  x86_64-darwin-17
 
 DEPENDENCIES
   autoprefixer-rails

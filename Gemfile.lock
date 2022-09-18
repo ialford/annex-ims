@@ -1,9 +1,14 @@
 GIT
-  remote: git://github.com/ndlib/hesburgh_infrastructure.git
-  revision: 3ca3bc3b9df36b9bfb2abed248ea5e79773346f2
+  remote: https://github.com/ndlib/hesburgh_infrastructure
+  revision: eadb8d0a8c58502d49a3b4d389e19a40d06855b4
   specs:
     hesburgh_infrastructure (0.2.5)
       rails
+
+PATH
+  remote: vendor/gems/recurring_select-3.0.0
+  specs:
+    recurring_select (3.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -305,12 +310,6 @@ GEM
     rainbow (3.0.0)
     rake (13.0.3)
     rdoc (4.3.0)
-    recurring_select (3.0.0)
-      coffee-rails (>= 3.1)
-      ice_cube (>= 0.11)
-      jquery-rails (>= 3.0)
-      rails (>= 5.2)
-      sass-rails (>= 4.0)
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -472,6 +471,7 @@ DEPENDENCIES
   haml-rails
   haml_lint
   hesburgh_infrastructure!
+  ice_cube
   jbuilder (~> 2.0)
   jquery-datatables-rails (~> 3.4.0)
   jquery-rails (~> 4.3.5)
@@ -489,7 +489,7 @@ DEPENDENCIES
   rails-erd
   rails_layout
   rake (~> 13.0)
-  recurring_select
+  recurring_select (= 3.0.0)!
   rspec-rails (~> 3.0)
   rubocop (= 0.75.0)
   rubocop-rails

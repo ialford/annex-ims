@@ -75,6 +75,15 @@
         .collapse#canned-reports
           - CannedReport.all.each do |report|
             %a.list-group-item{ :href => canned_report_path(report.id) } #{report.name}
+      - if ScheduledReport.all.count > 0
+        %a.list-group-item.list-group-item-success{ "data-parent" => "#reports",
+          "data-toggle" => "collapse",
+          :href => "#scheduled-reports" }
+          %span.glyphicon.glyphicon-plus
+          Scheduled Reports
+        .collapse#scheduled-reports
+          - ScheduledReport.all.order(name: :asc).each do |report|
+            %a.list-group-item{ :href => scheduled_report_path(report.id) } #{report.name}
     - if user_admin?
       %a.list-group-item.list-group-item-success{ "data-parent" => "#MainMenu",
         "data-toggle" => "collapse",

@@ -33,6 +33,9 @@
   .field
     = label 'schedule', 'Schedule'
     = select_recurring_tag 'schedule', @params['schedule']
+  .field
+    = label 'nickname', 'Nickname'
+    = text_field_tag input['nickname'], @params['nickname']
   .actions
     = submit_tag 'Run',
                 class: "btn btn-primary"

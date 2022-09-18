@@ -89,6 +89,6 @@ class ScheduledReportsController < ApplicationController
       params[:params].delete(:canned_report_id)
       schedule = { rrules: [RecurringSelect.dirty_hash_to_rule(JSON.parse(params[:schedule])).to_hash] }
       params[:schedule] = schedule
-      params.permit(:canned_report_id, :email, schedule: {}, params: {})
+      params.permit(:canned_report_id, :email, :nickname, schedule: {}, params: {})
     end
 end

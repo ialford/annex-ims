@@ -25,6 +25,18 @@
       = text_field_tag input['name'], params[input['name']]
 .field
   = hidden_field_tag :canned_report_id, report.id
+.field
+  = label_tag 'email', 'Email'
+  - email ||= params['email']
+  = email_field_tag 'email', email
+.field
+  = label 'name', 'Report Name'
+  - name ||= params['name']
+  = text_field_tag 'name', name
+.field
+  = label 'schedule', 'Schedule'
+  - schedule ||= (params['schedule'].present? && params['schedule'] != 'null') ? JSON.parse(params['schedule']) : nil
+  = select_recurring_tag 'schedule', schedule.present? ? [IceCube::Rule.from_hash(schedule)] : nil
 
 - if multiselects.count > 0
   - multiselects.each do |multiselect|

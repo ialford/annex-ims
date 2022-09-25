@@ -33,14 +33,10 @@ class ScheduledReport < ApplicationRecord
   end
 
   def run
-    canned_report.load
     sym_params = params.symbolize_keys
-    output = canned_report.run(sym_params)
-
-    @params = params || []
-    @errors = output[:errors]
-    @results = output[:results]
-    @sql = output[:sql]
+    sym_params[:id] = canned_report_id
+    sym_params[:name] = name
+    sym_params[:email] = email
 
     CannedReportMailer.email(params: sym_params).deliver_now
 

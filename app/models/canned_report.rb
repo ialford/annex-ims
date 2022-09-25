@@ -30,11 +30,17 @@ class CannedReport
   def initialize(id)
     @id = id
     @name = id.nil? ? '' : id.titleize
-    @file = if Rails.env.test?
-              Rails.root.join('spec', 'fixtures', 'files', 'canned_reports', "#{id}.yaml")
+    path = if Rails.env.test?
+              Rails.root.join('spec', 'fixtures', 'files', 'canned_reports')
             else
-              Rails.root.join('reports', "#{id}.yaml")
+              Rails.root.join('reports')
             end
+    @file = File.join(path, "#{id}.yaml")
+    if valid?
+      load
+    else
+      @contents = {}
+    end
   end
 
   def valid?

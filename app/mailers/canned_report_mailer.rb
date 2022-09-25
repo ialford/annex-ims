@@ -7,6 +7,8 @@ class CannedReportMailer < ApplicationMailer
   #   en.canned_report_mailer.email.subject
   #
   def email(params:)
+    @name = params[:name].present? ? params[:name] : 'Ad Hoc'
+
     @report_name = params[:id].titleize
     @params = params
 

@@ -1,7 +1,9 @@
 %h1 Editing scheduled_report
 
-= render 'form'
+= render partial: 'shared/canned_report_form', locals: { report: @scheduled_report.canned_report, params: @scheduled_report.params, email: @scheduled_report.email, name: @scheduled_report.name, schedule: @scheduled_report.schedule['rrules'][0].to_hash }
 
-= link_to 'Show', @scheduled_report
-\|
-= link_to 'Back', scheduled_reports_path
+%table
+  %tr
+    %td= button_to 'Update', scheduled_report_path(@scheduled_report), method: :put, class: 'btn btn-primary'
+    %td= button_to 'Show', @scheduled_report, method: :get, class: 'btn btn-secondary'
+    %td= button_to 'Back', scheduled_reports_path, method: :get, class: 'btn'

@@ -3,19 +3,23 @@
 %table.table.table-striped.condensed
   %thead
     %tr
+      %th Report Name
       %th Canned report
       %th Email
       %th Last run at
       %th Schedule
       %th
       %th
+      %th
 
   %tbody
     - @scheduled_reports.each do |scheduled_report|
       %tr
+        %td= scheduled_report.name
         %td= scheduled_report.canned_report_id
         %td= scheduled_report.email
         %td= scheduled_report.last_run_at
         %td= scheduled_report.schedule_humanize
-        %td= link_to 'Show', scheduled_report
-        %td= link_to 'Destroy', scheduled_report, method: :delete, data: { confirm: 'Are you sure?' }
+        %td= button_to 'Show', scheduled_report, method: :get, class: 'btn btn-primary'
+        %td= button_to 'Edit', edit_scheduled_report_path(scheduled_report), method: :get, class: 'btn'
+        %td= button_to 'Destroy', scheduled_report, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

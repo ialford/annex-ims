@@ -1,15 +1,6 @@
 %h4= @report.name
 = form_tag run_canned_report_path(@report.id) do
-  = render partial: 'shared/canned_report_form', locals: { report: @report, params: @params }
-  .field
-    = label_tag 'email', 'Email'
-    = email_field_tag 'email', @params['email']
-  .field
-    = label 'schedule', 'Schedule'
-    = select_recurring_tag 'schedule', @params['schedule']
-  .field
-    = label 'name', 'Report Name'
-    = text_field_tag 'name', @params['name']
+  = render partial: 'shared/canned_report_form', locals: { report: @report, params: @params}
   .actions
     = submit_tag 'Run',
                 class: "btn btn-primary"
@@ -34,10 +25,10 @@
   %p
   = @sql
 %br
-%button{ "data-toggle" => "collapse", :href => "#errors" } Show Errors
-.collapse#errors
-  %p
-  = @errors
+- if @errors.present?
+  %h3 Errors
+  - @errors.each do |error|
+    %p= error
 %br
 
 :javascript

@@ -1,6 +1,9 @@
 %p#notice= notice
 
 %p
+  %b Report Name:
+  = @scheduled_report.name
+%p
   %b Canned report:
   = @scheduled_report.canned_report_id
 %p
@@ -12,5 +15,22 @@
 %p
   %b Schedule:
   = @scheduled_report.schedule_humanize
+%p
+  %b Params:
 
-= link_to 'Back', scheduled_reports_path
+%table.table.table-striped
+  %thead
+    %tr
+      %th Name
+      %th Value
+  %tbody
+    - @scheduled_report.params.each do |key, value|
+      %tr
+        %td= key
+        %td= value
+
+%table
+  %tr
+    %td= button_to 'Back', scheduled_reports_path, method: :get, class: 'btn btn-primary'
+    %td= button_to 'Edit', edit_scheduled_report_path(@scheduled_report), method: :get, class: 'btn'
+    %td= button_to 'Destroy', @scheduled_report, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

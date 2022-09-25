@@ -64,7 +64,7 @@ class CannedReportsController < ApplicationController
   end
 
   def allowed_keys
-    keys = %i[email id]
+    keys = %i[email id name schedule]
     @report.contents['parameters'].each do |param|
       keys << if param['type'] == 'multi-select'
                 { param['name'].to_sym => [] }

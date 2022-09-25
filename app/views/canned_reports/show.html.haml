@@ -1,32 +1,6 @@
 %h4= @report.name
-- multiselects = []
 = form_tag run_canned_report_path(@report.id) do
-  - @report.contents['parameters'].each do |input|
-    .field
-      = label_tag input['name'], input['label']
-      - case input['type']
-      - when 'checkbox'
-        = hidden_field_tag input['name'], '0'
-        = check_box_tag input['name'], 1, '1' == @params[input['name']]
-      - when 'date'
-        = date_field_tag input['name'], @params[input['name']], { include_blank: true, default: nil, use_short_month: true }
-      - when 'multi-select'
-        - multiselects << input['name']
-        = select_tag input['name'], options_for_select(input['values'], @params[input['name']]), include_blank: true, multiple: true
-      - when 'number'
-        = number_field_tag input['name'], @params[input['name']], step: input['step'], min: input['min'], max: input['max']
-      - when 'preset-date-range'
-        = select_tag input['name'], options_from_collection_for_select(Report::PRESET_DATE_RANGES, 'first', 'last', @params[input['name']]), { include_hidden: false, default: nil }
-      - when 'radio'
-        .input-group
-          - input['values'].keys.each do |key|
-            = radio_button_tag input['name'], key, @params[input['name']] == key
-            = label_tag input['name'], key.titleize
-            %br
-      - when 'text'
-        = text_field_tag input['name'], @params[input['name']]
-  .field
-    = hidden_field_tag :canned_report_id, @report.id
+  = render partial: 'shared/canned_report_form', locals: { report: @report, params: @params }
   .field
     = label_tag 'email', 'Email'
     = email_field_tag 'email', @params['email']
@@ -34,7 +8,7 @@
     = label 'schedule', 'Schedule'
     = select_recurring_tag 'schedule', @params['schedule']
   .field
-    = label 'name', 'Name'
+    = label 'name', 'Report Name'
     = text_field_tag 'name', @params['name']
   .actions
     = submit_tag 'Run',
@@ -66,18 +40,13 @@
   = @errors
 %br
 
-- if multiselects.count > 0
-  - multiselects.each do |multiselect|
-    :javascript
-      $("##{multiselect}").multiSelect();
-
 :javascript
   function validateScheduleForm() {
     var email = document.getElementById('email').value;
     var schedule = document.getElementById('schedule').value;
     var name = document.getElementById('name').value;
     if (email == '' || schedule == '' || schedule == 'null' || name == '') {
-      alert('Please fill out email, schedule, and name fields.');
+      alert('Please fill out email, schedule, and report name fields.');
       return false;
     }
     return true;

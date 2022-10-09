@@ -30,11 +30,11 @@
   - email ||= params['email']
   = email_field_tag 'email', email
 .field
-  = label 'name', 'Report Name'
+  = label_tag 'name', 'Report Name'
   - name ||= params['name']
   = text_field_tag 'name', name
 .field
-  = label 'schedule', 'Schedule'
+  = label_tag 'schedule', 'Schedule'
   - schedule ||= (params['schedule'].present? && params['schedule'] != 'null') ? JSON.parse(params['schedule']) : nil
   = select_recurring_tag 'schedule', schedule.present? ? [IceCube::Rule.from_hash(schedule)] : nil
 
@@ -42,3 +42,15 @@
   - multiselects.each do |multiselect|
     :javascript
       $("##{multiselect}").multiSelect();
+
+:javascript
+  function validateScheduleForm() {
+    var email = document.getElementById('email').value;
+    var schedule = document.getElementById('schedule').value;
+    var name = document.getElementById('name').value;
+    if (email == '' || schedule == '' || schedule == 'null' || name == '') {
+      alert('Please fill out email, schedule, and report name fields.');
+      return false;
+    }
+    return true;
+  }

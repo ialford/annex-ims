@@ -30,15 +30,3 @@
   - @errors.each do |error|
     %p= error
 %br
-
-:javascript
-  function validateScheduleForm() {
-    var email = document.getElementById('email').value;
-    var schedule = document.getElementById('schedule').value;
-    var name = document.getElementById('name').value;
-    if (email == '' || schedule == '' || schedule == 'null' || name == '') {
-      alert('Please fill out email, schedule, and report name fields.');
-      return false;
-    }
-    return true;
-  }

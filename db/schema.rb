@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_28_161202) do
+ActiveRecord::Schema.define(version: 2022_09_18_174913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,6 +149,21 @@ ActiveRecord::Schema.define(version: 2021_05_28_161202) do
     t.index ["batch_id"], name: "index_requests_on_batch_id"
     t.index ["item_id"], name: "index_requests_on_item_id"
     t.index ["trans"], name: "index_requests_on_trans", unique: true
+  end
+
+  create_table "scheduled_reports", force: :cascade do |t|
+    t.string "canned_report_id", null: false
+    t.string "email", null: false
+    t.jsonb "params", null: false
+    t.datetime "last_run_at"
+    t.string "cancel", null: false
+    t.jsonb "schedule", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name", null: false
+    t.index ["cancel"], name: "index_scheduled_reports_on_cancel", unique: true
+    t.index ["canned_report_id"], name: "index_scheduled_reports_on_canned_report_id"
+    t.index ["name"], name: "index_scheduled_reports_on_name", unique: true
   end
 
   create_table "shelves", id: :serial, force: :cascade do |t|

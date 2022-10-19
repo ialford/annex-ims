@@ -127,4 +127,13 @@ namespace :annex do
   task assign_tray_types: :environment do
     Tray.all.each(&:save)
   end
+
+  desc "Run all scheduled reports that are due"
+  task run_scheduled_reports: :environment do
+    ScheduledReport.all.each do |report|
+      if report.due?
+        report.run
+      end
+    end
+  end
 end

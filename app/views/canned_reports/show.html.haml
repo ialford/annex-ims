@@ -1,44 +1,21 @@
 %h4= @report.name
-- multiselects = []
 = form_tag run_canned_report_path(@report.id) do
-  - @report.contents['parameters'].each do |input|
-    .field
-      = label_tag input['name'], input['label']
-      - case input['type']
-      - when 'checkbox'
-        = hidden_field_tag input['name'], '0'
-        = check_box_tag input['name'], 1, '1' == @params[input['name']]
-      - when 'date'
-        = date_field_tag input['name'], @params[input['name']], { include_blank: true, default: nil, use_short_month: true }
-      - when 'multi-select'
-        - multiselects << input['name']
-        = select_tag input['name'], options_for_select(input['values'], @params[input['name']]), include_blank: true, multiple: true
-      - when 'number'
-        = number_field_tag input['name'], @params[input['name']], step: input['step'], min: input['min'], max: input['max']
-      - when 'preset-date-range'
-        = select_tag input['name'], options_from_collection_for_select(Report::PRESET_DATE_RANGES, 'first', 'last', @params[input['name']]), { include_hidden: false, default: nil }
-      - when 'radio'
-        .input-group
-          - input['values'].keys.each do |key|
-            = radio_button_tag input['name'], key, @params[input['name']] == key
-            = label_tag input['name'], key.titleize
-            %br
-      - when 'text'
-        = text_field_tag input['name'], @params[input['name']]
-  .field
-    = label_tag 'email', 'Email'
-    = email_field_tag 'email', @params['email']
+  = render partial: 'shared/canned_report_form', locals: { report: @report, params: @params}
   .actions
-    = submit_tag "Run",
+    = submit_tag 'Run',
                 class: "btn btn-primary"
     = submit_tag 'Email',
                 class: "btn btn-secondary",
                 formaction: email_canned_report_path
+    = submit_tag 'Create Sheduled Report',
+                class: "btn btn-secondary",
+                formaction: create_scheduled_report_path,
+                onclick: "return validateScheduleForm();"
 
-- if @results.blank?
+- if @results.nil?
   %br
 - elsif @results.count == 0
-  %h3 No Results
+  %h3 No Results Found
   %br
 - elsif @results.count > 0
   = render 'results'
@@ -48,13 +25,8 @@
   %p
   = @sql
 %br
-%button{ "data-toggle" => "collapse", :href => "#errors" } Show Errors
-.collapse#errors
-  %p
-  = @errors
+- if @errors.present?
+  %h3 Errors
+  - @errors.each do |error|
+    %p= error
 %br
-
-- if multiselects.count > 0
-  - multiselects.each do |multiselect|
-    :javascript
-      $("##{multiselect}").multiSelect();

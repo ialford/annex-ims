@@ -80,6 +80,10 @@ end
 # For cron tasks
 gem 'whenever', require: false
 
+# For scheduling tasks
+gem 'ice_cube'
+gem 'recurring_select', '3.0.0', path: 'vendor/gems/recurring_select-3.0.0'
+
 group :deployment do
   # Use Capistrano for deployment
   gem 'capistrano', '= 3.11.2'
@@ -97,7 +101,7 @@ group :development, :test, :staging do
 end
 
 group :development, :test do
-  gem 'hesburgh_infrastructure', github: 'ndlib/hesburgh_infrastructure'
+  gem 'hesburgh_infrastructure', git: 'https://github.com/ndlib/hesburgh_infrastructure'
   gem 'spring-commands-rspec'
 
   gem 'coveralls', require: false

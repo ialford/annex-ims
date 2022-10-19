@@ -1,9 +1,14 @@
 GIT
-  remote: git://github.com/ndlib/hesburgh_infrastructure.git
-  revision: 3ca3bc3b9df36b9bfb2abed248ea5e79773346f2
+  remote: https://github.com/ndlib/hesburgh_infrastructure
+  revision: eadb8d0a8c58502d49a3b4d389e19a40d06855b4
   specs:
     hesburgh_infrastructure (0.2.5)
       rails
+
+PATH
+  remote: vendor/gems/recurring_select-3.0.0
+  specs:
+    recurring_select (3.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -174,6 +179,7 @@ GEM
       ruby_parser (~> 3.5)
     i18n (1.8.9)
       concurrent-ruby (~> 1.0)
+    ice_cube (0.16.4)
     jaro_winkler (1.5.4)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
@@ -205,7 +211,6 @@ GEM
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     libv8 (7.3.492.27.1)
-    libv8 (7.3.492.27.1-x86_64-darwin-17)
     loofah (2.3.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -234,8 +239,6 @@ GEM
     nio4r (2.5.5)
     nokogiri (1.11.1)
       mini_portile2 (~> 2.5.0)
-      racc (~> 1.4)
-    nokogiri (1.11.1-x86_64-darwin)
       racc (~> 1.4)
     oauth2 (1.4.2)
       faraday (>= 0.8, < 2.0)
@@ -436,7 +439,6 @@ GEM
 
 PLATFORMS
   ruby
-  x86_64-darwin-17
 
 DEPENDENCIES
   autoprefixer-rails
@@ -465,6 +467,7 @@ DEPENDENCIES
   haml-rails
   haml_lint
   hesburgh_infrastructure!
+  ice_cube
   jbuilder (~> 2.0)
   jquery-datatables-rails (~> 3.4.0)
   jquery-rails (~> 4.3.5)
@@ -482,6 +485,7 @@ DEPENDENCIES
   rails-erd
   rails_layout
   rake (~> 13.0)
+  recurring_select (= 3.0.0)!
   rspec-rails (~> 3.0)
   rubocop (= 0.75.0)
   rubocop-rails

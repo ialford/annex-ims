@@ -18,5 +18,5 @@
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker
 //= require multi-select
+//= require recurring_select
 //= require_tree .
-

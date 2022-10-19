@@ -29,12 +29,18 @@ class CannedReport
 
   def initialize(id)
     @id = id
-    @name = id.titleize
-    @file = if Rails.env.test?
-              Rails.root.join('spec', 'fixtures', 'files', 'canned_reports', "#{id}.yaml")
+    @name = id.nil? ? '' : id.titleize
+    path = if Rails.env.test?
+              Rails.root.join('spec', 'fixtures', 'files', 'canned_reports')
             else
-              Rails.root.join('reports', "#{id}.yaml")
+              Rails.root.join('reports')
             end
+    @file = File.join(path, "#{id}.yaml")
+    if valid?
+      load
+    else
+      @contents = {}
+    end
   end
 
   def valid?
@@ -221,6 +227,10 @@ class CannedReport
 
   def self.all
     Dir.glob(Rails.root.join('reports', '*.yaml')).sort.map { |file| CannedReport.new(File.basename(file, File.extname(file))) }
+  end
+
+  def self.find(name)
+    CannedReport.new(name)
   end
 
   def self.validate_sql(sql)

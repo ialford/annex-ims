@@ -4,20 +4,11 @@ class CannedReportMailer < ApplicationMailer
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
-  #   en.canned_report_mailer.scheduled.subject
+  #   en.canned_report_mailer.email.subject
   #
-  def scheduled
-    # @greeting = 'Hi'
+  def email(params:)
+    @name = params[:name].present? ? params[:name] : 'Ad Hoc'
 
-    # mail to: 'to@example.org'
-  end
-
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
-  #   en.canned_report_mailer.ad_hoc.subject
-  #
-  def ad_hoc(params:)
     @report_name = params[:id].titleize
     @params = params
 

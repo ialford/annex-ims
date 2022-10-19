@@ -56,6 +56,25 @@
       %a.list-group-item{ :href => reporting_path } Report By Barcode
       %a.list-group-item{ :href => issues_path } Items with Issues
       %a.list-group-item{ :href => trays_issues_path } Trays with Issues
+      - if CannedReport.all.count > 0
+        %a.list-group-item.list-group-item-success{ "data-parent" => "#reports",
+          "data-toggle" => "collapse",
+          :href => "#canned-reports" }
+          %span.glyphicon.glyphicon-plus
+          Canned Reports
+        .collapse#canned-reports
+          - CannedReport.all.each do |report|
+            %a.list-group-item{ :href => canned_report_path(report.id) } #{report.name}
+      - if ScheduledReport.all.count > 0
+        %a.list-group-item.list-group-item-success{ "data-parent" => "#reports",
+          "data-toggle" => "collapse",
+          :href => "#scheduled-reports" }
+          %span.glyphicon.glyphicon-plus
+          Scheduled Reports
+        .collapse#scheduled-reports
+          - ScheduledReport.all.order(name: :asc).each do |report|
+            %a.list-group-item{ :href => scheduled_report_path(report.id) } #{report.name}
+
       %a.list-group-item{ :href => reports_path } Report Builder
       - if Report.all.count > 0
         %a.list-group-item.list-group-item-success{ "data-parent" => "#reports",
@@ -66,15 +85,6 @@
         .collapse#saved-reports
           - Report.all.order(name: :asc).each do |report|
             %a.list-group-item{ :href => report_path(report.id) } #{report.name}
-      - if CannedReport.all.count > 0
-        %a.list-group-item.list-group-item-success{ "data-parent" => "#reports",
-          "data-toggle" => "collapse",
-          :href => "#canned-reports" }
-          %span.glyphicon.glyphicon-plus
-          Canned Reports
-        .collapse#canned-reports
-          - CannedReport.all.each do |report|
-            %a.list-group-item{ :href => canned_report_path(report.id) } #{report.name}
     - if user_admin?
       %a.list-group-item.list-group-item-success{ "data-parent" => "#MainMenu",
         "data-toggle" => "collapse",

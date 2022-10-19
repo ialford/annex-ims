@@ -1,0 +1,10 @@
+- if @scheduled_report.errors.any?
+  #error_explanation
+    %h2= "#{pluralize(@scheduled_report.errors.count, "error")} prohibited this scheduled_report from being saved:"
+    %ul
+      - @scheduled_report.errors.full_messages.each do |message|
+        %li= message
+- else
+  #notice
+    %h2= "Scheduled report was successfully created."
+    %p= link_to 'Show', @scheduled_report

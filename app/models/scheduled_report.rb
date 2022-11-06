@@ -33,12 +33,11 @@ class ScheduledReport < ApplicationRecord
   end
 
   def run
-    sym_params = params.symbolize_keys
-    sym_params[:id] = canned_report_id
-    sym_params[:name] = name
-    sym_params[:email] = email
+    params[:id] = canned_report_id
+    params[:name] = name
+    params[:email] = email
 
-    CannedReportMailer.email(params: sym_params).deliver_now
+    CannedReportMailer.email(params: params).deliver_now
 
     last_run_at = Time.current
     save!

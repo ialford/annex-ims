@@ -5,24 +5,24 @@
     - case input['type']
     - when 'checkbox'
       = hidden_field_tag input['name'], '0'
-      = check_box_tag input['name'], 1, '1' == params[input['name']]
+      = check_box_tag input['name'], 1, params[input['name']].nil? ? 1 == input['default'] : '1' == params[input['name']]
     - when 'date'
-      = date_field_tag input['name'], params[input['name']], { include_blank: true, default: nil, use_short_month: true }
+      = date_field_tag input['name'], params[input['name']].nil? ? input['default'] : params[input['name']], { include_blank: true, default: nil, use_short_month: true }
     - when 'multi-select'
       - multiselects << input['name']
-      = select_tag input['name'], options_for_select(input['values'], params[input['name']]), include_blank: true, multiple: true
+      = select_tag input['name'], options_for_select(input['values'], params[input['name']].nil? ? input['default'] : params[input['name']]), include_blank: true, multiple: true
     - when 'number'
-      = number_field_tag input['name'], params[input['name']], step: input['step'], min: input['min'], max: input['max']
+      = number_field_tag input['name'], params[input['name']].nil? ? input['default'] : params[input['name']], step: input['step'], min: input['min'], max: input['max']
     - when 'preset-date-range'
-      = select_tag input['name'], options_from_collection_for_select(Report::PRESET_DATE_RANGES, 'first', 'last', params[input['name']]), { include_hidden: false, default: nil }
+      = select_tag input['name'], options_from_collection_for_select(Report::PRESET_DATE_RANGES, 'first', 'last', params[input['name']].nil? ? input['default'] : params[input['name']]), { include_hidden: false, default: nil }
     - when 'radio'
       .input-group
         - input['values'].keys.each do |key|
-          = radio_button_tag input['name'], key, params[input['name']] == key
+          = radio_button_tag input['name'], key, params[input['name']].nil? ? input['default'] == key : params[input['name']] == key
           = label_tag input['name'], key.titleize
           %br
     - when 'text'
-      = text_field_tag input['name'], params[input['name']]
+      = text_field_tag input['name'], params[input['name']].nil? ? input['default'] : params[input['name']]
 .field
   = hidden_field_tag :canned_report_id, report.id
 .field

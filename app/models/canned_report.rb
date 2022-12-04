@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CannedReport
-  attr_reader :id, :name, :file
+  attr_reader :id, :name, :file, :valid
   attr_accessor :contents
 
   UNSAFE_SQL = %w[
@@ -31,24 +31,28 @@ class CannedReport
     @id = id
     @name = id.nil? ? '' : id.titleize
     path = if Rails.env.test?
-              Rails.root.join('spec', 'fixtures', 'files', 'canned_reports')
-            else
-              Rails.root.join('reports')
+             Rails.root.join('spec', 'fixtures', 'files', 'canned_reports')
+           else
+             Rails.root.join('reports')
             end
     @file = File.join(path, "#{id}.yaml")
-    if valid?
-      load
+
+    raw_contents = File.read(@file) if File.exist?(@file)
+    @valid = CannedReport.valid_yaml?(raw_contents)
+
+    if @valid
+      load(raw_contents)
     else
       @contents = {}
     end
   end
 
-  def valid?
-    File.exist?(@file)
+  def load(yaml)
+    @contents = YAML.safe_load(yaml)
   end
 
-  def load
-    @contents = YAML.safe_load(File.read(@file))
+  def valid?
+    @valid
   end
 
   def run(params)
@@ -85,7 +89,7 @@ class CannedReport
       when 'number'
         param['sql'].each do |sql|
           if params.key?(param['name']) && !params[param['name']].empty?
-            tmp = sql['value'].gsub('VALUE', params[param['name']])
+            tmp = sql['value'].gsub('PARAMS', params[param['name']])
             base_sql = base_sql.gsub(/#{sql['key']}/, tmp)
           else
             base_sql = base_sql.gsub(/#{sql['key']}/, '')
@@ -242,5 +246,11 @@ class CannedReport
     end
 
     errors
+  end
+
+  def self.valid_yaml?(yaml)
+    !!YAML.safe_load(yaml)
+  rescue Exception => e
+    false
   end
 end

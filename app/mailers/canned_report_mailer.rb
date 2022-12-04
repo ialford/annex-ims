@@ -7,13 +7,20 @@ class CannedReportMailer < ApplicationMailer
   #   en.canned_report_mailer.email.subject
   #
   def email(params:)
-    @name = params[:name].present? ? params[:name] : 'Ad Hoc'
+    scheduled = params[:name].present?
+    @name = scheduled ? params[:name] : 'Ad Hoc'
 
     @report_name = params[:id].titleize
     @params = params
 
-    report = CannedReport.new(params[:id])
-    report.load
+    @report_url = if scheduled
+                    url_for(protocol: 'https', controller: 'scheduled_reports', action: 'show', id: params[:url_id])
+                  else
+                    url_for(protocol: 'https', controller: 'canned_reports', action: 'show', id: params[:id])
+                  end
+
+    report = CannedReport.find(params[:id])
+
     results = report.run(params)
 
     tempfile = Tempfile.new(['canned_report_mailer', '.csv']).tap do |fh|

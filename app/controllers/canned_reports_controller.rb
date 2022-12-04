@@ -12,7 +12,6 @@ class CannedReportsController < ApplicationController
   # GET /reports/1
   # GET /reports/1.json
   def show
-    @report.load
     @results = nil
     @params = report_params || []
     @sql = ''
@@ -59,8 +58,7 @@ class CannedReportsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_report
-    @report = CannedReport.new(params[:id])
-    @report.load
+    @report = CannedReport.find(params[:id])
   end
 
   def allowed_keys

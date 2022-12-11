@@ -7,17 +7,12 @@ class CannedReportMailer < ApplicationMailer
   #   en.canned_report_mailer.email.subject
   #
   def email(params:)
-    scheduled = params[:name].present?
-    @name = scheduled ? params[:name] : 'Ad Hoc'
+    @name = params[:name].present? ? params[:name] : 'Ad Hoc'
 
     @report_name = params[:id].titleize
     @params = params
 
-    @report_url = if scheduled
-                    url_for(protocol: 'https', controller: 'scheduled_reports', action: 'show', id: params[:url_id])
-                  else
-                    url_for(protocol: 'https', controller: 'canned_reports', action: 'show', id: params[:id])
-                  end
+    @report_url = url_for(host: Socket.gethostname, protocol: 'https', controller: "#{params[:type]}_reports", action: 'show', id: params[:url_id])
 
     report = CannedReport.find(params[:id])
 

@@ -85,7 +85,11 @@ class CannedReport
           base_sql = base_sql.gsub(/#{sql['key']}/, sql['value'])
         end
       when 'date'
-        # TODO: implement
+        param['sql'].each do |sql|
+          params.key?(param['name']) && !params[param['name']].empty?
+          tmp = sql['value'].gsub('PARAMS', params[param['name']])
+          base_sql = base_sql.gsub(/#{sql['key']}/, tmp)
+        end
       when 'number'
         param['sql'].each do |sql|
           if params.key?(param['name']) && !params[param['name']].empty?
@@ -146,7 +150,11 @@ class CannedReport
           end
         end
       when 'text'
-        # TODO: implement
+        param['sql'].each do |sql|
+          params.key?(param['name']) && !params[param['name']].empty?
+          tmp = sql['value'].gsub('PARAMS', params[param['name']])
+          base_sql = base_sql.gsub(/#{sql['key']}/, tmp)
+        end
       end
     end
 

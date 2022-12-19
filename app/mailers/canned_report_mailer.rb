@@ -12,7 +12,7 @@ class CannedReportMailer < ApplicationMailer
     @report_name = params[:id].titleize
     @params = params
 
-    @report_url = url_for(host: Socket.gethostname, protocol: 'https', controller: "#{params[:type]}_reports", action: 'show', id: params[:url_id])
+    @report_url = url_for(protocol: 'https', controller: "#{params[:type]}_reports", action: 'show', id: params[:url_id])
 
     report = CannedReport.find(params[:id])
 

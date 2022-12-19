@@ -5,26 +5,25 @@ class CannedReport
   attr_accessor :contents
 
   UNSAFE_SQL = %w[
-    INSERT
-    UPDATE
-    DELETE
-    CREATE
     ALTER
-    DROP
-    TRUNCATE
-    GRANT
-    REVOKE
-    LOCK
-    UNLOCK
-    REPAIR
-    OPTIMIZE
     ANALYZE
     BACKUP
-    RESTORE
-    EXPLAIN
-    SHOW
+    CREATE
+    DELETE
     DESCRIBE
-    DESC
+    DROP
+    EXPLAIN
+    GRANT
+    INSERT
+    LOCK
+    OPTIMIZE
+    REPAIR
+    RESTORE
+    REVOKE
+    SHOW
+    TRUNCATE
+    UNLOCK
+    UPDATE
   ].freeze
 
   def initialize(id)

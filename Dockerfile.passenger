@@ -4,7 +4,7 @@ FROM phusion/passenger-full:2.3.1
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y snapd nano dnsutils slapd ldap-utils sudo postfix shared-mime-info libcurl4-openssl-dev qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
 
 # Run this to install ruby version in phusion/passenger-full version
-RUN bash -lc 'rvm --default use ruby-2.7.6'
+RUN bash -lc 'rvm --default use ruby-2.6.10'
 
 # ENV variables
 ENV APP_DIR /home/app/annex-ims

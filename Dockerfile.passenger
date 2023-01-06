@@ -37,9 +37,6 @@ RUN mkdir -p "$APP_DIR/log"
 # Add the log directory
 RUN mkfifo /var/spool/postfix/public/pickup
 
-# Set permissions on folder
-RUN chown -R app:app $APP_DIR
-
 # Enable nginx and passenger
 RUN rm -f /etc/service/nginx/down
 RUN rm /etc/nginx/sites-enabled/default

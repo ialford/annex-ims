@@ -5,6 +5,9 @@
   = "Hello, attached please find the report for #{@report_name} run at #{@run_time_text} on #{Socket.gethostname}."
 
 %p
+  = "Please click #{link_to(@report_name, @report_url)} to view the report. If you are unable to click the link, please copy and paste the following link into your browser: #{@report_url}".html_safe
+
+%p
   Params:
 
 %table.table.table-striped

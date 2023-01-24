@@ -12,8 +12,10 @@ class CannedReportMailer < ApplicationMailer
     @report_name = params[:id].titleize
     @params = params
 
-    report = CannedReport.new(params[:id])
-    report.load
+    @report_url = url_for(protocol: 'https', controller: "#{params[:type]}_reports", action: 'show', id: params[:url_id])
+
+    report = CannedReport.find(params[:id])
+
     results = report.run(params)
 
     tempfile = Tempfile.new(['canned_report_mailer', '.csv']).tap do |fh|

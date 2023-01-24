@@ -1,3 +1,5 @@
 FROM rabbitmq:3-alpine
+# Add management interface
+RUN rabbitmq-plugins enable rabbitmq_management
 
 

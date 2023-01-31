@@ -30,6 +30,7 @@ WORKDIR $APP_DIR
 # Add the tmp directory for cache and pids
 RUN mkdir -p "$APP_DIR/tmp/cache"
 RUN mkdir -p "$APP_DIR/tmp/pids"
+RUN mkdir -p "$APP_DIR/reports"
 
 # Add the log directory
 RUN mkdir -p "$APP_DIR/log"

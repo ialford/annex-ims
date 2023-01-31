@@ -1,0 +1,58 @@
+FROM phusion/passenger-full:2.3.1
+
+# Update and install sudo, shared-mime-info to prevent mimemagic errors, postfix to prevent MTA errors
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y snapd nano dnsutils slapd ldap-utils sudo postfix shared-mime-info libcurl4-openssl-dev qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
+
+# Run this to install ruby version in phusion/passenger-full version
+RUN bash -lc 'rvm --default use ruby-2.6.10'
+
+# ENV variables
+ENV APP_DIR /home/app/annex-ims
+ENV TZ America/Indiana/Indianapolis
+
+# Set timezone
+RUN ln -s /usr/share/zoneinfo/$TZ localtime
+
+# Set up folder, files and needed gem objects
+WORKDIR /tmp
+ADD Gemfile /tmp/
+ADD Gemfile.lock /tmp/
+COPY vendor ./vendor
+RUN gem install bundler:1.17.3
+RUN bundle install
+# RUN sudo -u app bundle update sassc
+
+# Add application files and change permissions to app user
+ADD . $APP_DIR
+RUN chown -R app:app $APP_DIR
+WORKDIR $APP_DIR
+
+# Add the tmp directory for cache and pids
+RUN mkdir -p "$APP_DIR/tmp/cache"
+RUN mkdir -p "$APP_DIR/tmp/pids"
+
+# Add the log directory
+RUN mkdir -p "$APP_DIR/log"
+
+# Add the log directory
+RUN mkfifo /var/spool/postfix/public/pickup
+
+# Enable nginx and passenger
+RUN rm -f /etc/service/nginx/down
+RUN rm /etc/nginx/sites-enabled/default
+ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
+
+# For local development only which needs SSL
+ADD config/localhost.crt /etc/nginx/conf.d/localhost.crt
+ADD config/localhost.key /etc/nginx/conf.d/localhost.key
+ADD proxy_ssl.conf /etc/nginx/conf.d/proxy_ssl.conf
+
+# Set up application to run
+COPY docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
+RUN chmod +x /usr/bin/docker-entrypoint.sh
+
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Execute entry point
+CMD /usr/bin/docker-entrypoint.sh

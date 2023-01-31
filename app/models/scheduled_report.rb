@@ -36,6 +36,8 @@ class ScheduledReport < ApplicationRecord
     params[:id] = canned_report_id
     params[:name] = name
     params[:email] = email
+    params[:url_id] = id
+    params[:type] = 'scheduled'
 
     CannedReportMailer.email(params: params).deliver_now
 

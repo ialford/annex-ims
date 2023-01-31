@@ -12,7 +12,6 @@ class CannedReportsController < ApplicationController
   # GET /reports/1
   # GET /reports/1.json
   def show
-    @report.load
     @results = nil
     @params = report_params || []
     @sql = ''
@@ -50,7 +49,11 @@ class CannedReportsController < ApplicationController
     @results = output[:results]
     @sql = output[:sql]
 
-    CannedReportMailer.email(params: report_params).deliver_now
+    email_params = report_params.to_h
+    email_params[:type] = 'canned'
+    email_params[:url_id] = @report.id
+
+    CannedReportMailer.email(params: email_params).deliver_now
 
     render 'show'
   end
@@ -59,8 +62,7 @@ class CannedReportsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_report
-    @report = CannedReport.new(params[:id])
-    @report.load
+    @report = CannedReport.find(params[:id])
   end
 
   def allowed_keys

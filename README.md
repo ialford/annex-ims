@@ -25,6 +25,8 @@ $ bundle install
 $ bundle exec rake db:create db:migrate db:seed
 ```
 
+You should also add your local computer's name to /etc/hosts in order to check email links
+
 Start thin; This will fire up the application. Solr, sneakers and Postgres should also be running. The second line below is only necessary on certain Mac operating systems.
 
 ```console

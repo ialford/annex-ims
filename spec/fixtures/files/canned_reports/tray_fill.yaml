@@ -44,4 +44,4 @@ parameters:
   step: 1
   sql:
     - key: TRAY_FILL
-      value: HAVING SUM(thickness)/tt.capacity::decimal * 100 < VALUE
+      value: HAVING SUM(thickness)/tt.capacity::decimal * 100 < PARAMS

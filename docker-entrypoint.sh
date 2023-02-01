@@ -57,10 +57,11 @@ chown -R app:app $APP_DIR
 
 echo "Check the RUN_SCHEDULED_TASKS to see if we need to run them"
 if [[ $RUN_TASKS = "1" ]]; then
-    echo "Check the time and run the appropriate Notify job"
-    if [[ $(date -d "now + 0 minutes" +'%H') = "05" ]]; then
+    echo "Run the appropriate Notify job once at midnight (UTC) time"
+    if [[ $(date -d "now + 30 minutes" +'%H') = "05" ]]; then
         echo "Run the rails runner NotifyReserveRequestor job"
         RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake annex:run_scheduled_reports
+        echo "Rake Notify job completed"
     else
         echo "Run the rake sneakers:ensure_running job"
         RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running

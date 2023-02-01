@@ -24,6 +24,7 @@ services:
       SOLR_HOST: ${SOLR_HOST}
       SOLR_PORT: ${SOLR_PORT}
       OAUTHTOKEN: ${OAUTHTOKEN}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
   solr:
     build:
       context: .
@@ -50,5 +51,6 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: "annex-ims"
       RABBITMQ_DEFAULT_VHOST: "annex-ims"
+
 
 

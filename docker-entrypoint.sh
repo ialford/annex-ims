@@ -56,7 +56,7 @@ echo "Fix permissions on $APP_DIR folder"
 chown -R app:app $APP_DIR
 
 echo "Need to wait for $RABBITMQ_HOST before running sneakers"
-#if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:5672 -t 120; then exit 1; fi
+if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:5672 -t 120; then exit 1; fi
 
 echo "Run the rake sneakers:ensure_running job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running

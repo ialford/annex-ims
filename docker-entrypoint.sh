@@ -49,8 +49,8 @@ sed -i 's/{{ solr_host }}/'"$SOLR_HOST"'/g' "$APP_DIR/config/sunspot.yml"
 echo "Modify webapp config file for PASSENGER_APP_ENV setting"
 sed -i 's/{{ passenger_app_env }}/'"$PASSENGER_APP_ENV"'/g' "/etc/nginx/sites-enabled/webapp.conf"
 
-# echo "Run the assests precompile rake job"
-# RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
+echo "Run the assests precompile rake job"
+RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
 
 echo "Fix permissions on $APP_DIR folder"
 chown -R app:app $APP_DIR

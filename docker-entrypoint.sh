@@ -49,6 +49,9 @@ sed -i 's/{{ solr_host }}/'"$SOLR_HOST"'/g' "$APP_DIR/config/sunspot.yml"
 echo "Modify webapp config file for PASSENGER_APP_ENV setting"
 sed -i 's/{{ passenger_app_env }}/'"$PASSENGER_APP_ENV"'/g' "/etc/nginx/sites-enabled/webapp.conf"
 
+echo "Run the rake sneakers:ensure_running job"
+RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running
+
 echo "Run the assests precompile rake job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
 
@@ -63,8 +66,6 @@ if [[ $RUN_TASKS = "1" ]]; then
         RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake annex:run_scheduled_reports
         echo "Rake Notify job completed"
     else
-        echo "Run the rake sneakers:ensure_running job"
-        RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running
         echo "Run the rake annex:get_active_requests job"
         RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake annex:get_active_requests
         echo "Rake jobs completed"

@@ -61,6 +61,9 @@ if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:5672 -t 120; then exit 1; fi
 echo "Run the rake sneakers:ensure_running job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running
 
+echo "Run the rake sneakers:ensure_running job"
+exec cron >>/var/log/cron.log 2>&1 &
+
 echo "Check the RUN_SCHEDULED_TASKS to see if we need to run them"
 if [[ $RUN_TASKS = "1" ]]; then
     echo "Run the appropriate Notify job once at midnight"

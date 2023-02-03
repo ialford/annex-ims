@@ -58,6 +58,9 @@ chown -R app:app $APP_DIR
 echo "Need to wait for $RABBITMQ_HOST before running sneakers"
 if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:5672 -t 120; then exit 1; fi
 
+echo "Need to wait for $SOLR_HOST before running sneakers"
+if ! "$APP_DIR/wait-for-it.sh" $SOLR_HOST:8983 -t 120; then exit 1; fi
+
 echo "Run the rake sneakers:ensure_running job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running
 

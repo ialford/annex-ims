@@ -3,7 +3,6 @@ FROM solr:8.1-slim
 ENV APP_SOLR_DIR /var/solr/data/annex-ims
 USER root
 
-RUN sleep 30
 RUN mkdir -p $APP_SOLR_DIR/conf
 
 # Copy files needed for solr

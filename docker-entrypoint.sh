@@ -55,6 +55,9 @@ RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
 echo "Fix permissions on $APP_DIR folder"
 chown -R app:app $APP_DIR
 
+echo "Fix permissions on Solr folder"
+chown -R 8983:8983 /efs/annex-ims/
+
 echo "Need to wait for $RABBITMQ_HOST before running sneakers"
 if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:5672 -t 120; then exit 1; fi
 

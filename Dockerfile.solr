@@ -2,13 +2,15 @@ FROM solr:8.1-slim
 
 ENV APP_SOLR_DIR /var/solr/data/annex-ims
 
+# Setup solr folders, files, and permissions
+USER root
 RUN mkdir -p $APP_SOLR_DIR/conf
 COPY core.properties $APP_SOLR_DIR/core.properties
 COPY solr_conf/* $APP_SOLR_DIR/conf/
 COPY solr_conf/solr.in.sh /etc/default/solr.in.sh
+RUN chown solr:solr -R $APP_SOLR_DIR
 
 # Remove lock file on EFS storage to prevent SOLR startup issues
-USER root
 RUN echo "rm -f $APP_SOLR_DIR/data/index/write.lock || true" > /docker-entrypoint-initdb.d/remove-lock-file.sh
 RUN chmod +x /docker-entrypoint-initdb.d/remove-lock-file.sh
 USER solr

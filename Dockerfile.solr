@@ -3,20 +3,16 @@ FROM solr:8.1-slim
 ENV APP_SOLR_DIR /var/solr/data/annex-ims
 USER root
 
-# Copy files to tmp so I can later copy to a script
-COPY core.properties /tmp
-COPY solr_conf/schema.xml /tmp
-COPY solr_conf/solrconfig.xml /tmp
+RUN sleep 30
+RUN mkdir -p $APP_SOLR_DIR/conf
 
+# Copy files needed for solr
+COPY core.properties $APP_SOLR_DIR/core.properties
+COPY solr_conf/schema.xml $APP_SOLR_DIR/conf
+COPY solr_conf/solrconfig.xml $APP_SOLR_DIR/conf
 COPY solr_conf/solr.in.sh /etc/default/solr.in.sh
 
-# Copy needed files to EFS storage
-RUN echo "echo copying solr files... || true" >> /docker-entrypoint-initdb.d/copy-files.sh
-RUN echo "mkdir -p $APP_SOLR_DIR/conf || true" >> /docker-entrypoint-initdb.d/copy-files.sh
-RUN echo "cp /tmp/core.properties $APP_SOLR_DIR/core.properties || true" >> /docker-entrypoint-initdb.d/copy-files.sh
-RUN echo "cp /tmp/schema.xml $APP_SOLR_DIR/conf || true" >> /docker-entrypoint-initdb.d/copy-files.sh
-RUN echo "cp /tmp/solrconfig.xml $APP_SOLR_DIR/conf || true" >> /docker-entrypoint-initdb.d/copy-files.sh
-RUN echo "chown solr:solr -R $APP_SOLR_DIR || true" >> /docker-entrypoint-initdb.d/copy-files.sh
+RUN chown solr:solr -R $APP_SOLR_DIR
 
 # Remove lock file on EFS storage to prevent SOLR startup issues
 RUN echo "rm -f $APP_SOLR_DIR/data/index/write.lock || true" >> /docker-entrypoint-initdb.d/remove-lock-file.sh

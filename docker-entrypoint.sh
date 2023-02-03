@@ -63,7 +63,7 @@ RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running
 
 echo "Add crontab job for sneakers"
 echo "*/10  8-17 * * * RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running" > /etc/cron.d/sneakers
-crontab -u root /etc/cron.d/sneakers
+crontab /etc/cron.d/sneakers
 
 echo "Check the RUN_SCHEDULED_TASKS to see if we need to run them"
 if [[ $RUN_TASKS = "1" ]]; then

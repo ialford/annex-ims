@@ -58,9 +58,6 @@ if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:5672 -t 60; then exit 1; fi
 echo "Need to wait for SOLR before running rake jobs"
 if ! "$APP_DIR/wait-for-it.sh" $SOLR_HOST:8983 -t 60; then exit 1; fi
 
-echo "Wait an additional 30 seconds before running assets"
-sleep 30
-
 echo "Run the assests precompile rake job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
 

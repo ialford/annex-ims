@@ -64,14 +64,10 @@ RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
 echo "Run the rake sneakers:ensure_running job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running
 
-echo "Add crontab job for sneakers"
-echo "*/10  8-17 * * * RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running" > /etc/cron.d/sneakers
-crontab /etc/cron.d/sneakers
-
 echo "Check the RUN_SCHEDULED_TASKS to see if we need to run them"
-if [[ $RUN_TASKS = "1" ]]; then
+if  [[$RUN_TASKS = "1"]]; then
     echo "Run the appropriate Notify job once at midnight"
-    if [[ $(date -d "now + 30 minutes" +'%H') = "00" ]]; then
+    if [[$(date -d "now + 30 minutes" +'%H') = "00"]]; then
         echo "Run the rails runner NotifyReserveRequestor job"
         RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake annex:run_scheduled_reports
         echo "Rake Notify job completed"
@@ -81,6 +77,9 @@ if [[ $RUN_TASKS = "1" ]]; then
         echo "Rake jobs completed"
     fi
 else
+    echo "Add crontab job for sneakers"
+    echo "*/10 8-17 * * * root RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running" > /etc/cron.d/sneakers
+    crontab /etc/cron.d/sneakers
     echo "Start Passenger Service as $PASSENGER_APP_ENV"
     exec /sbin/my_init
 fi

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 echo "Add github token so we can pull from private repos"
@@ -8,16 +8,7 @@ sudo -u app git config --global url."https://git:$OAUTHTOKEN@github.com/".instea
 
 echo "Change to $APP_DIR and run bundle install as app user"
 cd $APP_DIR
-# sudo -u app bundle update sassc
 sudo -u app bundle install
-
-echo "Create the mount folder for EFS and change permissions" 
-mkdir -p "/efs"
-chown app:app "/efs"
-chmod 775 "/efs"
-
-echo "Create symlink"
-ln -s /efs/reports $APP_DIR/reports
 
 echo "Create template files"
 cp "$APP_DIR/config/secrets.yml.example" "$APP_DIR/config/secrets.yml"
@@ -48,9 +39,6 @@ sed -i 's/{{ solr_host }}/'"$SOLR_HOST"'/g' "$APP_DIR/config/sunspot.yml"
 
 echo "Modify webapp config file for PASSENGER_APP_ENV setting"
 sed -i 's/{{ passenger_app_env }}/'"$PASSENGER_APP_ENV"'/g' "/etc/nginx/sites-enabled/webapp.conf"
-
-echo "Fix permissions on $APP_DIR folder"
-chown -R app:app $APP_DIR
 
 echo "Need to wait for RabbitMQ HOST before running rake jobs"
 if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:5672 -t 60; then exit 1; fi

@@ -31,7 +31,8 @@ WORKDIR $APP_DIR
 RUN mkdir -p "$APP_DIR/tmp/cache"
 RUN mkdir -p "$APP_DIR/tmp/pids"
 
-# Add the log directory
+# Add the reports and log directory
+RUN mkdir -p "$APP_DIR/reports"
 RUN mkdir -p "$APP_DIR/log"
 
 # Add the log directory

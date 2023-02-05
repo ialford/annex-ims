@@ -1,3 +1,4 @@
 FROM rabbitmq:3-management-alpine
 
-#RUN rm -f /var/lib/rabbitmq/rabbit@localhost.pid || true
+# Prevent startup errors by removing EFS lock file
+RUN rm -f /var/lib/rabbitmq/rabbit@localhost.pid || true

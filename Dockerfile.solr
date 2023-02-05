@@ -16,11 +16,13 @@ COPY solr_conf/solr.in.sh "/etc/default/solr.in.sh"
 # Copy needed files to EFS storage
 USER root
 RUN echo "echo copying solr files..." >> /docker-entrypoint-initdb.d/copy-files.sh
-RUN echo "echo mkdir -p $APP_SOLR_DIR" >> /docker-entrypoint-initdb.d/copy-files.sh
-RUN echo "echo mkdir -p $APP_SOLR_DIR/conf" >> /docker-entrypoint-initdb.d/copy-files.sh
+RUN echo "mkdir -p $APP_SOLR_DIR" >> /docker-entrypoint-initdb.d/copy-files.sh
+RUN echo "mkdir -p $APP_SOLR_DIR/conf" >> /docker-entrypoint-initdb.d/copy-files.sh
+RUN echo "ls -la $APP_SOLR_DIR" >> /docker-entrypoint-initdb.d/copy-files.sh
 RUN echo "cp /tmp/core.properties $APP_SOLR_DIR/core.properties" >> /docker-entrypoint-initdb.d/copy-files.sh
-RUN echo "cp /tmp/schema.xml $APP_SOLR_DIR/conf" >> /docker-entrypoint-initdb.d/copy-files.sh
-RUN echo "cp /tmp/solrconfig.xml $APP_SOLR_DIR/conf" >> /docker-entrypoint-initdb.d/copy-files.sh
+RUN echo "cp /tmp/schema.xml $APP_SOLR_DIR/conf/schema.xml" >> /docker-entrypoint-initdb.d/copy-files.sh
+RUN echo "cp /tmp/solrconfig.xml $APP_SOLR_DIR/conf/solrconfig.xml" >> /docker-entrypoint-initdb.d/copy-files.sh
+RUN echo "ls -la $APP_SOLR_DIR" >> /docker-entrypoint-initdb.d/copy-files.sh
 
 # Remove lock file on EFS storage to prevent SOLR startup issues
 RUN echo "rm -f $APP_SOLR_DIR/data/index/write.lock || true" >> /docker-entrypoint-initdb.d/remove-lock-file.sh

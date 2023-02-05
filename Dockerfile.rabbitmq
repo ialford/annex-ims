@@ -1,4 +1,8 @@
 FROM rabbitmq:3-management-alpine
 
-# Prevent startup errors by removing EFS lock file
-RUN rm -f /var/lib/rabbitmq/rabbit@localhost.pid || true
+# Remove lock file on EFS storage to prevent SOLR startup issues
+RUN echo "echo Remove pid file from EFS..." >> /etc/init.d/remove-lock-file.sh
+RUN echo "rm -f /var/lib/rabbitmq/rabbit@localhost.pid  || true" >> /etc/init.d/remove-lock-file.sh
+
+# Change permissions on scripts so they can run
+RUN chmod +x //etc/init.d/remove-lock-file.sh

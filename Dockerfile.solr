@@ -16,6 +16,8 @@ COPY solr_conf/solr.in.sh "/etc/default/solr.in.sh"
 # Copy needed files to EFS storage
 USER root
 RUN echo "echo copying solr files..." >> /docker-entrypoint-initdb.d/copy-files.sh
+RUN echo "echo mkdir -p $APP_SOLR_DIR" >> /docker-entrypoint-initdb.d/copy-files.sh
+RUN echo "echo mkdir -p $APP_SOLR_DIR/conf" >> /docker-entrypoint-initdb.d/copy-files.sh
 RUN echo "cp /tmp/core.properties $APP_SOLR_DIR/core.properties" >> /docker-entrypoint-initdb.d/copy-files.sh
 RUN echo "cp /tmp/schema.xml $APP_SOLR_DIR/conf" >> /docker-entrypoint-initdb.d/copy-files.sh
 RUN echo "cp /tmp/solrconfig.xml $APP_SOLR_DIR/conf" >> /docker-entrypoint-initdb.d/copy-files.sh

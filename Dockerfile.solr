@@ -3,11 +3,13 @@ FROM solr:8.1-slim
 ENV APP_SOLR_DIR /var/solr/data/annex-ims
 
 # Copy files needed for solr
-RUN mkdir -p $APP_SOLR_DIR/conf
-COPY core.properties $APP_SOLR_DIR/core.properties
-COPY solr_conf/schema.xml $APP_SOLR_DIR/conf
-COPY solr_conf/solrconfig.xml $APP_SOLR_DIR/conf
-COPY solr_conf/solr.in.sh /etc/default/solr.in.sh
+RUN mkdir -p "$APP_SOLR_DIR"
+RUN mkdir -p "$APP_SOLR_DIR/conf"
+
+COPY core.properties "$APP_SOLR_DIR/core.properties"
+COPY solr_conf/schema.xml "$APP_SOLR_DIR/conf"
+COPY solr_conf/solrconfig.xml "$APP_SOLR_DIR/conf"
+COPY solr_conf/solr.in.sh "/etc/default/solr.in.sh"
 
 # Prevent startup errors by removing EFS lock file
 RUN rm -f $APP_SOLR_DIR/data/index/write.lock || true

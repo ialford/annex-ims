@@ -40,6 +40,9 @@ sed -i 's/{{ solr_host }}/'"$SOLR_HOST"'/g' "$APP_DIR/config/sunspot.yml"
 echo "Modify webapp config file for PASSENGER_APP_ENV setting"
 sed -i 's/{{ passenger_app_env }}/'"$PASSENGER_APP_ENV"'/g' "/etc/nginx/sites-enabled/webapp.conf"
 
+echo "Fix permissions on $APP_DIR folder"
+chown -R app:app $APP_DIR
+
 echo "Need to wait for RabbitMQ HOST before running rake jobs"
 if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:5672 -t 60; then exit 1; fi
 

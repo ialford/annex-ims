@@ -9,6 +9,7 @@ sudo -u app git config --global url."https://git:$OAUTHTOKEN@github.com/".instea
 echo "Change to $APP_DIR and run bundle install as app user"
 cd $APP_DIR
 sudo -u app bundle install
+sudo -u app bundle update sassc
 
 echo "Create template files"
 cp "$APP_DIR/config/secrets.yml.example" "$APP_DIR/config/secrets.yml"

@@ -8,8 +8,8 @@ sudo -u app git config --global url."https://git:$OAUTHTOKEN@github.com/".instea
 
 echo "Change to $APP_DIR and run bundle install as app user"
 cd $APP_DIR
-#chown -R app:app /usr/local/rvm/gems/
-#chmod -R 775 /usr/local/rvm/gems/
+chown -R app:app /usr/local/rvm/gems/
+chmod -R 775 /usr/local/rvm/gems/
 sudo -u app bundle install
 
 echo "Create template files"
@@ -47,6 +47,9 @@ if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:5672 -t 60; then exit 1; fi
 
 echo "Need to wait for SOLR before running rake jobs"
 if ! "$APP_DIR/wait-for-it.sh" $SOLR_HOST:8983 -t 60; then exit 1; fi
+
+echo "Wait an additional 30 seconds"
+sleep 30
 
 echo "Run the assests precompile rake job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile

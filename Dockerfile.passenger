@@ -20,7 +20,6 @@ ADD Gemfile.lock /tmp/
 COPY vendor ./vendor
 RUN gem install bundler:1.17.3
 RUN bundle install
-RUN bundle update sassc
 
 # Add application files and change permissions to app user
 ADD . $APP_DIR

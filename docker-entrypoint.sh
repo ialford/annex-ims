@@ -6,12 +6,9 @@ sudo -u app git config --global url."https://api:$OAUTHTOKEN@github.com/".instea
 sudo -u app git config --global url."https://ssh:$OAUTHTOKEN@github.com/".insteadOf "ssh://git@github.com/"
 sudo -u app git config --global url."https://git:$OAUTHTOKEN@github.com/".insteadOf "git@github.com:"
 
-sudo -u app git config --global --add safe.directory /usr/local/rvm/gems/ruby-2.6.10/bundler/gems/hesburgh_infrastructure-eadb8d0a8c58
-
 echo "Change to $APP_DIR and run bundle install as app user"
 cd $APP_DIR
 sudo -u app bundle install
-sudo -u app bundle update sassc
 
 echo "Create template files"
 cp "$APP_DIR/config/secrets.yml.example" "$APP_DIR/config/secrets.yml"

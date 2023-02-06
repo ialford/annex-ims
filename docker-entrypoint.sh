@@ -8,6 +8,8 @@ sudo -u app git config --global url."https://git:$OAUTHTOKEN@github.com/".instea
 
 echo "Change to $APP_DIR and run bundle install as app user"
 cd $APP_DIR
+#chown -R app:app /usr/local/rvm/gems/
+#chmod -R 775 /usr/local/rvm/gems/
 sudo -u app bundle install
 
 echo "Create template files"

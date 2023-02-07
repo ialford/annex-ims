@@ -55,6 +55,9 @@ RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running
 echo "Run the assests precompile rake job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
 
+echo "Run database migrations"
+sudo -u app RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake db:migrate
+
 echo "Fix permissions on $APP_DIR folder"
 chown -R app:app $APP_DIR
 

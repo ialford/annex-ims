@@ -27,8 +27,4 @@ RSpec.describe WithdrawTray do
     expect(subject).to be(false)
   end
 
-  xit "registers the call with the transaction log" do
-    # expect(TransactionLog).to recieve(:call).with("dissociate", "itemid")
-    # subject
-  end
 end

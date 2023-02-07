@@ -82,7 +82,8 @@ gem 'whenever', require: false
 
 # For scheduling tasks
 gem 'ice_cube'
-gem 'recurring_select', '3.0.0', path: 'vendor/gems/recurring_select-3.0.0'
+# gem 'recurring_select', '3.0.0', path: 'vendor/gems/recurring_select-3.0.0'
+gem 'recurring_select', '3.0.1'
 
 group :deployment do
   # Use Capistrano for deployment
@@ -121,20 +122,18 @@ group :development, :test do
   # For cleaning up the test database
   gem 'database_cleaner', '~> 1.3'
 
-  # Feature testing
-  gem 'capybara', '~> 2.4'
-  gem 'capybara-webkit'
+  gem 'eventmachine', '1.2.2'
 
   # So staging etc can use stand alone Solr
   gem 'sunspot_solr' # , :git => "https://github.com/sunspot/sunspot.git"
 
   # For serving up ssl
-  gem 'thin'
+  gem 'thin', '~> 1.8.1'
 
   gem 'rails-erd'
 
   # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', '~> 0.4.0'
+  gem 'sdoc', '1.1.0'
 end
 
 group :test do

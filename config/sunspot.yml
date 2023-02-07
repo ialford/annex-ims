@@ -9,7 +9,7 @@ production:
 
 development:
   solr:
-    hostname: {{ solr_host }}
+    hostname: localhost
     port: 8983
     path: /solr/annex-ims
     log_level: WARNING

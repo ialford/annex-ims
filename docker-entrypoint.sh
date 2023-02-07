@@ -43,7 +43,7 @@ echo "Modify webapp config file for PASSENGER_APP_ENV setting"
 sed -i 's/{{ passenger_app_env }}/'"$PASSENGER_APP_ENV"'/g' "/etc/nginx/sites-enabled/webapp.conf"
 
 echo "Need to wait for RabbitMQ HOST before running rake jobs"
-if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:5672 -t 60; then exit 1; fi
+if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:15672 -t 60; then exit 1; fi
 
 echo "Need to wait for SOLR before running rake jobs"
 if ! "$APP_DIR/wait-for-it.sh" $SOLR_HOST:8983 -t 60; then exit 1; fi
@@ -77,6 +77,7 @@ then
 else
     echo "Add crontab job for sneakers"
     echo "*/10 8-17 * * * root RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running" > /etc/cron.d/sneakers
+    env >> /etc/environment
     crontab /etc/cron.d/sneakers
     echo "Start Passenger Service as $PASSENGER_APP_ENV"
     exec /sbin/my_init

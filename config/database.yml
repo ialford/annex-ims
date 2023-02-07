@@ -58,6 +58,7 @@ development:
 test:
   <<: *default
   database: annex-ims_test
+  user: test-user
 
 # Define staging
 staging:

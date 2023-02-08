@@ -40,9 +40,9 @@ class BuildReport
     UpdatedItemMetadata
   ].freeze
 
-  BASE_SELECT = ["Date_trunc('minute', a.created_at) AS \"activity\""].freeze
+  BASE_SELECT = [Arel.sql("Date_trunc('minute', a.created_at) AS \"activity\"")].freeze
   BASE_WHERE_CONDITIONS = ['a.action = :activity'].freeze
-  BASE_ORDERS = ["Date_trunc('minute', a.created_at)"].freeze
+  BASE_ORDERS = [Arel.sql("Date_trunc('minute', a.created_at)")].freeze
 
   def self.call(fields, start_date, end_date, preset_date_range, activity, request_status, item_status)
     new(fields, start_date, end_date, preset_date_range, activity, request_status, item_status).build!

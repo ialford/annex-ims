@@ -17,7 +17,6 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require "webmock/rspec"
-require "capybara/rspec"
 require "simplecov"
 require "coveralls"
 
@@ -77,10 +76,6 @@ RSpec.configure do |config|
       to_return(status: 200, body: "stubbed response", headers: {})
   end
 
-  # Use webkit for javascript testing
-  # Capybara.javascript_driver = :selenium
-  Capybara.javascript_driver = :webkit
-
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end
@@ -90,10 +85,6 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do |example|
-    # Feature specs that make use of Capybara's javascript driver can't easily be isolated
-    #  within a transaction, so we use the truncation strategy here.
-    #  See: https://github.com/DatabaseCleaner/database_cleaner/issues/273
-    #       https://mattbrictson.com/faster-capybara-specs
     DatabaseCleaner.strategy = if example.metadata[:js]
                                  :truncation
                                else

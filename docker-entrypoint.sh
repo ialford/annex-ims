@@ -8,8 +8,6 @@ sudo -u app git config --global url."https://git:$OAUTHTOKEN@github.com/".instea
 
 echo "Change to $APP_DIR and run bundle install as app user"
 cd $APP_DIR
-chown -R app:app /usr/local/rvm/gems/
-chmod -R 775 /usr/local/rvm/gems/
 sudo -u app bundle install
 
 echo "Create template files"
@@ -48,14 +46,16 @@ if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:15672 -t 60; then exit 1; fi
 echo "Need to wait for SOLR before running rake jobs"
 if ! "$APP_DIR/wait-for-it.sh" $SOLR_HOST:8983 -t 60; then exit 1; fi
 
+
 echo "Wait an additional 30 seconds"
 sleep 30
 
 echo "Run the assests precompile rake job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
 
-echo "Run the rake sneakers:ensure_running job"
-RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running
+echo "Run database migrations"
+RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake db:migrate
+
 
 echo "Fix permissions on $APP_DIR folder"
 chown -R app:app $APP_DIR
@@ -75,10 +75,6 @@ then
         echo "Rake jobs completed"
     fi
 else
-    echo "Add crontab job for sneakers"
-    echo "*/10 8-17 * * * root RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running" > /etc/cron.d/sneakers
-    env >> /etc/environment
-    crontab /etc/cron.d/sneakers
     echo "Start Passenger Service as $PASSENGER_APP_ENV"
     exec /sbin/my_init
 fi

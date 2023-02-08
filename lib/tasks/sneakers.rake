@@ -108,6 +108,7 @@ namespace :sneakers do
       worker_classes = [
         ApiWorker,
         ItemMetadataWorker,
+        HealthCheckWorker,
       ]
       worker_classes.each do |worker_class|
         SneakersRakeHelper::test_worker(worker_class)

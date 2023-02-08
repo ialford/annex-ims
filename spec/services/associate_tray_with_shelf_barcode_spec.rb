@@ -33,9 +33,4 @@ RSpec.describe AssociateTrayWithShelfBarcode do
     expect(subject).to be(false)
   end
 
-  # this is not implemented in the class..
-  xit "raises an error if the item is not a tray." do
-    # expect(IsTray).to recieve(:call).with(tray).and_return(false)
-    # expect { subject }.to raise_error
-  end
 end

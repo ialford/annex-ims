@@ -8,12 +8,12 @@ namespace :health do
 			f = File.new(Rails.root.join('tmp', 'sneakers-health-check.json'), "r")
 			date_time_json = f.read(dt_json.length)
 			if date_time_json.to_s == dt_json
-				exit 1
-			else
 				exit 0
+			else
+				exit 1
 			end
 		else
-			exit 0
+			exit 1
 		end
 	end
 end

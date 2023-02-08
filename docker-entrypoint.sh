@@ -8,7 +8,6 @@ sudo -u app git config --global url."https://git:$OAUTHTOKEN@github.com/".instea
 
 echo "Change to $APP_DIR and run bundle install as app user"
 cd $APP_DIR
-# sudo -u app bundle update sassc
 sudo -u app bundle install
 
 echo "Create template files"
@@ -47,11 +46,9 @@ if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:15672 -t 60; then exit 1; fi
 echo "Need to wait for SOLR before running rake jobs"
 if ! "$APP_DIR/wait-for-it.sh" $SOLR_HOST:8983 -t 60; then exit 1; fi
 
-echo "Wait an additional 30 seconds.  Needed for AWS containers"
-sleep 30
 
-echo "Run the rake sneakers:ensure_running job"
-RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running
+echo "Wait an additional 30 seconds"
+sleep 30
 
 echo "Run the assests precompile rake job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
@@ -59,13 +56,16 @@ RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
 echo "Run database migrations"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake db:migrate
 
+
 echo "Fix permissions on $APP_DIR folder"
 chown -R app:app $APP_DIR
 
 echo "Check the RUN_SCHEDULED_TASKS to see if we need to run them"
-if [[ $RUN_TASKS = "1" ]]; then
+if  [[ $RUN_TASKS -eq "1" ]]
+then
     echo "Run the appropriate Notify job once at midnight"
-    if [[ $(date -d "now + 30 minutes" +'%H') = "00" ]]; then
+    if [[ $(date -d "now + 30 minutes" +'%H') -eq "00" ]]
+    then
         echo "Run the rails runner NotifyReserveRequestor job"
         RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake annex:run_scheduled_reports
         echo "Rake Notify job completed"

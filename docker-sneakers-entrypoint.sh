@@ -37,9 +37,6 @@ sed -i 's/{{ rabbitmq_host }}/'"$RABBITMQ_HOST"'/g' "$APP_DIR/config/secrets.yml
 echo "Modify sunspot file for solr"
 sed -i 's/{{ solr_host }}/'"$SOLR_HOST"'/g' "$APP_DIR/config/sunspot.yml"
 
-echo "Modify webapp config file for PASSENGER_APP_ENV setting"
-sed -i 's/{{ passenger_app_env }}/'"$PASSENGER_APP_ENV"'/g' "/etc/nginx/sites-enabled/webapp.conf"
-
 echo "Need to wait for RabbitMQ HOST before running rake jobs"
 if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:15672 -t 60; then exit 1; fi
 
@@ -52,27 +49,8 @@ sleep 30
 echo "Run the assests precompile rake job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
 
-echo "Run database migrations"
-RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake db:migrate
-
 echo "Fix permissions on $APP_DIR folder"
 chown -R app:app $APP_DIR
 
-echo "Check the RUN_SCHEDULED_TASKS to see if we need to run them"
-if  [[ $RUN_TASKS -eq "1" ]]
-then
-    echo "Run the appropriate Notify job once at midnight"
-    if [[ $(date -d "now + 30 minutes" +'%H') -eq "00" ]]
-    then
-        echo "Run the rails runner NotifyReserveRequestor job"
-        RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake annex:run_scheduled_reports
-        echo "Rake Notify job completed"
-    else
-        echo "Run the rake annex:get_active_requests job"
-        RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake annex:get_active_requests
-        echo "Rake jobs completed"
-    fi
-else
-    echo "Start Passenger Service as $PASSENGER_APP_ENV"
-    exec /sbin/my_init
-fi
+echo "Start sneakers"
+exec bundle exec rake sneakers:run

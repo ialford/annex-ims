@@ -11,14 +11,6 @@ cd $APP_DIR
 # sudo -u app bundle update sassc
 sudo -u app bundle install
 
-echo "Create the mount folder for EFS and change permissions" 
-mkdir -p "/efs"
-chown app:app "/efs"
-chmod 775 "/efs"
-
-echo "Create symlink"
-ln -s /efs/reports $APP_DIR/reports
-
 echo "Create template files"
 cp "$APP_DIR/config/secrets.yml.example" "$APP_DIR/config/secrets.yml"
 cp "$APP_DIR/config/database.yml.example" "$APP_DIR/config/database.yml"
@@ -49,6 +41,15 @@ sed -i 's/{{ solr_host }}/'"$SOLR_HOST"'/g' "$APP_DIR/config/sunspot.yml"
 echo "Modify webapp config file for PASSENGER_APP_ENV setting"
 sed -i 's/{{ passenger_app_env }}/'"$PASSENGER_APP_ENV"'/g' "/etc/nginx/sites-enabled/webapp.conf"
 
+echo "Need to wait for RabbitMQ HOST before running rake jobs"
+if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:15672 -t 60; then exit 1; fi
+
+echo "Need to wait for SOLR before running rake jobs"
+if ! "$APP_DIR/wait-for-it.sh" $SOLR_HOST:8983 -t 60; then exit 1; fi
+
+echo "Wait an additional 30 seconds.  Needed for AWS containers"
+sleep 30
+
 echo "Run the rake sneakers:ensure_running job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sneakers:ensure_running
 
@@ -56,7 +57,7 @@ echo "Run the assests precompile rake job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
 
 echo "Run database migrations"
-sudo -u app RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake db:migrate
+RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake db:migrate
 
 echo "Fix permissions on $APP_DIR folder"
 chown -R app:app $APP_DIR

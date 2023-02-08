@@ -23,6 +23,7 @@ services:
       ILLIAD_PASSWORD: ${ILLIAD_PASSWORD}
       SOLR_HOST: ${SOLR_HOST}
       SOLR_PORT: ${SOLR_PORT}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
       OAUTHTOKEN: ${OAUTHTOKEN}
   solr:
     build:

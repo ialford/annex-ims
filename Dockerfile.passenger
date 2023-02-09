@@ -35,6 +35,10 @@ RUN mkdir -p "$APP_DIR/tmp/pids"
 RUN mkdir -p "$APP_DIR/reports"
 RUN mkdir -p "$APP_DIR/log"
 
+# Add reports repo and copy to reports directory
+RUN git clone https://github.com/ndlib/ims-reports.git
+RUN cp ims-reports/annex-ims/* reports
+
 # Add the log directory
 RUN mkfifo /var/spool/postfix/public/pickup
 

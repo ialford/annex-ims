@@ -1,7 +1,7 @@
 FROM phusion/passenger-full:2.3.1
 
 # Update and install sudo, shared-mime-info to prevent mimemagic errors, postfix to prevent MTA errors
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y yarn gcc snapd nano dnsutils slapd ldap-utils sudo postfix shared-mime-info libcurl4-openssl-dev qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y sudo postfix shared-mime-info libcurl4-openssl-dev qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
 
 # Run this to install ruby version in phusion/passenger-full version
 RUN bash -lc 'rvm --default use ruby-2.7.6'

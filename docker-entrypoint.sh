@@ -55,7 +55,7 @@ RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
 echo "Fix permissions on $APP_DIR folder"
 chown -R app:app $APP_DIR
 
-if  [ "$RUN_TASK" -eq 1 ] 
+if  [ $RUN_TASK -eq 1 ] 
 then
     echo "Run database migrations"
     RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake db:migrate
@@ -63,13 +63,13 @@ then
     exec /sbin/my_init
 fi
 
-if  [ "$RUN_TASK" -eq 2 ]
+if  [ $RUN_TASK -eq 2 ]
 then
     echo "Start sneakers"
     exec bundle exec rake sneakers:run
 fi
 
-if  [ "$RUN_TASK" -eq 3 ]
+if  [ $RUN_TASK -eq 3 ]
 then
     echo "Run the appropriate Notify job once at midnight"
     if [ $(date -d "now + 30 minutes" +'%H') -eq "00" ]

@@ -25,10 +25,11 @@ services:
       SOLR_PORT: ${SOLR_PORT}
       RABBITMQ_HOST: ${RABBITMQ_HOST}
       OAUTHTOKEN: ${OAUTHTOKEN}
+      RUN_TASK: "PASSENGER"
   sneaker:
     build:
       context: .
-      dockerfile: Dockerfile.sneakers
+      dockerfile: Dockerfile.passenger
     environment:
       DB_PASSWORD: ${DB_PASSWORD}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -46,6 +47,7 @@ services:
       SOLR_PORT: ${SOLR_PORT}
       RABBITMQ_HOST: ${RABBITMQ_HOST}
       OAUTHTOKEN: ${OAUTHTOKEN}
+      RUN_TASK: "SNEAKERS"
   solr:
     build:
       context: .

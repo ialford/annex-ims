@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/sh
 set -e
 
 echo "Add github token so we can pull from private repos"
@@ -52,17 +52,27 @@ sleep 30
 echo "Run the assests precompile rake job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
 
-echo "Run database migrations"
-RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake db:migrate
-
 echo "Fix permissions on $APP_DIR folder"
 chown -R app:app $APP_DIR
 
-echo "Check the RUN_SCHEDULED_TASKS to see if we need to run them"
-if  [[ $RUN_TASKS -eq "1" ]]
+if  [ "$RUN_TASK" -eq "PASSENGER" ] 
+then
+    echo "Run database migrations"
+    RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake db:migrate
+    echo "Start Passenger Service as $PASSENGER_APP_ENV"
+    exec /sbin/my_init
+fi
+
+if  [ "$RUN_TASK" -eq "SNEAKERS" ]
+then
+    echo "Start sneakers"
+    exec bundle exec rake sneakers:run
+fi
+
+if  [ "$RUN_TASK" -eq "RAKEJOBS" ]
 then
     echo "Run the appropriate Notify job once at midnight"
-    if [[ $(date -d "now + 30 minutes" +'%H') -eq "00" ]]
+    if [ $(date -d "now + 30 minutes" +'%H') -eq "00" ]
     then
         echo "Run the rails runner NotifyReserveRequestor job"
         RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake annex:run_scheduled_reports
@@ -72,7 +82,4 @@ then
         RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake annex:get_active_requests
         echo "Rake jobs completed"
     fi
-else
-    echo "Start Passenger Service as $PASSENGER_APP_ENV"
-    exec /sbin/my_init
 fi

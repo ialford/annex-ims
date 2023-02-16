@@ -66,7 +66,7 @@ fi
 if  [ $RUN_TASK -eq 2 ]
 then
     echo "Start sneakers"
-    exec bundle exec rake sneakers:run
+    RAILS_ENV=$PASSENGER_APP_ENV exec bundle exec rake sneakers:run
 fi
 
 if  [ $RUN_TASK -eq 3 ]

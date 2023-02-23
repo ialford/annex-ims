@@ -1,10 +1,18 @@
+def next?
+  File.basename(__FILE__) == "Gemfile.next"
+end
+
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
 
 group :application do
-  # Bundle edge Rails instead: gem "rails", github: "rails/rails"
-  gem 'rails', '~> 5.2.4'
+  if next?
+    gem 'rails', '~> 5.2.8'
+  else
+    gem 'rails', '~> 6.0.6'
+  end
+
   # Use postgresql as the database for Active Record
   gem 'pg', '~> 1.2.3'
   # Use SCSS for stylesheets
@@ -22,25 +30,18 @@ group :application do
   gem 'turbolinks'
   # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
   gem 'jbuilder', '~> 2.0'
+  gem 'bootsnap'
 
-  # Use Haml for markup because I like it.
+  gem 'next_rails'
+
+  # UI
   gem 'haml-rails'
-
-  # Use Bootstrap because I"m not a designer
   gem 'autoprefixer-rails'
   gem 'bootstrap-sass', '~> 3.4.1'
-
-  # for a progress bar
-  gem 'bootstrap_progressbar'
-
-  # Someone already Rails-ified a nice datepicker for Bootstrap
-  gem 'bootstrap-datepicker-rails'
-
-  # Someone else Rails-ified Datatables
+  gem 'bootstrap_progressbar' # for a progress bar
+  gem 'bootstrap-datepicker-rails' # nice datepicker for Bootstrap
   gem 'jquery-datatables-rails', '~> 3.4.0'
-
-  # Multiselect for Rails asset pipeline
-  gem 'multi-select-rails'
+  gem 'multi-select-rails' # Multiselect for Rails asset pipeline
 
   # Devise for authentication, CAS for use in ND
   gem 'devise'
@@ -66,15 +67,10 @@ group :application do
   # Security updates
   gem 'ffi', '>= 1.9.24'
   gem 'loofah', '~> 2.3.1'
-
-  # Added during ruby 2.4 upgrade
   gem 'bigdecimal'
 
   # Sentry.io integration
   gem 'sentry-raven'
-
-  # Added with Rails 5.2 upgrade
-  gem 'bootsnap'
 end
 
 # For cron tasks
@@ -82,7 +78,6 @@ gem 'whenever', require: false
 
 # For scheduling tasks
 gem 'ice_cube'
-# gem 'recurring_select', '3.0.0', path: 'vendor/gems/recurring_select-3.0.0'
 gem 'recurring_select', '3.0.1'
 
 group :deployment do

@@ -42,6 +42,7 @@
 
 - [ ] replace sentry-raven with `sentry-ruby` [Migration Guide](https://docs.sentry.io/platforms/ruby/migration/)
 - [ ] `ice_cube` check out unreleased updates
+- [ ] `recurring_select` is installed twice (vendor/gems)
 
 - Rails 7
   - [ ] `bootstrap_progressbar` will not need with Bootstrap5

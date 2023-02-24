@@ -15,6 +15,15 @@ namespace :sample do
 		if (u.nil?)
 			u = User.new
 			u.username = 'wsill'
+			u.admin = false
+			u.worker = true
+			u.save!
+		end
+		puts 'Create csmit223'
+		u = User.where(username: 'csmit223').first
+		if (u.nil?)
+			u = User.new
+			u.username = 'csmit223'
 			u.admin = true
 			u.worker = false
 			u.save!

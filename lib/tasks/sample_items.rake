@@ -109,15 +109,15 @@ namespace :sample do
 			i.barcode = '498140984528174'
 			i.title = 'Foundation'
 			i.author = 'Mark Twain'
-			i.thickness = 2
-			i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-2').first.id
-			i.created_at = DateTime.now
-			i.updated_at = DateTime.now
-			i.bib_number = '004708997'
-			i.isbn_issn = '9780826273987'
-			i.initial_ingest = DateTime.now
-			i.disposition_id = Disposition.where(code: 'WRECKED').first.id
-			i.save!
+      i.thickness = 2
+      i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-2').first.id
+      i.created_at = DateTime.now
+      i.updated_at = DateTime.now
+      i.bib_number = '004708997'
+      i.isbn_issn = '9780826273987'
+      i.initial_ingest = DateTime.now
+      i.disposition_id = Disposition.where(code: 'WRECKED').first.id
+      i.save!
 		end
 		puts 'Create 0128374653527475632'
 		i = Item.where(barcode: '0128374653527475632').first

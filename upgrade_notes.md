@@ -4,22 +4,33 @@
 
 ### Pre-upgrade
 
-- [ ]  Finish deprecation messages before upgrade
-- [ ]  Passing tests
+- [ ] Remove `vendor/gems`
+- [ ] Finish relevant deprecation messages before upgrade
+- [ ] Upgrade RSPEC v. 5.0.0
+- [ ] Abstract `FactoryBot.create` calls
+- [ ] Passing tests
 
 ### Upgrade
 
-- [ ]  Run `bundle_report compatibility --rails-version=6.0.6` for incompatible gems
-- [ ]  Setup `next --init`, add conditional for rails upgrade, and upgrade bundle: `next bundle update`
+- [x]  Run `bundle_report compatibility --rails-version=6.0.6` for incompatible gems
+- [x]  Setup `next --init`, add conditional for rails upgrade, and upgrade bundle: `next bundle update`
 
 **Rails Required Updates**
 
-- [X]  Update Rails required per diff: [RailsDiffs](https://railsdiff.org/5.2.8/6.0.6)
-- [X]  File diffs and `rails app:update`
-- [X]  Passing Tests
+- [ ]  Update Rails required per diff: [RailsDiffs](https://railsdiff.org/5.2.8/6.0.6)
+- [ ]  File diffs and `rails app:update`
+- [ ]  Passing Tests
 
 ### Deprecations
 **Rails**
+
+- `app/assets/stylesheets/application.css`
+  - [ ] autoprefixer: `app/assets/stylesheets/application.css.scss:1194:3`: Gradient has outdated direction syntax. New syntax is like `to left` instead of `right`
+  - [ ] autoprefixer: `app/assets/stylesheets/application.css.scss:1233:3`: Gradient has outdated direction syntax. New syntax is like `to left` instead of `right`
+  - [ ] autoprefixer: `app/assets/stylesheets/application.css.scss:1251:3`: Gradient has outdated direction syntax. New syntax is like `to left` instead of `right`
+  - [ ] autoprefixer: `app/assets/stylesheets/application.css.scss:1281:3`: Gradient has outdated direction syntax. New syntax is like `to left` instead of `right`
+  - [ ] autoprefixer: `app/assets/stylesheets/application.css.scss:1465:3`: Gradient has outdated direction syntax. New syntax is like `to left` instead of `right`
+
 
 **RSpec**
 
@@ -28,7 +39,6 @@
 ## Gem notes
 
 - RSpec
-  - [ ]  v. 4.1.0    Rails 5, 5.1
   - [ ]  v. 5.0.0    Rails 5.2, 6.0
   - [ ]  v. 6.0.0    Rails 6.1, 7
   

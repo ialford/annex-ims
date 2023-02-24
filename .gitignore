@@ -56,3 +56,5 @@ bower.json
 
 # For the canned reports
 /reports
+rspec.txt
+spec/support/deprecation_warning.shitlist.json

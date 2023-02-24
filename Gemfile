@@ -68,6 +68,7 @@ group :application do
   gem 'ffi', '>= 1.9.24'
   gem 'loofah', '~> 2.3.1'
   gem 'bigdecimal'
+  gem 'net-http'
 
   # Sentry.io integration
   gem 'sentry-raven'

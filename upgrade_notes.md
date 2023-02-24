@@ -4,10 +4,10 @@
 
 ### Pre-upgrade
 
-- [ ] Remove `vendor/gems`
+- [x] Remove `vendor/gems`
 - [ ] Finish relevant deprecation messages before upgrade
 - [x] Clean up bundle 
-- [ ] Upgrade RSPEC v. 5.0.0
+- [x] Upgrade RSPEC v. 5.0.0
 - [ ] Abstract `FactoryBot.create` calls
 - [ ] Passing tests
 

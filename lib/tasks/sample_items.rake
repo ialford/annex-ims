@@ -102,13 +102,13 @@ namespace :sample do
 			i.disposition_id = Disposition.where(code: 'GREAT').first.id
 			i.save!
 		end
-		puts 'Create 498140984528174'
-		i = Item.where(barcode: '498140984528174').first
-		if (i.nil?)
-			i = Item.new
-			i.barcode = '498140984528174'
-			i.title = 'Foundation'
-			i.author = 'Mark Twain'
+    puts 'Create 498140984528174'
+    i = Item.where(barcode: '498140984528174').first
+    if (i.nil?)
+      i = Item.new
+      i.barcode = '498140984528174'
+      i.title = 'Foundation'
+      i.author = 'Mark Twain'
       i.thickness = 2
       i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-2').first.id
       i.created_at = DateTime.now

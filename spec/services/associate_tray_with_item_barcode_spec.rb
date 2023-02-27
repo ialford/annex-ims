@@ -4,12 +4,12 @@ RSpec.describe AssociateTrayWithItemBarcode do
   subject { AssociateTrayWithItemBarcode.call(@user.id, @tray, @item.barcode, @item.thickness) }
 
   before(:each) do
-    @tray = FactoryBot.create(:tray)
-    @shelf = FactoryBot.create(:shelf)
-    @tray2 = FactoryBot.create(:tray)
-    @item = FactoryBot.create(:item, tray: @tray)
-    @item2 = FactoryBot.create(:item)
-    @user = FactoryBot.create(:user)
+    @tray = create(:tray)
+    @shelf = create(:shelf)
+    @tray2 = create(:tray)
+    @item = create(:item, tray: @tray)
+    @item2 = create(:item)
+    @user = create(:user)
 
     @item_uri = api_item_url(@item)
 

@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe ReportingController, type: :controller do
-  let(:user) { FactoryBot.create(:user, admin: true) }
-  let(:item) { FactoryBot.create(:item) }
-  let(:tray) { FactoryBot.create(:tray) }
-  let(:shelf) { FactoryBot.create(:shelf) }
-  let(:bin) { FactoryBot.create(:bin) }
+  let(:user) { create(:user, admin: true) }
+  let(:item) { create(:item) }
+  let(:tray) { create(:tray) }
+  let(:shelf) { create(:shelf) }
+  let(:bin) { create(:bin) }
 
   before(:each) do
     sign_in(user)

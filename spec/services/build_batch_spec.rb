@@ -2,17 +2,17 @@ require "rails_helper"
 
 RSpec.describe BuildBatch, search: true do
   before(:all) do
-    FactoryBot.create(:tray_type, code: "AH")
-    FactoryBot.create(:tray_type, code: "BL")
+    create(:tray_type, code: "AH")
+    create(:tray_type, code: "BL")
   end
 
   describe "when signed in" do
-    let(:shelf) { FactoryBot.create(:shelf) }
-    let(:tray) { FactoryBot.create(:tray, barcode: "TRAY-AH12346", shelf: shelf) }
-    let(:tray2) { FactoryBot.create(:tray, barcode: "TRAY-BL6788", shelf: shelf) }
+    let(:shelf) { create(:shelf) }
+    let(:tray) { create(:tray, barcode: "TRAY-AH12346", shelf: shelf) }
+    let(:tray2) { create(:tray, barcode: "TRAY-BL6788", shelf: shelf) }
 
     let(:item) do
-      FactoryBot.create(:item,
+      create(:item,
                         author: "JOHN DOE",
                         title: "SOME TITLE",
                         chron: "TEST CHRN",
@@ -28,7 +28,7 @@ RSpec.describe BuildBatch, search: true do
     end
 
     let(:item2) do
-      FactoryBot.create(:item,
+      create(:item,
                         author: "BUBBA SMITH",
                         title: "SOME OTHER TITLE",
                         chron: "TEST CHRN 2",
@@ -44,20 +44,20 @@ RSpec.describe BuildBatch, search: true do
     end
 
     let(:request1) do
-      FactoryBot.create(:request,
+      create(:request,
                         criteria_type: "barcode",
                         criteria: item.barcode,
                         requested: 3.days.ago.strftime("%Y-%m-%d"))
     end
 
     let(:request2) do
-      FactoryBot.create(:request,
+      create(:request,
                         criteria_type: "barcode",
                         criteria: item2.barcode,
                         requested: 1.day.ago.strftime("%Y-%m-%d"))
     end
 
-    let(:current_user) { FactoryBot.create(:user) }
+    let(:current_user) { create(:user) }
 
     before(:each) do
       save_all

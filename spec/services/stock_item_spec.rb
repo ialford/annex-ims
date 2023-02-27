@@ -1,11 +1,11 @@
 require "rails_helper"
 
 RSpec.describe StockItem do
-  let(:item) { FactoryBot.create(:item, status: 9, disposition: disposition, tray: tray, thickness: 1) }
-  let(:tray) { FactoryBot.create(:tray) }
-  let(:shelf) { FactoryBot.create(:shelf) }
-  let(:user) { FactoryBot.create(:user) }
-  let(:disposition) { FactoryBot.create(:disposition) }
+  let(:item) { create(:item, status: 9, disposition: disposition, tray: tray, thickness: 1) }
+  let(:tray) { create(:tray) }
+  let(:shelf) { create(:shelf) }
+  let(:user) { create(:user) }
+  let(:disposition) { create(:disposition) }
   subject { described_class.call(item, user) }
 
   it "sets stocked" do

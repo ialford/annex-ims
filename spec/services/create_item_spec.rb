@@ -3,9 +3,9 @@ require "rails_helper"
 describe "CreateItem" do
   let(:thickness) { "11" }
   let(:barcode) { "12345678904444" }
-  let(:tray) { FactoryBot.create(:tray) }
-  let(:user) { FactoryBot.create(:user) }
-  let(:item) { FactoryBot.create(:item, barcode: barcode) }
+  let(:tray) { create(:tray) }
+  let(:user) { create(:user) }
+  let(:item) { create(:item, barcode: barcode) }
   subject { CreateItem.call(tray, item.barcode, user.id, thickness, nil) }
 
   describe "#create!" do

@@ -1,20 +1,20 @@
 require "rails_helper"
 
 RSpec.describe DissociateItemFromBin do
-  let(:shelf) { FactoryBot.create(:shelf) }
-  let(:tray) { FactoryBot.create(:tray, shelf: shelf) }
-  let(:item) { FactoryBot.create(:item, tray: tray, thickness: 1, bin: bin) }
-  let(:bin) { FactoryBot.create(:bin) }
-  let(:match) { FactoryBot.create(:match, item: item, bin: bin, request: request) }
-  let(:user) { FactoryBot.create(:user) }
-  let(:request) { FactoryBot.create(:request, del_type: "loan") }
+  let(:shelf) { create(:shelf) }
+  let(:tray) { create(:tray, shelf: shelf) }
+  let(:item) { create(:item, tray: tray, thickness: 1, bin: bin) }
+  let(:bin) { create(:bin) }
+  let(:match) { create(:match, item: item, bin: bin, request: request) }
+  let(:user) { create(:user) }
+  let(:request) { create(:request, del_type: "loan") }
 
   subject { described_class.call(item: item, user: user) }
 
   context "when there are remaining matches for the associated item" do
     before(:each) do
-      request2 = FactoryBot.create(:request, del_type: "loan")
-      FactoryBot.create(:match, item: item, bin: bin, request: request2)
+      request2 = create(:request, del_type: "loan")
+      create(:match, item: item, bin: bin, request: request2)
     end
 
     it "doesn't dissociate the bin and item" do

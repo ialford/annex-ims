@@ -1,8 +1,8 @@
 require "rails_helper"
 
 describe "DestroyItem" do
-  let(:item) { FactoryBot.create(:item) }
-  let(:user) { FactoryBot.create(:user) }
+  let(:item) { create(:item) }
+  let(:user) { create(:user) }
   subject { DestroyItem.call(item, user) }
 
   describe "#destroy!" do

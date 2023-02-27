@@ -1,16 +1,16 @@
 require "rails_helper"
 
 describe "DestroyTransfer" do
-  let(:tray) { FactoryBot.create(:tray, barcode: "TRAY-AL123") }
-  let(:tray2) { FactoryBot.create(:tray, barcode: "TRAY-AL456") }
-  let(:tray3) { FactoryBot.create(:tray, barcode: "TRAY-AL789") }
-  let(:tray4) { FactoryBot.create(:tray, barcode: "TRAY-AL987") }
-  let(:shelf) { FactoryBot.create(:shelf, trays: [tray, tray3, tray4], barcode: "SHELF-AL123") }
-  let(:shelf2) { FactoryBot.create(:shelf, trays: [tray2], barcode: "SHELF-AL456") }
-  let(:shelf3) { FactoryBot.create(:shelf, trays: [], barcode: "SHELF-AL789") }
-  let(:transfer) { FactoryBot.create(:transfer, shelf: shelf, initiated_by: user) }
-  let(:transfer2) { FactoryBot.create(:transfer, shelf: shelf2, initiated_by: user) }
-  let(:user) { FactoryBot.create(:user) }
+  let(:tray) { create(:tray, barcode: "TRAY-AL123") }
+  let(:tray2) { create(:tray, barcode: "TRAY-AL456") }
+  let(:tray3) { create(:tray, barcode: "TRAY-AL789") }
+  let(:tray4) { create(:tray, barcode: "TRAY-AL987") }
+  let(:shelf) { create(:shelf, trays: [tray, tray3, tray4], barcode: "SHELF-AL123") }
+  let(:shelf2) { create(:shelf, trays: [tray2], barcode: "SHELF-AL456") }
+  let(:shelf3) { create(:shelf, trays: [], barcode: "SHELF-AL789") }
+  let(:transfer) { create(:transfer, shelf: shelf, initiated_by: user) }
+  let(:transfer2) { create(:transfer, shelf: shelf2, initiated_by: user) }
+  let(:user) { create(:user) }
   subject { DestroyTransfer.call(transfer, user) }
 
   describe "#destroy" do

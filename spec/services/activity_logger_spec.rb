@@ -1,17 +1,17 @@
 require "rails_helper"
 
 RSpec.describe ActivityLogger do
-  let(:item) { FactoryBot.create(:item) }
-  let(:bin) { FactoryBot.create(:bin) }
-  let(:tray) { FactoryBot.create(:tray) }
-  let(:shelf) { FactoryBot.create(:shelf) }
-  let(:user) { FactoryBot.create(:user) }
-  let(:issue) { FactoryBot.create(:issue) }
-  let(:tray_issue) { FactoryBot.create(:tray_issue) }
-  let(:request) { FactoryBot.create(:request) }
-  let(:transfer) { FactoryBot.create(:transfer) }
+  let(:item) { create(:item) }
+  let(:bin) { create(:bin) }
+  let(:tray) { create(:tray) }
+  let(:shelf) { create(:shelf) }
+  let(:user) { create(:user) }
+  let(:issue) { create(:issue) }
+  let(:tray_issue) { create(:tray_issue) }
+  let(:request) { create(:request) }
+  let(:transfer) { create(:transfer) }
   let(:api_response) { ApiResponse.new(status_code: 200, body: { status: "OK" }) }
-  let(:disposition) { FactoryBot.create(:disposition) }
+  let(:disposition) { create(:disposition) }
   let(:comment) { { comment: "A deaccessioning comment." } }
 
   shared_examples "an activity log" do |message|

@@ -1,23 +1,23 @@
 require "rails_helper"
 
 RSpec.describe ActivityLogQuery do
-  let!(:item_1) { FactoryBot.create(:item) }
-  let!(:item_2) { FactoryBot.create(:item) }
-  let!(:item_3) { FactoryBot.create(:item) }
-  let!(:tray_1) { FactoryBot.create(:tray) }
-  let!(:tray_2) { FactoryBot.create(:tray) }
-  let!(:tray_3) { FactoryBot.create(:tray) }
-  let!(:shelf_1) { FactoryBot.create(:shelf) }
-  let!(:shelf_2) { FactoryBot.create(:shelf) }
-  let!(:batch) { FactoryBot.create(:batch) }
-  let!(:request_1) { FactoryBot.create(:request, requested: 2.days.ago) }
-  let!(:request_2) { FactoryBot.create(:request, requested: 1.day.ago) }
-  let!(:request_3) { FactoryBot.create(:request) }
-  let!(:match_1) { FactoryBot.create(:match, batch: batch, request: request_1, item: item_1) }
-  let!(:match_2) { FactoryBot.create(:match, batch: batch, request: request_1, item: item_2) }
-  let!(:match_3) { FactoryBot.create(:match, batch: batch, request: request_1, item: item_3) }
-  let!(:match_4) { FactoryBot.create(:match, batch: batch, request: request_2, item: item_1) }
-  let!(:user) { FactoryBot.create(:user) }
+  let!(:item_1) { create(:item) }
+  let!(:item_2) { create(:item) }
+  let!(:item_3) { create(:item) }
+  let!(:tray_1) { create(:tray) }
+  let!(:tray_2) { create(:tray) }
+  let!(:tray_3) { create(:tray) }
+  let!(:shelf_1) { create(:shelf) }
+  let!(:shelf_2) { create(:shelf) }
+  let!(:batch) { create(:batch) }
+  let!(:request_1) { create(:request, requested: 2.days.ago) }
+  let!(:request_2) { create(:request, requested: 1.day.ago) }
+  let!(:request_3) { create(:request) }
+  let!(:match_1) { create(:match, batch: batch, request: request_1, item: item_1) }
+  let!(:match_2) { create(:match, batch: batch, request: request_1, item: item_2) }
+  let!(:match_3) { create(:match, batch: batch, request: request_1, item: item_3) }
+  let!(:match_4) { create(:match, batch: batch, request: request_2, item: item_1) }
+  let!(:user) { create(:user) }
   subject { ActivityLogQuery }
 
   context "item shipped" do

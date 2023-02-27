@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "Request" do
-  let(:request) { FactoryBot.create(:request) }
+  let(:request) { create(:request) }
 
   describe "#bin_type" do
     context "when source is aleph" do

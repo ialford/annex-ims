@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe ApiPostStockItem do
-  let(:tray) { FactoryBot.create(:tray) }
-  let(:item) { FactoryBot.create(:item, tray: tray) }
+  let(:tray) { create(:tray) }
+  let(:item) { create(:item, tray: tray) }
   let(:response) { ApiResponse.new(status_code: 200, body: { "status" => "OK", "message" => "Item stocked" }) }
 
   context "self" do

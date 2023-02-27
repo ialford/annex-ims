@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe ApiRemoveRequest do
   let(:user_id) { 1 }
-  let(:request) { FactoryBot.create(:request) }
+  let(:request) { create(:request) }
   let(:expected_params) { { source: request.source, transaction_num: request.trans } }
 
   describe "#call" do

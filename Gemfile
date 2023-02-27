@@ -8,7 +8,7 @@ source 'https://rubygems.org'
 
 group :application do
   if next?
-    gem 'rails', '~> 5.2.8'
+    gem 'rails', '~> 6.0.6'
   else
     gem 'rails', '~> 6.0.6'
   end
@@ -42,10 +42,12 @@ group :application do
 
   # logging
   gem 'sentry-raven'
+  # gem 'bundle-audit'
 
   # external service interaction
   gem 'faraday', '~> 1.10'
   gem 'faraday_middleware'
+  gem 'net-http'
 
   # For item search
   gem 'progress_bar'
@@ -58,7 +60,6 @@ group :application do
   gem 'bigdecimal'
   gem 'ffi', '>= 1.9.24'
   gem 'loofah', '~> 2.3.1'
-  gem 'net-http' # Ruby 2.7 temporary fix
   gem 'rake', '~> 13.0'
 
   # === Not using ===
@@ -89,6 +90,7 @@ group :development, :test do
   gem 'spring'
 
   # We test with Rspec
+  gem 'coveralls'
   gem 'database_cleaner', '~> 1.3' # For cleaning up the test database
   gem 'factory_bot_rails', '~> 4.8.2' # For mocking up objects
   gem 'rspec-rails', '~> 5.0.0'
@@ -117,6 +119,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'letter_opener'
   gem 'web-console', '~> 3.0'
+  # gem 'bullet'
 
   # ==== Remove after Rails 7 upgrade
   gem 'rails_layout' # Simple generators for layouts

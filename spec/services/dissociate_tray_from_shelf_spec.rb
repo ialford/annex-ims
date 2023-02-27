@@ -3,9 +3,9 @@ require "rails_helper"
 RSpec.describe DissociateTrayFromShelf do
   subject { described_class.call(tray, user) }
 
-  let(:user) { FactoryBot.create(:user) }
-  let(:shelf) { FactoryBot.create(:shelf) }
-  let(:tray) { FactoryBot.create(:tray, shelf: shelf) }
+  let(:user) { create(:user) }
+  let(:shelf) { create(:shelf) }
+  let(:tray) { create(:tray, shelf: shelf) }
 
   before(:each) do
     allow(IsObjectTray).to receive(:call).with(tray).and_return(true)

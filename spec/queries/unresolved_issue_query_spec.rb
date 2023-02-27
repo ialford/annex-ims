@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe UnresolvedIssueQuery do
   subject { described_class }
@@ -10,11 +10,11 @@ RSpec.describe UnresolvedIssueQuery do
   end
 
   it "will allow filtering by barcode" do
-    issue1 = FactoryBot.create(:issue)
-    issue2 = FactoryBot.create(:issue)
+    issue1 = create(:issue)
+    issue2 = create(:issue)
 
     # This one won't show up in the response object
-    FactoryBot.create(:issue, resolved_at: Time.now)
+    create(:issue, resolved_at: Time.now)
 
     # Overloading expectations so we don't need
     expect(subject.call(barcode: issue1.barcode)).to eq([issue1])

@@ -5,10 +5,10 @@
 ### Pre-upgrade
 
 - [x] Remove `vendor/gems`
-- [ ] Finish relevant deprecation messages before upgrade
+- [x] Finish relevant deprecation messages before upgrade
 - [x] Clean up bundle 
 - [x] Upgrade RSPEC v. 5.0.0
-- [ ] Abstract `FactoryBot.create` calls
+- [x] Abstract `FactoryBot.create` calls
 - [ ] Passing tests
 
 ### Upgrade
@@ -31,7 +31,6 @@
   - [ ] autoprefixer: `app/assets/stylesheets/application.css.scss:1251:3`: Gradient has outdated direction syntax. New syntax is like `to left` instead of `right`
   - [ ] autoprefixer: `app/assets/stylesheets/application.css.scss:1281:3`: Gradient has outdated direction syntax. New syntax is like `to left` instead of `right`
   - [ ] autoprefixer: `app/assets/stylesheets/application.css.scss:1465:3`: Gradient has outdated direction syntax. New syntax is like `to left` instead of `right`
-
 
 **RSpec**
 

@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe SearchItems, search: true do
-  let(:item) { FactoryBot.create(:item, chron: "TEST CHRON") }
-  let(:deac_item) { FactoryBot.create(:item, status: 9, title: item.title) }
+  let(:item) { create(:item, chron: "TEST CHRON") }
+  let(:deac_item) { create(:item, status: 9, title: item.title) }
   let(:filter) { {} }
   subject { described_class.call(filter) }
 
@@ -59,7 +59,7 @@ RSpec.describe SearchItems, search: true do
   end
 
   context "per_page" do
-    let(:item) { FactoryBot.create(:item, chron: "1") }
+    let(:item) { create(:item, chron: "1") }
     let(:filter) { { criteria_type: "any", criteria: item.title } }
 
     it "defaults to 50 per page" do
@@ -102,7 +102,7 @@ RSpec.describe SearchItems, search: true do
       end
 
       it "searches the tray barcode" do
-        item.tray = FactoryBot.create(:tray)
+        item.tray = create(:tray)
         filter[:criteria] = item.tray.barcode
         subject
         expect(Sunspot.session).to have_search_params(:fulltext) {
@@ -113,7 +113,7 @@ RSpec.describe SearchItems, search: true do
       end
 
       it "searches the shelf barcode" do
-        item.shelf = FactoryBot.create(:shelf)
+        item.shelf = create(:shelf)
         filter[:criteria] = item.shelf.barcode
         subject
         expect(Sunspot.session).to have_search_params(:fulltext) {
@@ -154,7 +154,7 @@ RSpec.describe SearchItems, search: true do
       let(:filter) { { criteria_type: "tray" } }
 
       it "searches the tray barcode" do
-        item.tray = FactoryBot.create(:tray)
+        item.tray = create(:tray)
         filter[:criteria] = item.tray.barcode
         subject
         expect(Sunspot.session).to have_search_params(:with, :tray_barcode, item.tray.barcode)
@@ -165,7 +165,7 @@ RSpec.describe SearchItems, search: true do
       let(:filter) { { criteria_type: "shelf" } }
 
       it "searches the shelf barcode" do
-        item.shelf = FactoryBot.create(:shelf)
+        item.shelf = create(:shelf)
         filter[:criteria] = item.shelf.barcode
         subject
         expect(Sunspot.session).to have_search_params(:with, :shelf_barcode, item.shelf.barcode)
@@ -175,7 +175,7 @@ RSpec.describe SearchItems, search: true do
 
   context "conditions" do
     let(:conditions) { ["COVER-MISS", "PAGES-BRITTLE", "SPINE-DET"] }
-    let(:item) { FactoryBot.create(:item, conditions: conditions) }
+    let(:item) { create(:item, conditions: conditions) }
 
     context "all" do
       let(:filter) { { condition_bool: "all" } }

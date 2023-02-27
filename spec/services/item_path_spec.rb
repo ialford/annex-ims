@@ -8,10 +8,10 @@ RSpec.describe ItemPath do
   let(:user) { instance_double(User, username: "bob", id: 1) }
 
   before(:each) do
-    @tray = FactoryBot.create(:tray)
-    @tray2 = FactoryBot.create(:tray)
-    @item = FactoryBot.create(:item, tray: @tray)
-    @item2 = FactoryBot.create(:item)
+    @tray = create(:tray)
+    @tray2 = create(:tray)
+    @item = create(:item, tray: @tray)
+    @item2 = create(:item)
 
     item_uri = api_item_url(@item)
     item2_uri = api_item_url(@item2)

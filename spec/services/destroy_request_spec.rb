@@ -1,9 +1,9 @@
 require "rails_helper"
 
 describe "DestroyRequest" do
-  let(:request) { FactoryBot.create(:request) }
-  let(:request1) { FactoryBot.create(:request) }
-  let(:user) { FactoryBot.create(:user) }
+  let(:request) { create(:request) }
+  let(:request1) { create(:request) }
+  let(:user) { create(:user) }
   subject { DestroyRequest.call(request, user) }
 
   describe "#destroy" do

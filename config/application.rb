@@ -21,10 +21,10 @@ Bundler.require(:application, *Rails.groups)
 
 module AnnexIms
   class Application < Rails::Application
-    config.autoload_paths += [Rails.root.join('app', 'services', 'queries', 'presenters').to_s]
+    # config.autoload_paths += [Rails.root.join('app', 'services', 'queries', 'presenters').to_s]
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults = 6.0
-    config.autoloader = :classic
+    config.autoloader = :zeitwerk
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

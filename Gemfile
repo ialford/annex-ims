@@ -7,15 +7,16 @@ end
 source 'https://rubygems.org'
 
 group :application do
-  if next?
-    gem 'rails', '~> 6.0.6', '>= 6.0.6.1'
-  else
-    gem 'rails', '~> 6.0.6'
-  end
-
   gem 'next_rails'
+  # rubocop:disable Bundler/DuplicatedGem
+  if next?
+    gem 'rails', '~> 6.1.7'
+  else
+    gem 'rails', '~> 6.1.7'
+  end
+  # rubocop:enable Bundler/DuplicatedGem
 
-  gem 'bootsnap', '>= 1.4.2', require: false
+  gem 'bootsnap', '>= 1.4.4', require: false
   gem 'coffee-rails', '~> 5.0.0'
   gem 'jbuilder', '~> 2.7'
   gem 'jquery-rails', '~> 4.3.5'
@@ -26,13 +27,17 @@ group :application do
 
   # UI
   gem 'autoprefixer-rails'
+  gem 'haml-rails'
+  gem 'kaminari' # For paginating results
+
+  #=== Replace after 7.0 upgrade ===
   gem 'bootstrap-datepicker-rails' # nice datepicker for Bootstrap
   gem 'bootstrap-sass', '~> 3.4.1'
-  gem 'bootstrap_progressbar' # for a progress bar
-  gem 'haml-rails'
+  gem 'bootstrap_progressbar' # use native Bootstrap 5 progress bar
   gem 'jquery-datatables-rails', '~> 3.4.0'
-  gem 'kaminari' # For paginating results
-  gem 'multi-select-rails' # Multiselect for Rails asset pipeline
+
+  #=== NOT SURE WE ARE USING ===
+  gem 'multi-select-rails' # Multiselect for Rails
   gem 'recurring_select', '3.0.1'
 
   # authentication
@@ -76,7 +81,6 @@ end
 group :development, :test, :staging do
   gem 'faker', '~> 1.4'
   gem 'haml_lint', require: false
-  gem 'listen', '~> 3.2'
   gem 'rubocop', '= 0.75.0' # this is the latest version hound supports
   gem 'rubocop-rails'
   gem 'webdrivers'
@@ -86,26 +90,28 @@ group :development, :test do
   gem 'byebug'
   gem 'hesburgh_infrastructure', git: 'https://github.com/ndlib/hesburgh_infrastructure'
   gem 'rails-erd'
-  gem 'spring'
 
   # We test with Rspec
+  gem 'capybara', '>= 3.26'
   gem 'coveralls'
   gem 'database_cleaner', '~> 1.3' # For cleaning up the test database
   gem 'factory_bot_rails', '~> 4.8.2' # For mocking up objects
-  gem 'rspec-rails', '~> 5.0.0'
+  gem 'rspec-rails', '~> 6.0.0'
+  gem 'selenium-webdriver', '>= 4.0.0.rc1'
   gem 'spring-commands-rspec'
 
   # So staging etc can use stand alone Solr
   gem 'sunspot_solr' # , :git => "https://github.com/sunspot/sunspot.git"
 
   gem 'thin', '~> 1.8.1'
-  # gem 'eventmachine', '1.2.2' # not required, dependancy of thin
 
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', '1.1.0'
 end
 
 group :test do
+  gem 'listen', '~> 3.3'
+  gem 'rack-mini-profiler', '~> 2.0'
   gem 'rails-controller-testing'
   gem 'shoulda-matchers'
   gem 'simplecov', '>= 0.21.0'
@@ -117,7 +123,8 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'letter_opener'
-  gem 'web-console', '~> 3.0'
+  gem 'spring'
+  gem 'web-console', '~> 4.1.0'
   # gem 'bullet'
 
   # ==== Remove after Rails 7 upgrade

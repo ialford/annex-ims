@@ -1,5 +1,5 @@
 namespace :sample do
-  desc "Add some sample admin users to the database"
+  desc 'Add some sample admin users to the database'
   task :users => :environment do
 		puts 'Create rfox2'
 		u = User.where(username: 'rfox2').first

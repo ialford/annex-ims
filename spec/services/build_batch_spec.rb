@@ -1,60 +1,60 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe BuildBatch, search: true do
   before(:all) do
-    create(:tray_type, code: "AH")
-    create(:tray_type, code: "BL")
+    create(:tray_type, code: 'AH')
+    create(:tray_type, code: 'BL')
   end
 
-  describe "when signed in" do
+  describe 'when signed in' do
     let(:shelf) { create(:shelf) }
-    let(:tray) { create(:tray, barcode: "TRAY-AH12346", shelf: shelf) }
-    let(:tray2) { create(:tray, barcode: "TRAY-BL6788", shelf: shelf) }
+    let(:tray) { create(:tray, barcode: 'TRAY-AH12346', shelf: shelf) }
+    let(:tray2) { create(:tray, barcode: 'TRAY-BL6788', shelf: shelf) }
 
     let(:item) do
       create(:item,
-                        author: "JOHN DOE",
-                        title: "SOME TITLE",
-                        chron: "TEST CHRN",
-                        bib_number: "12345",
-                        barcode: "9876542",
-                        isbn_issn: "987655432",
-                        call_number: "A 123 .C654 1991",
+                        author: 'JOHN DOE',
+                        title: 'SOME TITLE',
+                        chron: 'TEST CHRN',
+                        bib_number: '12345',
+                        barcode: '9876542',
+                        isbn_issn: '987655432',
+                        call_number: 'A 123 .C654 1991',
                         thickness: 1,
                         tray: tray,
-                        initial_ingest: 3.days.ago.strftime("%Y-%m-%d"),
-                        last_ingest: 3.days.ago.strftime("%Y-%m-%d"),
-                        conditions: ["COVER-TORN", "COVER-DET"])
+                        initial_ingest: 3.days.ago.strftime('%Y-%m-%d'),
+                        last_ingest: 3.days.ago.strftime('%Y-%m-%d'),
+                        conditions: ['COVER-TORN', 'COVER-DET'])
     end
 
     let(:item2) do
       create(:item,
-                        author: "BUBBA SMITH",
-                        title: "SOME OTHER TITLE",
-                        chron: "TEST CHRN 2",
-                        bib_number: "12345",
-                        barcode: "4576839200",
-                        isbn_issn: "918273645",
-                        call_number: "A 1234 .C654 1991",
+                        author: 'BUBBA SMITH',
+                        title: 'SOME OTHER TITLE',
+                        chron: 'TEST CHRN 2',
+                        bib_number: '12345',
+                        barcode: '4576839200',
+                        isbn_issn: '918273645',
+                        call_number: 'A 1234 .C654 1991',
                         thickness: 1,
                         tray: tray2,
-                        initial_ingest: 1.day.ago.strftime("%Y-%m-%d"),
-                        last_ingest: 1.day.ago.strftime("%Y-%m-%d"),
-                        conditions: ["COVER-TORN", "PAGES-DET"])
+                        initial_ingest: 1.day.ago.strftime('%Y-%m-%d'),
+                        last_ingest: 1.day.ago.strftime('%Y-%m-%d'),
+                        conditions: ['COVER-TORN', 'PAGES-DET'])
     end
 
     let(:request1) do
       create(:request,
-                        criteria_type: "barcode",
+                        criteria_type: 'barcode',
                         criteria: item.barcode,
-                        requested: 3.days.ago.strftime("%Y-%m-%d"))
+                        requested: 3.days.ago.strftime('%Y-%m-%d'))
     end
 
     let(:request2) do
       create(:request,
-                        criteria_type: "barcode",
+                        criteria_type: 'barcode',
                         criteria: item2.barcode,
-                        requested: 1.day.ago.strftime("%Y-%m-%d"))
+                        requested: 1.day.ago.strftime('%Y-%m-%d'))
     end
 
     let(:current_user) { create(:user) }
@@ -67,7 +67,7 @@ RSpec.describe BuildBatch, search: true do
       Item.remove_all_from_index!
     end
 
-    it "builds a batch when an item is selected", search: true do
+    it 'builds a batch when an item is selected', search: true do
       test = ["#{request1.id}-#{item.id}"]
       expected = {}
       result = BuildBatch.call(test, current_user)
@@ -96,20 +96,20 @@ RSpec.describe BuildBatch, search: true do
       Sunspot.commit
     end
 
-    it "logs a MatchedItem for each item in the batch" do
+    it 'logs a MatchedItem for each item in the batch' do
       test = ["#{request1.id}-#{item.id}", "#{request1.id}-#{item2.id}"]
       expect(ActivityLogger).to receive(:match_item).with(item: item, request: request1, user: current_user)
       expect(ActivityLogger).to receive(:match_item).with(item: item2, request: request1, user: current_user)
       described_class.call(test, current_user)
     end
 
-    it "logs a BatchedRequest" do
+    it 'logs a BatchedRequest' do
       test = ["#{request1.id}-#{item.id}"]
       expect(ActivityLogger).to receive(:batch_request).with(request: request1, user: current_user)
       described_class.call(test, current_user)
     end
 
-    it "only logs one BatchedRequest log for a Request with multiple items" do
+    it 'only logs one BatchedRequest log for a Request with multiple items' do
       test = ["#{request1.id}-#{item.id}", "#{request1.id}-#{item2.id}"]
       expect(ActivityLogger).to receive(:batch_request).with(request: request1, user: current_user).once
       described_class.call(test, current_user)

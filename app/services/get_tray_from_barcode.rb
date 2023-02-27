@@ -13,7 +13,7 @@ class GetTrayFromBarcode
     if valid?
       Tray.where(barcode: barcode).first_or_create!
     else
-      raise "barcode is not a tray"
+      raise 'barcode is not a tray'
     end
   end
 

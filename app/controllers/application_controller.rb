@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   def check_activity
     if current_user.blank? || IsUserSessionExpired.call(user: current_user)
       sign_out
-      render "users/timed_out"
+      render 'users/timed_out'
       return
     end
     update_activity
@@ -38,12 +38,12 @@ class ApplicationController < ActionController::Base
     raise_404
   end
 
-  def raise_404(message = "Not Found")
+  def raise_404(message = 'Not Found')
     fail ActionController::RoutingError.new(message)
   end
 
   def user_admin?
-    config_admin = ""
+    config_admin = ''
     if Rails.configuration.respond_to? :admin_user_name
       config_admin = Rails.configuration.admin_user_name
     end

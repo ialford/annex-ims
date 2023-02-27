@@ -1,4 +1,4 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe DestroyMatch do
   let(:shelf) { create(:shelf) }
@@ -11,20 +11,20 @@ RSpec.describe DestroyMatch do
   let(:match2) { create(:match, batch: batch) }
   let(:match3) { create(:match, batch: batch) }
   let(:user) { create(:user) }
-  let(:request) { create(:request, del_type: "loan") }
+  let(:request) { create(:request, del_type: 'loan') }
 
   subject { described_class.call(match: match, user: user) }
 
-  it "is truthy" do
+  it 'is truthy' do
     expect(subject).to be_truthy
   end
 
-  it "logs a RemovedMatch activity" do
+  it 'logs a RemovedMatch activity' do
     expect(ActivityLogger).to receive(:remove_match)
     subject
   end
 
-  it "destroys the match" do
+  it 'destroys the match' do
     expect(match).to receive(:destroy!)
     subject
   end

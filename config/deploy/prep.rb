@@ -17,7 +17,7 @@
 # server 'example.com', user: 'deploy', roles: %w{web app}, my_property: :my_value
 # server 'annex-staging.library.nd.edu', user: 'app', roles: %w{web app db}
 
-server "#{fetch(:application)}-prep.lc.nd.edu", user: "app", roles: %w{web app db}
+server "#{fetch(:application)}-prep.lc.nd.edu", user: 'app', roles: %w{web app db}
 
 set :rack_env, :prep
 

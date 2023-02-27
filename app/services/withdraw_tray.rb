@@ -14,7 +14,7 @@ class WithdrawTray
     validate_input!
 
     unless DissociateTrayFromShelf.call(@tray, @user)
-      raise "unable to dissociate tray"
+      raise 'unable to dissociate tray'
     end
 
     @tray.items.each do |item|
@@ -34,7 +34,7 @@ class WithdrawTray
     if IsObjectTray.call(tray)
       true
     else
-      raise "object is not a tray"
+      raise 'object is not a tray'
     end
   end
 end

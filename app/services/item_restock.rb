@@ -25,7 +25,7 @@ class ItemRestock
       results = ItemRestockToTray.call(item_id, barcode, user)
 
     else
-      results[:error] = "scan either a new item or a tray to stock to"
+      results[:error] = 'scan either a new item or a tray to stock to'
       results[:path] = h.show_item_path(id: @item_id)
     end
 

@@ -13,7 +13,7 @@ class DissociateTrayFromItem
   def dissociate!
     tray = item.tray
     unless UnstockItem.call(item, user)
-      raise "unable to unstock item"
+      raise 'unable to unstock item'
     end
 
     item.tray = nil

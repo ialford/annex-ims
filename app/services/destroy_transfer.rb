@@ -14,7 +14,7 @@ class DestroyTransfer
       @transfer.destroy!
       self.class.send :shelve_trays, @shelf, @user
       ActivityLogger.destroy_transfer(shelf: @shelf, transfer: @transfer, user: @user)
-      "success"
+      'success'
     end
   rescue StandardError => e
     Sentry.capture_exception(e)

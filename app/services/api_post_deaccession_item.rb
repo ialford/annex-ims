@@ -24,7 +24,7 @@ class ApiPostDeaccessionItem
 
   def handle_error(response)
     if (response.status_code == 422) || (response.status_code == 404)
-      AddIssue.call(item: item, user: nil, type: "aleph_error", message: response.body["message"])
+      AddIssue.call(item: item, user: nil, type: 'aleph_error', message: response.body['message'])
     end
     raise ApiDeaccessionItemError, "Error sending deaccession request to API. params: #{params}, response: #{response.attributes}"
   end

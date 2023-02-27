@@ -1,6 +1,6 @@
 class HealthCheckWorker < RetryWorker
   WORKERS = 1
-  QUEUE_NAME = "health-check".freeze
+  QUEUE_NAME = 'health-check'.freeze
 
   from_queue QUEUE_NAME,
              threads: 1,

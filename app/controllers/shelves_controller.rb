@@ -42,7 +42,7 @@ class ShelvesController < ApplicationController
     item = GetItemFromBarcode.call(barcode: barcode, user_id: current_user.id)
 
     if item.nil?
-      flash[:error] = I18n.t("errors.barcode_not_found", barcode: barcode)
+      flash[:error] = I18n.t('errors.barcode_not_found', barcode: barcode)
       redirect_to missing_shelf_item_path(id: @shelf.id)
       return
     end
@@ -89,17 +89,17 @@ class ShelvesController < ApplicationController
     @shelf = Shelf.find(params[:id])
     @item = Item.find(params[:item_id])
 
-    if params[:commit] == "Unstock"
+    if params[:commit] == 'Unstock'
       if UnstockItem.call(@item, current_user)
         redirect_to show_shelf_path(id: @shelf.id)
       else
-        raise "unable to unstock item"
+        raise 'unable to unstock item'
       end
     else
       if DissociateShelfFromItem.call(@item, current_user)
         redirect_to show_shelf_path(id: @shelf.id)
       else
-        raise "unable to dissociate"
+        raise 'unable to dissociate'
       end
     end
   end
@@ -137,15 +137,15 @@ class ShelvesController < ApplicationController
 
     if tray.nil?
       if IsTrayBarcode.call(tray_barcode)
-        @errors.push(I18n.t("errors.barcode_not_found", barcode: tray_barcode))
+        @errors.push(I18n.t('errors.barcode_not_found', barcode: tray_barcode))
         tray = Tray.create!(barcode: tray_barcode)
         ActivityLogger.create_tray(tray: tray, user: current_user)
       else
-        @errors.push(I18n.t("errors.barcode_not_valid", barcode: tray_barcode))
+        @errors.push(I18n.t('errors.barcode_not_valid', barcode: tray_barcode))
       end
 
       @errors = @errors.uniq
-      flash.now[:error] = @errors.join("<br>").html_safe if @errors.count > 0
+      flash.now[:error] = @errors.join('<br>').html_safe if @errors.count > 0
       render :check_trays
       return
     end
@@ -154,12 +154,12 @@ class ShelvesController < ApplicationController
       @scanned.push(tray_barcode)
       @scanned = @scanned.uniq
     else
-      @errors.push(I18n.t("errors.barcode_not_associated_to_shelf", barcode: tray_barcode))
-      but_message = tray.shelf.present? ? "but is associated with shelf '#{tray.shelf.barcode}'" : "but is not associated with a shelf."
+      @errors.push(I18n.t('errors.barcode_not_associated_to_shelf', barcode: tray_barcode))
+      but_message = tray.shelf.present? ? "but is associated with shelf '#{tray.shelf.barcode}'" : 'but is not associated with a shelf.'
     end
 
     @errors = @errors.uniq
-    flash.now[:error] = @errors.join("<br>").html_safe if @errors.count > 0
+    flash.now[:error] = @errors.join('<br>').html_safe if @errors.count > 0
     render :check_trays
   end
 end

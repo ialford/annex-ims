@@ -6,7 +6,7 @@ class Shelf < ApplicationRecord
   has_one :transfer
   has_many :trays
   has_many :items, through: :trays
-  has_many :location_activity_logs, class_name: "ActivityLog", foreign_key: "location_shelf_id"
+  has_many :location_activity_logs, class_name: 'ActivityLog', foreign_key: 'location_shelf_id'
 
   def tray_type
     return nil if trays.count == 0
@@ -16,11 +16,11 @@ class Shelf < ApplicationRecord
 
   # following the questionable pattern from tray.rb
   def style
-    result = tray_type.nil? ? "black" : case trays.count
-                                        when 0 then "black"
-                                        when 1..(tray_type.trays_per_shelf - 1) then "black"
-                                        when tray_type.trays_per_shelf then "red"
-                                        else "red"
+    result = tray_type.nil? ? 'black' : case trays.count
+                                        when 0 then 'black'
+                                        when 1..(tray_type.trays_per_shelf - 1) then 'black'
+                                        when tray_type.trays_per_shelf then 'red'
+                                        else 'red'
     end
     result
   end

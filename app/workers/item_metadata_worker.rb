@@ -1,6 +1,6 @@
 class ItemMetadataWorker < RetryWorker
   WORKERS = 1
-  QUEUE_NAME = "annex_item_metadata".freeze
+  QUEUE_NAME = 'annex_item_metadata'.freeze
 
   from_queue QUEUE_NAME,
              threads: 1,

@@ -18,7 +18,7 @@ class GetItemFromBarcode
         item
       end
     else
-      raise "barcode is not an item"
+      raise 'barcode is not an item'
     end
   end
 
@@ -39,7 +39,7 @@ class GetItemFromBarcode
   end
 
   def item_can_be_stocked?
-    !(["not_found", "not_for_annex"].include? item.metadata_status)
+    !(['not_found', 'not_for_annex'].include? item.metadata_status)
   end
 
   def user

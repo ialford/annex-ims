@@ -1,4 +1,4 @@
-require "item_metadata"
+require 'item_metadata'
 
 class SyncItemMetadata
   include ItemMetadata
@@ -48,7 +48,7 @@ class SyncItemMetadata
   end
 
   def sync_required_based_on_status?
-    item.metadata_status != "complete" || metadata_stale?
+    item.metadata_status != 'complete' || metadata_stale?
   end
 
   def metadata_stale?
@@ -91,7 +91,7 @@ class SyncItemMetadata
 
   def save_metadata(data)
     update_attributes = map_item_attributes(data).
-                        merge(metadata_status_attributes("complete"))
+                        merge(metadata_status_attributes('complete'))
     item.update!(update_attributes)
     ActivityLogger.update_item_metadata(item: item)
   end

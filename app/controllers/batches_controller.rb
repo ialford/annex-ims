@@ -2,11 +2,11 @@ class BatchesController < ApplicationController
   before_action :require_admin
   def index
     # Should this be in a service object? It's a relatively simple one-liner.
-    requests = Request.all.where("id NOT IN (SELECT request_id FROM matches)")
+    requests = Request.all.where('id NOT IN (SELECT request_id FROM matches)')
     @data = BuildRequestData.call(requests)
 
     if current_batch?
-      flash[:notice] = flash_message("active_batch")
+      flash[:notice] = flash_message('active_batch')
       redirect_to current_batch_path
       return
     end
@@ -18,15 +18,15 @@ class BatchesController < ApplicationController
 
   def create
     if batch_blank?
-      flash[:error] = flash_message("empty_batch")
+      flash[:error] = flash_message('empty_batch')
       redirect_to batches_path
     elsif current_batch?
-      flash[:notice] = flash_message("active_batch")
+      flash[:notice] = flash_message('active_batch')
       redirect_to current_batch_path
     else
       @batch = BuildBatch.call(params[:batch], current_user)
 
-      flash[:notice] = "Batch created."
+      flash[:notice] = 'Batch created.'
 
       redirect_to root_path
     end
@@ -79,8 +79,8 @@ class BatchesController < ApplicationController
 
     @match = Match.find(params[:match_id])
 
-    if params[:commit] == "Skip"
-      @match.processed = "skipped"
+    if params[:commit] == 'Skip'
+      @match.processed = 'skipped'
       @match.save!
 
       ActivityLogger.skip_item(item: @match.item, request: @match.request, user: current_user)
@@ -89,7 +89,7 @@ class BatchesController < ApplicationController
       nil
     else
       if params[:barcode] != @match.item.barcode
-        flash[:error] = "Wrong item scanned."
+        flash[:error] = 'Wrong item scanned.'
 
         redirect_to retrieve_batch_path
         nil
@@ -125,8 +125,8 @@ class BatchesController < ApplicationController
 
     @match = Match.find(params[:match_id])
 
-    if params[:commit] == "Skip"
-      @match.processed = "skipped"
+    if params[:commit] == 'Skip'
+      @match.processed = 'skipped'
       @match.save!
 
       ActivityLogger.skip_item(item: @match.item, request: @match.request, user: current_user)
@@ -186,7 +186,7 @@ class BatchesController < ApplicationController
     end
 
     FinishBatch.call(@batch, current_user)
-    flash[:notice] = "Finished processing batch, ready to begin a new batch."
+    flash[:notice] = 'Finished processing batch, ready to begin a new batch.'
     redirect_to batches_path
   end
 
@@ -224,10 +224,10 @@ class BatchesController < ApplicationController
 
   def flash_message(type)
     case type
-    when "active_batch"
-      I18n.t("batches.status.active")
-    when "empty_batch"
-      I18n.t("batches.status.empty_items")
+    when 'active_batch'
+      I18n.t('batches.status.active')
+    when 'empty_batch'
+      I18n.t('batches.status.empty_items')
     end
   end
 

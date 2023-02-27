@@ -5,7 +5,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def oktaoauth
     # Please leave the following line of code for debugging Okta session issues
     # session[:oktastate] = request.env["omniauth.auth"]  #store all okta data in session
-    session[:netid] = request.env["omniauth.auth"].extra.raw_info.netid
+    session[:netid] = request.env['omniauth.auth'].extra.raw_info.netid
     @user = User.where(username: session[:netid]).first_or_create
     @user.last_activity_at = Time.zone.now
     @user.save!

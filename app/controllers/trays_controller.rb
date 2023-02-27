@@ -32,7 +32,7 @@ class TraysController < ApplicationController
       return
     end
 
-    unless params[:force] == "true"
+    unless params[:force] == 'true'
       if !@tray.shelf.nil? && (@tray.shelf.barcode != barcode)
         flash[:error] = "#{@tray.barcode} belongs to #{@tray.shelf.barcode}, but #{barcode} was scanned."
         redirect_to wrong_shelf_path(id: @tray.id, barcode: barcode)
@@ -51,9 +51,9 @@ class TraysController < ApplicationController
 
     full = ShelfFull.call(@tray.shelf)
     if full == ShelfFull::FULL
-      flash[:notice] = "shelf is full"
+      flash[:notice] = 'shelf is full'
     elsif full == ShelfFull::OVER
-      flash[:error] = "shelf is over capacity"
+      flash[:error] = 'shelf is over capacity'
     end
 
     redirect_to trays_path
@@ -67,7 +67,7 @@ class TraysController < ApplicationController
     if DissociateTrayFromShelf.call(@tray, current_user)
       redirect_to trays_path
     else
-      raise "unable to dissociate tray"
+      raise 'unable to dissociate tray'
     end
   end
 
@@ -77,7 +77,7 @@ class TraysController < ApplicationController
 
     barcode = params[:barcode]
 
-    unless params[:force] == "true"
+    unless params[:force] == 'true'
       if !@tray.shelf.nil? && (@tray.shelf.barcode != barcode)
         flash[:error] = "#{@tray.barcode} belongs to #{@tray.shelf.barcode}, but #{barcode} was scanned."
         redirect_to wrong_shelf_path(id: @tray.id, barcode: barcode)
@@ -88,7 +88,7 @@ class TraysController < ApplicationController
     if ShelveTray.call(@tray, current_user)
       redirect_to trays_path
     else
-      raise "unable to shelve tray"
+      raise 'unable to shelve tray'
     end
   end
 
@@ -99,7 +99,7 @@ class TraysController < ApplicationController
     if UnshelveTray.call(@tray, current_user)
       redirect_to trays_path
     else
-      raise "unable to unshelve tray"
+      raise 'unable to unshelve tray'
     end
   end
 
@@ -139,7 +139,7 @@ class TraysController < ApplicationController
     @used = @tray.used
     @unlimited = @tray.tray_type.unlimited
     if @unlimited
-      @capacity = "unlimited"
+      @capacity = 'unlimited'
       @progress = 0.0
     else
       @capacity = @tray.capacity
@@ -165,14 +165,14 @@ class TraysController < ApplicationController
     end
 
     unless IsValidThickness.call(thickness)
-      flash[:error] = "select a valid thickness"
+      flash[:error] = 'select a valid thickness'
       redirect_to show_tray_item_path(id: @tray.id, barcode: barcode)
       return
     end
 
     # The system should validate the barcode against the stored regular expression(s)
     unless IsValidItem.call(barcode)
-      flash[:error] = I18n.t("errors.barcode_not_valid", barcode: barcode)
+      flash[:error] = I18n.t('errors.barcode_not_valid', barcode: barcode)
       redirect_to invalid_tray_item_path(id: @tray.id, thickness: thickness, barcode: barcode)
       return
     end
@@ -184,17 +184,17 @@ class TraysController < ApplicationController
     @tray = Tray.find(params[:id])
     @item = Item.find(params[:item_id])
 
-    if params[:commit] == "Unstock"
+    if params[:commit] == 'Unstock'
       if UnstockItem.call(@item, current_user)
         redirect_to show_tray_item_path(id: @tray.id)
       else
-        raise "unable to dissociate tray"
+        raise 'unable to dissociate tray'
       end
     else
       if DissociateTrayFromItem.call(@item, current_user)
         redirect_to show_tray_item_path(id: @tray.id)
       else
-        raise "unable to dissociate tray"
+        raise 'unable to dissociate tray'
       end
     end
   end
@@ -221,17 +221,17 @@ class TraysController < ApplicationController
   def create_item(tray = Tray.find(params[:id]), barcode = params[:barcode], thickness = params[:thickness])
     result = CreateItem.call(tray, barcode, current_user.id, thickness, params[:flag])
 
-    if result == "errors.barcode_not_found"
+    if result == 'errors.barcode_not_found'
       flash[:error] = I18n.t(result, barcode: barcode)
       redirect_to missing_tray_item_path(id: tray.id)
     elsif !result.nil?
       if result["Item #{barcode} is already assigned to"]
         flash[:error] = result
         redirect_to wrong_tray_path(id: tray.id, barcode: barcode)
-      elsif result["Record updated."] || result["Item #{barcode} stocked in"]
+      elsif result['Record updated.'] || result["Item #{barcode} stocked in"]
         flash[:notice] = result
         if TrayFull.call(tray)
-          flash[:error] = "warning - tray may be full"
+          flash[:error] = 'warning - tray may be full'
         end
         redirect_to show_tray_item_path(id: tray.id)
       end
@@ -277,20 +277,20 @@ class TraysController < ApplicationController
 
     if item.nil?
       if IsValidItem.call(item_barcode)
-        @errors.push(I18n.t("errors.barcode_not_found", barcode: item_barcode))
+        @errors.push(I18n.t('errors.barcode_not_found', barcode: item_barcode))
         item = Item.create!(barcode: item_barcode, thickness: 0)
         ActivityLogger.create_item(item: item, user: current_user)
         AddIssue.call(item: item,
                       user: current_user,
-                      type: "tray_mismatch",
+                      type: 'tray_mismatch',
                       message: "Item failed QC. Was physically in tray '#{@tray.barcode}', but the item did not exist.")
         SyncItemMetadata.call(item: item, user_id: current_user.id)
       else
-        @errors.push(I18n.t("errors.barcode_not_valid", barcode: item_barcode))
+        @errors.push(I18n.t('errors.barcode_not_valid', barcode: item_barcode))
       end
 
       @errors = @errors.uniq
-      flash.now[:error] = @errors.join("<br>").html_safe if @errors.count > 0
+      flash.now[:error] = @errors.join('<br>').html_safe if @errors.count > 0
       render :check_items
       return
     end
@@ -299,16 +299,16 @@ class TraysController < ApplicationController
       @scanned.push(item_barcode)
       @scanned = @scanned.uniq
     else
-      @errors.push(I18n.t("errors.barcode_not_associated_to_tray", barcode: item_barcode))
-      but_message = item.tray.present? ? "but is associated with tray '#{item.tray.barcode}'" : "but is not associated with a tray."
+      @errors.push(I18n.t('errors.barcode_not_associated_to_tray', barcode: item_barcode))
+      but_message = item.tray.present? ? "but is associated with tray '#{item.tray.barcode}'" : 'but is not associated with a tray.'
       AddIssue.call(item: item,
                     user: current_user,
-                    type: "tray_mismatch",
+                    type: 'tray_mismatch',
                     message: "Item failed QC. Was physically in tray '#{@tray.barcode}', #{but_message}")
     end
 
     @errors = @errors.uniq
-    flash.now[:error] = @errors.join("<br>").html_safe if @errors.count > 0
+    flash.now[:error] = @errors.join('<br>').html_safe if @errors.count > 0
     render :check_items
   end
 
@@ -330,16 +330,16 @@ class TraysController < ApplicationController
         else
           @validation_count_items = @validation_count_items.to_i + 1
           if @validation_count_items == 2
-            AddTrayIssue.call(user: current_user, tray: @tray, message: "Tray count invalid", type: "incorrect_count")
-            flash[:error] = I18n.t("trays.count_validation_not_pass")
+            AddTrayIssue.call(user: current_user, tray: @tray, message: 'Tray count invalid', type: 'incorrect_count')
+            flash[:error] = I18n.t('trays.count_validation_not_pass')
           else
-            flash[:error] = I18n.t("trays.count_items_not_match")
+            flash[:error] = I18n.t('trays.count_items_not_match')
           end
         end
       else
         tray_issue_query = IssuesForTrayQuery.new(barcode: @tray.barcode)
         if tray_issue_query.invalid_count_issues?
-          tray_issue_query.issues_by_type(type: "incorrect_count").each do |issue|
+          tray_issue_query.issues_by_type(type: 'incorrect_count').each do |issue|
             ResolveTrayIssue.call(tray: @tray, issue: issue, user: current_user)
           end
         end

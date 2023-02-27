@@ -30,7 +30,7 @@ class AssociateTrayWithShelfBarcode
         result = false
       end
     else
-      raise "tray sizes must match"
+      raise 'tray sizes must match'
     end
 
     result
@@ -42,7 +42,7 @@ class AssociateTrayWithShelfBarcode
     if IsObjectTray.call(tray)
       true
     else
-      raise "object is not a tray"
+      raise 'object is not a tray'
     end
   end
   end

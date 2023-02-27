@@ -34,7 +34,7 @@ class AssociateShelfWithItemBarcode
     if IsObjectShelf.call(shelf)
       true
     else
-      raise "object is not a shelf"
+      raise 'object is not a shelf'
     end
   end
   end

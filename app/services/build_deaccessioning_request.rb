@@ -9,18 +9,18 @@ class BuildDeaccessioningRequest < GetRequests
     item = Item.where(id: item_id).take
     SetItemDisposition.call(item_id, disposition_id)
     request_data = [{
-      "transaction" => "REMOVE-#{item_id}-#{Time.now.to_i}", # Need a bogus transaction
-      "barcode" => item.barcode,
-      "delivery_type" => "deaccessioning",
-      "source" => "deaccessioning",
-      "request_type" => "deaccessioning",
-      "rush" => "No",
-      "request_date_time" => Date.today.to_s,
-      "title" => item.title,
-      "author" => item.author,
-      "isbn_issn" => item.isbn_issn,
-      "bib_number" => item.bib_number,
-      "comment" => comment
+      'transaction' => "REMOVE-#{item_id}-#{Time.now.to_i}", # Need a bogus transaction
+      'barcode' => item.barcode,
+      'delivery_type' => 'deaccessioning',
+      'source' => 'deaccessioning',
+      'request_type' => 'deaccessioning',
+      'rush' => 'No',
+      'request_date_time' => Date.today.to_s,
+      'title' => item.title,
+      'author' => item.author,
+      'isbn_issn' => item.isbn_issn,
+      'bib_number' => item.bib_number,
+      'comment' => comment
     }]
 
     update_requests(request_data)

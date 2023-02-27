@@ -1,19 +1,19 @@
 # config valid only for current version of Capistrano
-lock "3.11.2"
+lock '3.11.2'
 
-set :application, "annex-ims"
-set :repo_url, "git@github.com:ndlib/annex-ims.git"
+set :application, 'annex-ims'
+set :repo_url, 'git@github.com:ndlib/annex-ims.git'
 
-if ENV["SCM_APPNAME"] && ENV["SCM_APPNAME"] != ""
-  set :application, ENV["SCM_APPNAME"]
+if ENV['SCM_APPNAME'] && ENV['SCM_APPNAME'] != ''
+  set :application, ENV['SCM_APPNAME']
 end
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-if ENV["SCM_BRANCH"] && ENV["SCM_BRANCH"] != ""
-  set :branch, ENV["SCM_BRANCH"]
-elsif fetch(:stage).to_s == "production"
-  ask :branch, "master"
+if ENV['SCM_BRANCH'] && ENV['SCM_BRANCH'] != ''
+  set :branch, ENV['SCM_BRANCH']
+elsif fetch(:stage).to_s == 'production'
+  ask :branch, 'master'
 else
   ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 end
@@ -39,17 +39,17 @@ set :pty, true
 # Default value for :linked_files is []
 # set :linked_files, fetch(:linked_files, []).push("config/database.yml")
 # set :linked_files, fetch(:linked_files, []).push("config/secrets.yml")
-set :linked_files, fetch(:linked_files, []).push("config/database.yml")
-set :linked_files, fetch(:linked_files, []).push("config/secrets.yml")
+set :linked_files, fetch(:linked_files, []).push('config/database.yml')
+set :linked_files, fetch(:linked_files, []).push('config/secrets.yml')
 # set :linked_files, fetch(:linked_files, []).push("config/sunspot.yml")
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push("bin", "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system")
-set :linked_dirs, fetch(:linked_dirs, []).push("log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "solr", "reports")
+set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'solr', 'reports')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
-set :default_env, path: "/opt/ruby/current/bin:$PATH"
+set :default_env, path: '/opt/ruby/current/bin:$PATH'
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
@@ -57,11 +57,11 @@ set :default_env, path: "/opt/ruby/current/bin:$PATH"
 set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
 
 namespace :deploy do
-  desc "Restart application"
+  desc 'Restart application'
   task :restart do
     on roles(:web), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
-      execute :touch, release_path.join("tmp/restart.txt")
+      execute :touch, release_path.join('tmp/restart.txt')
     end
   end
 
@@ -82,18 +82,18 @@ namespace :sneakers do
     on roles(:all) do
       within release_path do
         with rails_env: fetch(:rack_env) do
-          execute :rake, "sneakers:restart"
+          execute :rake, 'sneakers:restart'
         end
       end
     end
   end
 end
 
-after "deploy:started", "maintenance:enable"
+after 'deploy:started', 'maintenance:enable'
 
-after "deploy:published", "maintenance:disable"
-after "deploy:reverted", "maintenance:disable"
+after 'deploy:published', 'maintenance:disable'
+after 'deploy:reverted', 'maintenance:disable'
 
-after "deploy:finished", "sneakers:restart"
+after 'deploy:finished', 'sneakers:restart'
 
 # after "deploy:finished"

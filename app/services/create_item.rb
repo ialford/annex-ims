@@ -17,20 +17,20 @@ class CreateItem
     begin
       item = GetItemFromBarcode.call(barcode: barcode, user_id: current_user_id)
     rescue StandardError
-      return "errors.barcode_not_found"
+      return 'errors.barcode_not_found'
     end
 
     # Only if the item barcode wasn't found in the database and was set aside by the system
     if item.nil? && set_aside_flag.nil?
-      return "errors.barcode_not_found"
+      return 'errors.barcode_not_found'
     # When the item barcode wasn't found in the database and was set aside by the user
     elsif !set_aside_flag.nil?
       issue = Issue.where(barcode: barcode).first_or_create do |new_issue|
         new_issue.user_id = current_user_id
-        new_issue.issue_type = "not_valid_barcode"
+        new_issue.issue_type = 'not_valid_barcode'
       end
-      if issue.issue_type != "not_valid_barcode"
-        issue.issue_type = "not_valid_barcode"
+      if issue.issue_type != 'not_valid_barcode'
+        issue.issue_type = 'not_valid_barcode'
         issue.save!
       end
       return

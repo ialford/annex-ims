@@ -18,7 +18,7 @@ class DeaccessioningController < ApplicationController
   def req
     if Disposition.pluck(:id).include?(params[:disposition_id].to_i)
       if params[:items].blank?
-        flash[:error] = I18n.t("deaccessioning.status.empty_items")
+        flash[:error] = I18n.t('deaccessioning.status.empty_items')
         redirect_to(deaccessioning_path(params_whitelist)) && return
       else
         items = Item.where(id: params[:items].keys)
@@ -33,7 +33,7 @@ class DeaccessioningController < ApplicationController
         redirect_to(deaccessioning_path) && return
       end
     else
-      flash[:error] = "Select a Disposition"
+      flash[:error] = 'Select a Disposition'
       redirect_to(deaccessioning_path(params_whitelist)) && return
     end
   end

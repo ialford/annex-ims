@@ -13,7 +13,7 @@ class GetShelfFromBarcode
     if valid?
       Shelf.where(barcode: barcode).first_or_create!
     else
-      raise "barcode is not a shelf"
+      raise 'barcode is not a shelf'
     end
   end
 

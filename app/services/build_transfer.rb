@@ -15,7 +15,7 @@ class BuildTransfer
       transfer = Transfer.new
       transfer.initiated_by = @user
       transfer.shelf = @shelf
-      transfer.transfer_type = "ShelfTransfer"
+      transfer.transfer_type = 'ShelfTransfer'
       if transfer.save!
         self.class.send :unshelve_trays, @shelf, @user
       end

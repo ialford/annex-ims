@@ -7,7 +7,7 @@ class ShelvesController < ApplicationController
     begin
       @shelf = GetShelfFromBarcode.call(params[:shelf][:barcode])
     rescue StandardError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       flash[:error] = e.message
       redirect_to shelves_path
       return
@@ -69,7 +69,7 @@ class ShelvesController < ApplicationController
       redirect_to show_shelf_path(id: @shelf.id)
       nil
     rescue StandardError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       flash[:error] = e.message
       redirect_to show_shelf_path(id: @shelf.id)
       nil
@@ -114,7 +114,7 @@ class ShelvesController < ApplicationController
       @scanned = []
       @extras = []
     rescue StandardError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       flash[:error] = e.message
       redirect_to check_trays_new_path
       return

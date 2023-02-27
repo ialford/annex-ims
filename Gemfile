@@ -40,7 +40,7 @@ group :application do
   gem 'omniauth-oktaoauth'
 
   # logging
-  gem 'sentry-raven'
+  gem 'sentry-rails'
   # gem 'bundle-audit'
 
   # external service interaction

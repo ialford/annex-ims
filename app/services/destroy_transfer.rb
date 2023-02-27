@@ -17,7 +17,7 @@ class DestroyTransfer
       "success"
     end
   rescue StandardError => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
     e.message
   end
 

@@ -36,7 +36,7 @@ RSpec.describe TraysController, type: :controller do
       end
 
       it 'calls capture_exception on error and redirects to the trays path' do
-        expect(Raven).to receive(:capture_exception).with(kind_of(RuntimeError))
+        expect(Sentry).to receive(:capture_exception).with(kind_of(RuntimeError))
         post :scan, params: { tray: { barcode: '12345' } }
         expect(response).to redirect_to(trays_path)
       end
@@ -52,7 +52,7 @@ RSpec.describe TraysController, type: :controller do
       end
 
       it 'calls capture_exception on error and redirects to the trays path' do
-        expect(Raven).to receive(:capture_exception).with(kind_of(RuntimeError))
+        expect(Sentry).to receive(:capture_exception).with(kind_of(RuntimeError))
         post :scan, params: { tray: { barcode: '12345' } }
         expect(response).to redirect_to(trays_path)
       end

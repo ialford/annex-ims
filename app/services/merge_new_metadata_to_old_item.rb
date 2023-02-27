@@ -16,7 +16,7 @@ class MergeNewMetadataToOldItem
     begin
       @new_item = GetItemFromMetadata.call(barcode: @new_barcode, user_id: @user_id)
     rescue StandardError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       return
     end
 

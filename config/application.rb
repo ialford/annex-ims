@@ -51,11 +51,6 @@ module AnnexIms
       )
     end
 
-    # Sentry.io configuration
-    Raven.configure do |config|
-      config.dsn = Rails.application.secrets.sentrydn
-    end
-
     # It appears that we are using helpers, so make it easy to keep using them.
     config.action_controller.include_all_helpers = true
   end

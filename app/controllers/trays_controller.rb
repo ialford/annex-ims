@@ -8,7 +8,7 @@ class TraysController < ApplicationController
       @tray = GetTrayFromBarcode.call(params[:tray][:barcode])
       @size = TraySize.call(@tray.barcode)
     rescue StandardError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       flash[:error] = e.message
       redirect_to trays_path
       return
@@ -43,7 +43,7 @@ class TraysController < ApplicationController
     begin
       AssociateTrayWithShelfBarcode.call(@tray, barcode, current_user)
     rescue StandardError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       flash[:error] = e.message
       redirect_to show_tray_path(id: @tray.id)
       return
@@ -126,7 +126,7 @@ class TraysController < ApplicationController
       @tray = GetTrayFromBarcode.call(params[:tray][:barcode])
       @size = TraySize.call(@tray.barcode)
     rescue StandardError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       flash[:error] = e.message
       redirect_to trays_items_path
       return
@@ -237,7 +237,7 @@ class TraysController < ApplicationController
       end
     else
       if !result.nil?
-        Raven.capture_exception(result)
+        Sentry.capture_exception(result)
         flash[:error] = result.message
       end
       redirect_to show_tray_item_path(id: tray.id)
@@ -254,7 +254,7 @@ class TraysController < ApplicationController
       @scanned = []
       @extras = []
     rescue StandardError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       flash[:error] = e.message
       redirect_to check_items_new_path
       return

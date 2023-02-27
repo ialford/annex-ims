@@ -54,7 +54,7 @@ class CreateItem
         "Item #{barcode} stocked in #{tray.barcode}."
       end
     rescue StandardError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       e
     end
   end

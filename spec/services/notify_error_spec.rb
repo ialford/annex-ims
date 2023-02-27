@@ -9,8 +9,8 @@ RSpec.describe NotifyError do
 
   subject { described_class.call(exception: exception, parameters: parameters, component: component, action: action) }
 
-  it "calls Raven#capture_exception" do
-    expect(Raven).to receive(:capture_message).with(exception, extra: { component: component, action: action, parameters: parameters })
+  it "calls Sentry#capture_exception" do
+    expect(Sentry).to receive(:capture_message).with(exception, extra: { component: component, action: action, parameters: parameters })
     subject
   end
 end

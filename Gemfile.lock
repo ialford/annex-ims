@@ -425,8 +425,11 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sentry-raven (3.1.2)
-      faraday (>= 1.0)
+    sentry-rails (5.8.0)
+      railties (>= 5.0)
+      sentry-ruby (~> 5.8.0)
+    sentry-ruby (5.8.0)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
     serverengine (2.0.7)
       sigdump (~> 0.2.2)
     set (1.0.3)
@@ -576,7 +579,7 @@ DEPENDENCIES
   rubocop-rails
   sass-rails (>= 6)
   sdoc (= 1.1.0)
-  sentry-raven
+  sentry-rails
   shoulda-matchers
   simplecov (>= 0.21.0)
   sneakers

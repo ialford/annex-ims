@@ -30,7 +30,7 @@ RSpec.describe ShelvesController, type: :controller do
     end
 
     it 'calls capture_exception on error and redirects to the trays path' do
-      expect(Raven).to receive(:capture_exception).with(kind_of(RuntimeError))
+      expect(Sentry).to receive(:capture_exception).with(kind_of(RuntimeError))
       post :scan, params: { shelf: { barcode: '12345' } }
       expect(response).to redirect_to(shelves_path)
     end
@@ -49,7 +49,7 @@ RSpec.describe ShelvesController, type: :controller do
       item2.save!
       allow(GetItemFromBarcode).to receive(:call).and_return(item2)
       allow(AssociateShelfWithItemBarcode).to receive(:call).and_raise(StandardError)
-      expect(Raven).to receive(:capture_exception).with(kind_of(StandardError))
+      expect(Sentry).to receive(:capture_exception).with(kind_of(StandardError))
       post :associate, params: { id: shelf.id, barcode: item2.barcode }
       expect(response).to be_redirect
       expect(response.location).to match(%r{shelves/items/\d+})

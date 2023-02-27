@@ -8,20 +8,20 @@ source 'https://rubygems.org'
 
 group :application do
   if next?
-    gem 'rails', '~> 6.0.6'
+    gem 'rails', '~> 6.0.6', '>= 6.0.6.1'
   else
     gem 'rails', '~> 6.0.6'
   end
 
   gem 'next_rails'
 
-  gem 'bootsnap'
+  gem 'bootsnap', '>= 1.4.2', require: false
   gem 'coffee-rails'
-  gem 'jbuilder', '~> 2.0'
+  gem 'jbuilder', '~> 2.7'
   gem 'jquery-rails', '~> 4.3.5'
   gem 'mini_racer'
   gem 'pg', '~> 1.2.3'
-  gem 'sassc-rails'
+  gem 'sass-rails', '>= 6'
   gem 'turbolinks'
   gem 'uglifier', '>= 1.3.0'
 
@@ -79,8 +79,10 @@ end
 group :development, :test, :staging do
   gem 'faker', '~> 1.4'
   gem 'haml_lint', require: false
+  gem 'listen', '~> 3.2'
   gem 'rubocop', '= 0.75.0' # this is the latest version hound supports
   gem 'rubocop-rails'
+  gem 'webdrivers'
 end
 
 group :development, :test do
@@ -109,7 +111,7 @@ end
 group :test do
   gem 'rails-controller-testing'
   gem 'shoulda-matchers'
-  gem 'simplecov'
+  gem 'simplecov', '>= 0.21.0'
   gem 'sunspot_matchers'
   gem 'webmock', '~> 3.7.6'
 end

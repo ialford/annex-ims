@@ -9,7 +9,7 @@
 - [x] Clean up bundle 
 - [x] Upgrade RSPEC v. 5.0.0
 - [x] Abstract `FactoryBot.create` calls
-- [ ] Passing tests
+- [x] Passing tests
 
 ### Upgrade
 
@@ -18,9 +18,14 @@
 
 **Rails Required Updates**
 
-- [ ]  Update Rails required per diff: [RailsDiffs](https://railsdiff.org/5.2.8/6.0.6)
-- [ ]  File diffs and `rails app:update`
-- [ ]  Passing Tests
+- [x]  Update Rails required per diff: [RailsDiffs](https://railsdiff.org/5.2.8/6.0.6)
+- [x]  File diffs and `rails app:update`
+- [x]  Passing Tests
+
+### Post-Upgrade
+- [x] Remove `mini-racer` gem
+- [x] Update gems (see below)
+- [ ] Upgrade Sentry Raven gem (see below) 
 
 ### Deprecations
 **Rails**
@@ -39,20 +44,20 @@
 ## Gem notes
 
 - RSpec
-  - [ ]  v. 5.0.0    Rails 5.2, 6.0
+  - [x]  v. 5.0.0    Rails 5.2, 6.0
   - [ ]  v. 6.0.0    Rails 6.1, 7
   
 - Coffee-Rails
-  - [ ]  v. 5.0.0 Rails >= 5.2
+  - [x]  v. 5.0.0 Rails >= 5.2
 
-- [ ] Nokogiri
+- [x] Nokogiri
   - v. 1.11.0 adds Ruby 2.7 and 3.1 support
   - v. 1.13.0 adds Ruby 3.1 support
-- [ ] PG v.1.4.2 to support Ruby 2.7.x keyword arg errors
+- [x] PG v.1.4.2 to support Ruby 2.7.x keyword arg errors
 
 - [ ] replace sentry-raven with `sentry-ruby` [Migration Guide](https://docs.sentry.io/platforms/ruby/migration/)
-- [ ] `ice_cube` check out unreleased updates
-- [ ] `recurring_select` is installed twice (vendor/gems)
+- [x] `ice_cube` check out unreleased updates
+- [x] `recurring_select` is installed twice (remove vendor/gems)
 
 - Rails 7
   - [ ] `bootstrap_progressbar` will not need with Bootstrap5
@@ -66,6 +71,5 @@
 
 ## Security and Monitoring
 - [ ]  Add RSpec reporter
-- [ ]  Add `simplecov`
 - [ ]  Configure Linting and styling (Rubocop)
 - [ ]  [Bundle Audit](https://github.com/rubysec/bundler-audit#readme)

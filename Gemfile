@@ -16,11 +16,10 @@ group :application do
   gem 'next_rails'
 
   gem 'bootsnap', '>= 1.4.2', require: false
-  gem 'coffee-rails'
+  gem 'coffee-rails', '~> 5.0.0'
   gem 'jbuilder', '~> 2.7'
   gem 'jquery-rails', '~> 4.3.5'
-  gem 'mini_racer'
-  gem 'pg', '~> 1.2.3'
+  gem 'pg', '~> 1.4.0'
   gem 'sass-rails', '>= 6'
   gem 'turbolinks'
   gem 'uglifier', '>= 1.3.0'
@@ -58,15 +57,13 @@ group :application do
 
   # Bug/Security updates
   gem 'bigdecimal'
-  gem 'ffi', '>= 1.9.24'
-  gem 'loofah', '~> 2.3.1'
   gem 'rake', '~> 13.0'
 
   # === Not using ===
   gem 'multi_xml'
 end
 
-gem 'ice_cube' # For scheduling tasks
+gem 'ice_cube', git: 'https://github.com/ice-cube-ruby/ice_cube.git' # For scheduling tasks
 gem 'whenever', require: false # For cron tasks
 
 group :deployment do

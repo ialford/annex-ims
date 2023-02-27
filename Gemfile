@@ -19,7 +19,7 @@ group :application do
   gem 'bootsnap', '>= 1.4.4', require: false
   gem 'coffee-rails', '~> 5.0.0'
   gem 'jbuilder', '~> 2.7'
-  gem 'jquery-rails', '~> 4.3.5'
+  gem 'jquery-rails', '~> 4.4.0'
   gem 'pg', '~> 1.4.0'
   gem 'sass-rails', '>= 6'
   gem 'turbolinks'
@@ -42,11 +42,12 @@ group :application do
 
   # authentication
   gem 'devise', '4.8.1' # LOCKED until Rails 7 upgrade
-  gem 'omniauth-oktaoauth'
-
+  gem 'omniauth-oktaoauth', git: 'https://github.com/andrewvanbeek-okta/omniauth-oktaoauth.git'
+  gem 'omniauth-rails_csrf_protection', '~> 1.0.0'
+  gem 'repost' # for redirect with method: :post and CSRF vulnerability
   # logging
   gem 'sentry-rails'
-  # gem 'bundle-audit'
+  gem 'bundle-audit'
 
   # external service interaction
   gem 'faraday', '~> 1.10'

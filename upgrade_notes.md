@@ -57,15 +57,16 @@
 
 **Rails Required Updates**
 
-- [ ]  File diffs and `rails app:update`
-- [ ]  Update Rails required per diff: [RailsDiffs](https://railsdiff.org/6.0.6/6.1.7)
-- [ ]  Upgrade RSpec
-- [ ]  Passing Tests
+- [x]  File diffs and `rails app:update`
+- [x]  Update Rails required per diff: [RailsDiffs](https://railsdiff.org/6.0.6/6.1.7)
+- [x]  Upgrade RSpec
+- [x]  Passing Tests
 
 ### Post-Upgrade
 
-- [ ]  Update gems (see below)
-- [ ]  Fix OmniAuth vulnerability
+- [x]  Update gems (see below)
+- [x]  Fix OmniAuth vulnerability
+- [x]  Fix jQuery vulnerability (upgrade to `jquery-rails` v. 4.4)
 
 ### Deprecations
 

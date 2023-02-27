@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/andrewvanbeek-okta/omniauth-oktaoauth.git
+  revision: ee76977cabd429e9717a80c310fac2c7b10b31e2
+  specs:
+    omniauth-oktaoauth (0.1.7)
+      omniauth (~> 2.0)
+      omniauth-oauth2 (>= 1.4.0, < 2.0)
+
+GIT
   remote: https://github.com/ice-cube-ruby/ice_cube.git
   revision: 10ae8dc1c64ea23c9461f2b046cf7ee4513050b9
   specs:
@@ -99,6 +107,11 @@ GEM
       sassc (>= 2.0.0)
     bootstrap_progressbar (0.2.0)
     builder (3.2.4)
+    bundle-audit (0.1.0)
+      bundler-audit
+    bundler-audit (0.9.1)
+      bundler (>= 1.2.0, < 3)
+      thor (~> 1.0)
     bunny (2.20.3)
       amq-protocol (~> 2.3, >= 2.3.1)
       sorted_set (~> 1, >= 1.0.2)
@@ -229,7 +242,7 @@ GEM
       jquery-rails
       railties (>= 3.1)
       sass-rails
-    jquery-rails (4.3.5)
+    jquery-rails (4.4.0)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
@@ -302,15 +315,16 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0)
       version_gem (~> 1.1)
-    omniauth (1.9.2)
+    omniauth (2.1.1)
       hashie (>= 3.4.6)
-      rack (>= 1.6.2, < 3)
-    omniauth-oauth2 (1.7.3)
+      rack (>= 2.2.3)
+      rack-protection
+    omniauth-oauth2 (1.8.0)
       oauth2 (>= 1.4, < 3)
-      omniauth (>= 1.9, < 3)
-    omniauth-oktaoauth (0.1.6)
-      omniauth (~> 1.5)
-      omniauth-oauth2 (>= 1.4.0, < 2.0)
+      omniauth (~> 2.0)
+    omniauth-rails_csrf_protection (1.0.1)
+      actionpack (>= 4.2)
+      omniauth (~> 2.0)
     options (2.3.2)
     orm_adapter (0.5.0)
     parallel (1.22.1)
@@ -328,6 +342,8 @@ GEM
     rack (2.2.6.2)
     rack-mini-profiler (2.3.4)
       rack (>= 1.2.0)
+    rack-protection (3.0.5)
+      rack
     rack-test (2.0.2)
       rack (>= 1.3)
     rails (6.1.7.2)
@@ -381,6 +397,7 @@ GEM
       rails (>= 5.2)
       sass-rails (>= 4.0)
     regexp_parser (2.7.0)
+    repost (0.4.1)
     responders (3.1.0)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -557,6 +574,7 @@ DEPENDENCIES
   bootstrap-datepicker-rails
   bootstrap-sass (~> 3.4.1)
   bootstrap_progressbar
+  bundle-audit
   byebug
   capistrano (= 3.11.2)
   capistrano-maintenance (~> 1.0)
@@ -576,7 +594,7 @@ DEPENDENCIES
   ice_cube!
   jbuilder (~> 2.7)
   jquery-datatables-rails (~> 3.4.0)
-  jquery-rails (~> 4.3.5)
+  jquery-rails (~> 4.4.0)
   kaminari
   letter_opener
   listen (~> 3.3)
@@ -584,7 +602,8 @@ DEPENDENCIES
   multi_xml
   net-http
   next_rails
-  omniauth-oktaoauth
+  omniauth-oktaoauth!
+  omniauth-rails_csrf_protection (~> 1.0.0)
   pg (~> 1.4.0)
   progress_bar
   rack-mini-profiler (~> 2.0)
@@ -594,6 +613,7 @@ DEPENDENCIES
   rails_layout
   rake (~> 13.0)
   recurring_select (= 3.0.1)
+  repost
   rspec-rails (~> 6.0.0)
   rubocop (= 0.75.0)
   rubocop-rails

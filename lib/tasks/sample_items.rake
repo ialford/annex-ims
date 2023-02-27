@@ -93,7 +93,7 @@ namespace :sample do
 			i.title = 'Life of Brian'
 			i.author = 'Mark Twain'
 			i.thickness = 2
-			i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-2').first.id
+      i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-2').first.id
 			i.created_at = DateTime.now
 			i.updated_at = DateTime.now
 			i.bib_number = '001068044'
@@ -102,9 +102,9 @@ namespace :sample do
 			i.disposition_id = Disposition.where(code: 'GREAT').first.id
 			i.save!
 		end
-    puts 'Create 498140984528174'
-    i = Item.where(barcode: '498140984528174').first
-    if (i.nil?)
+		puts 'Create 498140984528174'
+		i = Item.where(barcode: '498140984528174').first
+		if i.nil?
       i = Item.new
       i.barcode = '498140984528174'
       i.title = 'Foundation'
@@ -139,7 +139,7 @@ namespace :sample do
 		puts 'Create 3916300254816378'
 		i = Item.where(barcode: '3916300254816378').first
 		if (i.nil?)
-      i = Item.new
+			i = Item.new
       i.barcode = '3916300254816378'
       i.title = 'Max and Moritz'
       i.author = 'Mark Twain'

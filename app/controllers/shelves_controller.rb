@@ -21,7 +21,7 @@ class ShelvesController < ApplicationController
 
   def shelf_detail
     @shelf = Shelf.where(barcode: params[:barcode]).take
-    if @shelf
+    unless !@shelf
       @trays = @shelf.trays
       @history = ActivityLogQuery.shelf_history(@shelf)
     end
@@ -49,7 +49,7 @@ class ShelvesController < ApplicationController
 
     already = false
 
-    if !item.shelf.nil?
+    unless item.shelf.nil?
       if item.shelf != @shelf
         flash[:error] = "Item #{barcode} is already assigned to #{item.shelf.barcode}."
         redirect_to wrong_shelf_item_path(id: @shelf.id, barcode: barcode)
@@ -155,11 +155,11 @@ class ShelvesController < ApplicationController
       @scanned = @scanned.uniq
     else
       @errors.push(I18n.t('errors.barcode_not_associated_to_shelf', barcode: tray_barcode))
-      but_message = tray.shelf.present? ? "but is associated with shelf '#{tray.shelf.barcode}'" : 'but is not associated with a shelf.'
+      tray.shelf.present? ? "but is associated with shelf '#{tray.shelf.barcode}'" : 'but is not associated with a shelf.'
     end
 
     @errors = @errors.uniq
-    flash.now[:error] = @errors.join('<br>').html_safe if @errors.count > 0
+    flash.now[:error] = @errors.join('<br>').html_safe if @errors.positive?
     render :check_trays
   end
 end

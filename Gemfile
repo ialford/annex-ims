@@ -59,6 +59,8 @@ group :application do
   gem 'bigdecimal'
   gem 'rake', '~> 13.0'
 
+  gem 'psych', '< 4.0.0'
+
   # === Not using ===
   gem 'multi_xml'
 end
@@ -99,7 +101,7 @@ group :development, :test do
   gem 'sunspot_solr' # , :git => "https://github.com/sunspot/sunspot.git"
 
   gem 'thin', '~> 1.8.1'
-  # gem 'eventmachine', '1.2.2' # not required, dependancy of thin
+  gem 'eventmachine', '1.2.2' # not required, dependancy of thin
 
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', '1.1.0'

@@ -100,9 +100,6 @@ group :development, :test do
   # So staging etc can use stand alone Solr
   gem 'sunspot_solr' # , :git => "https://github.com/sunspot/sunspot.git"
 
-  gem 'thin', '~> 1.8.1'
-  gem 'eventmachine', '1.2.2' # not required, dependancy of thin
-
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', '1.1.0'
 end
@@ -120,7 +117,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'letter_opener'
   gem 'web-console', '~> 3.0'
-  # gem 'bullet'
+  gem 'puma'
 
   # ==== Remove after Rails 7 upgrade
   gem 'rails_layout' # Simple generators for layouts

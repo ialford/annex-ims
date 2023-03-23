@@ -55,6 +55,19 @@ RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
 echo "Fix permissions on $APP_DIR folder"
 chown -R app:app $APP_DIR
 
+if [[ "$PASSENGER_APP_ENV" == "development" ]]; then
+    echo "Adding sample bins"
+    RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sample:bins
+    echo "Adding sample shelves"
+    RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sample:shelves
+    echo "Adding sample trays"
+    RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sample:trays
+    echo "Adding sample items"
+    RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sample:items
+    echo "Adding sample users"
+    RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake sample:users
+fi
+
 if  [ $RUN_TASK -eq 1 ] 
 then
     echo "Run database migrations"
@@ -71,10 +84,10 @@ fi
 
 if  [ $RUN_TASK -eq 3 ]
 then
-    echo "Run the appropriate Notify job once at midnight"
-    if [ $(date -d "now + 30 minutes" +'%H') -eq "00" ]
+    echo "Run the Scheduled Reports job once at midnight"
+    if [ $(date -u -d "now + 30 minutes" +'%H') -eq "05" ]
     then
-        echo "Run the rails runner NotifyReserveRequestor job"
+        echo "Run the rails runner Scheduled Reports job"
         RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake annex:run_scheduled_reports
         echo "Rake Notify job completed"
     else

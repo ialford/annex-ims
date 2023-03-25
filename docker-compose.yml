@@ -25,6 +25,8 @@ services:
       SOLR_PORT: ${SOLR_PORT}
       RABBITMQ_HOST: ${RABBITMQ_HOST}
       OAUTHTOKEN: ${OAUTHTOKEN}
+      API_HOST: ${API_HOST}
+      API_TOKEN: ${API_TOKEN}
       RUN_TASK: 1
   sneaker:
     build:

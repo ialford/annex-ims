@@ -1,4 +1,7 @@
 FROM postgres:9.4.26-alpine
 
+# RUN ["mkdir", "/docker-entrypoint-initdb.d"]
+COPY db/init-devel-docker.sql /docker-entrypoint-initdb.d/
+
 
 

@@ -65,7 +65,7 @@ group :application do
   gem 'bigdecimal'
   gem 'rake', '~> 13.0'
 
-  # gem 'psych', '< 4.0.0'
+  gem 'psych', '< 4.0.0'
 
   # === Not using ===
   gem 'multi_xml'
@@ -107,7 +107,7 @@ group :development, :test do
   gem 'sunspot_solr' # , :git => "https://github.com/sunspot/sunspot.git"
 
   # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', '1.1.0'
+  gem 'sdoc', '~> 2.6.0'
 end
 
 group :test do

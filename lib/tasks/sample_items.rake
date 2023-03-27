@@ -40,7 +40,7 @@ namespace :sample do
 			i = Item.new
 			i.barcode = '63425194857103'
 			i.title = 'The Thing'
-			i.author = 'Mark Twain'
+			i.author = 'Brandon Thing'
 			i.thickness = 3
 			i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-1').first.id
 			i.created_at = DateTime.now
@@ -125,7 +125,7 @@ namespace :sample do
 			i = Item.new
 			i.barcode = '0128374653527475632'
 			i.title = 'Event Horizon'
-			i.author = 'Mark Twain'
+			i.author = 'Dr. Worm Holeheimer'
 			i.thickness = 2
 			i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-2').first.id
 			i.created_at = DateTime.now
@@ -142,7 +142,7 @@ namespace :sample do
 			i = Item.new
       i.barcode = '3916300254816378'
       i.title = 'Max and Moritz'
-      i.author = 'Mark Twain'
+      i.author = 'Max and Moritz'
       i.thickness = 2
       i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-1').first.id
       i.created_at = DateTime.now

@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe BatchesController, type: :controller do
-  let(:user) { FactoryBot.create(:user, admin: true) }
-  let(:batch) { FactoryBot.create(:batch, user: user) }
-  let(:item) { FactoryBot.create(:item) }
-  let(:match) { FactoryBot.create(:match, batch: batch, item: item) }
+  let(:user) { create(:user, admin: true) }
+  let(:batch) { create(:batch, user: user) }
+  let(:item) { create(:item) }
+  let(:match) { create(:match, batch: batch, item: item) }
 
   before(:each) do
     sign_in(user)
@@ -17,7 +17,7 @@ RSpec.describe BatchesController, type: :controller do
     subject { get :index }
 
     context 'when the user has a batch' do
-      let(:batch) { FactoryBot.create(:batch, user: user) }
+      let(:batch) { create(:batch, user: user) }
 
       it 'redirects to current batch' do
         expect(subject).to redirect_to(current_batch_path)
@@ -30,7 +30,7 @@ RSpec.describe BatchesController, type: :controller do
     end
 
     context 'when the user has no batch' do
-      let(:batch) { FactoryBot.create(:batch) }
+      let(:batch) { create(:batch) }
 
       it 'renders index view' do
         subject
@@ -43,7 +43,7 @@ RSpec.describe BatchesController, type: :controller do
     subject { post :create, params: { 'commit' => 'Save', 'batch' => %w[69-156 70-196] } }
 
     context 'when the user has a batch' do
-      let(:batch) { FactoryBot.create(:batch, user: user) }
+      let(:batch) { create(:batch, user: user) }
 
       it 'redirects to current batch' do
         expect(subject).to redirect_to(current_batch_path)
@@ -51,7 +51,7 @@ RSpec.describe BatchesController, type: :controller do
     end
 
     context 'when the user has no batch' do
-      let(:batch) { FactoryBot.create(:batch) }
+      let(:batch) { create(:batch) }
 
       it 'uses BuildBatch to create the batch' do
         expect(BuildBatch).to receive(:call).with(%w[69-156 70-196], user)
@@ -77,7 +77,7 @@ RSpec.describe BatchesController, type: :controller do
     subject { get :current }
 
     context 'when the user has a batch' do
-      let(:batch) { FactoryBot.create(:batch, user: user) }
+      let(:batch) { create(:batch, user: user) }
 
       it 'renders current view' do
         subject
@@ -91,7 +91,7 @@ RSpec.describe BatchesController, type: :controller do
     end
 
     context 'when the user has no batch' do
-      let(:batch) { FactoryBot.create(:batch) }
+      let(:batch) { create(:batch) }
 
       it 'redirects to batches' do
         expect(subject).to redirect_to(batches_path)
@@ -151,7 +151,7 @@ RSpec.describe BatchesController, type: :controller do
     subject { get :retrieve }
 
     context 'when the user has no batch' do
-      let(:batch) { FactoryBot.create(:batch) }
+      let(:batch) { create(:batch) }
 
       it 'redirects to batches' do
         expect(subject).to redirect_to(batches_path)
@@ -159,7 +159,7 @@ RSpec.describe BatchesController, type: :controller do
     end
 
     context 'when the user has a batch' do
-      let(:batch) { FactoryBot.create(:batch, user: user) }
+      let(:batch) { create(:batch, user: user) }
 
       it 'assigns the match for the view' do
         subject
@@ -167,7 +167,7 @@ RSpec.describe BatchesController, type: :controller do
       end
 
       context 'but there are no remaining unprocessed matches' do
-        let(:match) { FactoryBot.create(:match, item: item, batch: batch, processed: 'accepted') }
+        let(:match) { create(:match, item: item, batch: batch, processed: 'accepted') }
 
         it 'redirects to finalize batch' do
           expect(subject).to redirect_to(finalize_batch_path)
@@ -207,7 +207,7 @@ RSpec.describe BatchesController, type: :controller do
     subject { get :bin }
 
     context 'when the user has no batch' do
-      let(:batch) { FactoryBot.create(:batch) }
+      let(:batch) { create(:batch) }
 
       it 'redirects to batches' do
         expect(subject).to redirect_to(batches_path)
@@ -215,7 +215,7 @@ RSpec.describe BatchesController, type: :controller do
     end
 
     context 'when the user has a batch' do
-      let(:batch) { FactoryBot.create(:batch, user: user) }
+      let(:batch) { create(:batch, user: user) }
 
       it 'renders bin view' do
         subject
@@ -238,7 +238,7 @@ RSpec.describe BatchesController, type: :controller do
     subject { get :scan_bin, params: { match_id: match.id } }
 
     context 'when there is no batch for the user' do
-      let(:batch) { FactoryBot.create(:batch) }
+      let(:batch) { create(:batch) }
 
       it 'flashes an error message' do
         subject

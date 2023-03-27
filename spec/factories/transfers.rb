@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :transfer do
-    transfer_type "ShelfTransfer"
+    transfer_type 'ShelfTransfer'
     # sequence(:shelf_id) { |n| "#{n}" }
     sequence(:initiated_by) do |n|
       User.new(username: "test#{n}").save!

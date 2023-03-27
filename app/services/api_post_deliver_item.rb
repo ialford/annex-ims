@@ -24,9 +24,9 @@ class ApiPostDeliverItem
 
   def log_activity(response)
     case delivery_type
-    when "scan"
+    when 'scan'
       ActivityLogger.api_scan_item(item: item, params: params, api_response: response)
-    when "send"
+    when 'send'
       ActivityLogger.api_send_item(item: item, params: params, api_response: response)
     end
   end
@@ -56,10 +56,10 @@ class ApiPostDeliverItem
   end
 
   def delivery_type
-    if request.del_type == "scan"
-      "scan"
+    if request.del_type == 'scan'
+      'scan'
     else
-      "send"
+      'send'
     end
   end
 end

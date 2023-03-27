@@ -29,7 +29,7 @@ class ShelveTray
     if IsObjectTray.call(tray)
       true
     else
-      raise "object is not a tray"
+      raise 'object is not a tray'
     end
   end
 end

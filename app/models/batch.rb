@@ -9,7 +9,7 @@ class Batch < ApplicationRecord
   validates :user_id, presence: true
 
   def skipped_matches
-    matches.where(processed: "skipped")
+    matches.where(processed: 'skipped')
   end
 
   def unprocessed_matches_for_request(request)
@@ -17,17 +17,17 @@ class Batch < ApplicationRecord
   end
 
   def unprocessed_matches
-    matches.where("processed is null")
+    matches.where('processed is null')
   end
 
   def current_match
     matches.
       where(processed: nil).
       includes(item: { tray: :shelf }).
-      order("shelves.barcode").
-      order("trays.barcode").
-      order("items.title").
-      order("items.chron").
+      order('shelves.barcode').
+      order('trays.barcode').
+      order('items.title').
+      order('items.chron').
       take
   end
 end

@@ -1,4 +1,4 @@
-require "sneakers/handlers/maxretry"
+require 'sneakers/handlers/maxretry'
 
 class RetryWorker < ActiveJob::QueueAdapters::SneakersAdapter::JobWrapper
   WORKERS = 1
@@ -25,8 +25,8 @@ class RetryWorker < ActiveJob::QueueAdapters::SneakersAdapter::JobWrapper
   def work(*args)
     original_work(*args)
   rescue StandardError => e
-    Raven.capture_exception(e)
-    NotifyError.call(exception: e, parameters: { args: args }, component: self.class.to_s, action: "work")
+    Sentry.capture_exception(e)
+    NotifyError.call(exception: e, parameters: { args: args }, component: self.class.to_s, action: 'work')
     logger.error e.message
     logger.error args
     logger.error e.backtrace.join("\n")

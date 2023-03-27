@@ -19,7 +19,7 @@ module ItemMetadata
     if response.success?
       get_data_error(response)
     elsif response.not_found?
-      { type: :not_found, status: :not_found, issue_type: "not_found" }
+      { type: :not_found, status: :not_found, issue_type: 'not_found' }
     elsif response.unauthorized?
       { type: :unauthorized, status: :error, enqueue: true }
     elsif response.timeout?
@@ -33,8 +33,8 @@ module ItemMetadata
   # If there is an error, get_data_error will return a json { type:, status:, issue:, enqueue: }
   # otherwise if there are no errors with the data, will return nil
   def get_data_error(response)
-    if !response.body.has_key?(:sublibrary) || response.body[:sublibrary] != "ANNEX"
-      { type: :not_for_annex, status: :not_for_annex, issue_type: "not_for_annex" }
+    if !response.body.has_key?(:sublibrary) || response.body[:sublibrary] != 'ANNEX'
+      { type: :not_for_annex, status: :not_for_annex, issue_type: 'not_for_annex' }
     end
   end
 

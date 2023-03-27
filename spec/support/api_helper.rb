@@ -1,6 +1,6 @@
 module ApiHelper
   def api_url(action, params_hash = {})
-    base_url = ApiHandler.base_url || "http://"
+    base_url = ApiHandler.base_url || 'http://'
     path = ApiHandler.path(action)
     if params_hash.present?
       path += "&#{params_hash.to_param}"
@@ -17,7 +17,7 @@ module ApiHelper
   end
 
   def api_scan_send_url(match)
-    if match.request.del_type == "scan"
+    if match.request.del_type == 'scan'
       api_scan_url
     else
       api_send_url
@@ -49,10 +49,10 @@ module ApiHelper
   end
 
   def stub_api_stock_item(item:, status_code: 200, body: nil)
-    body ||= api_fixture_data("stock_item.json")
+    body ||= api_fixture_data('stock_item.json')
     stub_request(:post, api_stock_url).
       with(body: api_stock_item_params(item),
-           headers: { "User-Agent" => "Faraday v1.10.3" }).
+           headers: { 'User-Agent' => 'Faraday v1.10.3' }).
       to_return(status: status_code, body: body, headers: {})
   end
 
@@ -65,10 +65,10 @@ module ApiHelper
   end
 
   def stub_api_deaccession_item(item:, status_code: 200, body: nil)
-    body ||= api_fixture_data("deaccession_item.json")
+    body ||= api_fixture_data('deaccession_item.json')
     stub_request(:post, api_deaccession_url).
       with(body: api_deaccession_item_params(item),
-           headers: { "User-Agent" => "Faraday v1.10.3" }).
+           headers: { 'User-Agent' => 'Faraday v1.10.3' }).
       to_return(status: status_code, body: body, headers: {})
   end
 
@@ -79,25 +79,25 @@ module ApiHelper
   end
 
   def stub_api_scan_send(match:, status_code: 200, body: nil)
-    body ||= api_fixture_data("scan_send.json")
+    body ||= api_fixture_data('scan_send.json')
     stub_request(:post, api_scan_send_url(match)).
       with(body: api_scan_send_params(match),
-           headers: { "User-Agent" => "Faraday v1.10.3" }).
+           headers: { 'User-Agent' => 'Faraday v1.10.3' }).
       to_return(status: status_code, body: body, headers: {})
   end
 
   def stub_api_remove_request(request:, status_code: 200, body: nil)
     stub_request(:post, api_remove_request_url).
       with(body: api_remove_request_params(request),
-           headers: { "User-Agent" => "Faraday v1.10.3" }).
+           headers: { 'User-Agent' => 'Faraday v1.10.3' }).
       to_return(status: status_code, body: body, headers: {})
   end
 
   def api_scan_send_delivery_type(match)
-    if match.request.del_type == "scan"
-      "scan"
+    if match.request.del_type == 'scan'
+      'scan'
     else
-      "send"
+      'send'
     end
   end
 
@@ -121,27 +121,27 @@ module ApiHelper
   end
 
   def stub_api_active_requests(status_code: 200, body: nil)
-    body ||= api_fixture_data("active_requests.json")
+    body ||= api_fixture_data('active_requests.json')
     stub_request(:get, api_requests_url).
-      with(headers: { "User-Agent" => "Faraday v1.10.3" }).
+      with(headers: { 'User-Agent' => 'Faraday v1.10.3' }).
       to_return(status: status_code, body: body, headers: {})
   end
 
   def stub_api_item_metadata(barcode:, status_code: 200, body: nil)
     body ||= api_item_metadata_json(barcode)
     stub_request(:get, api_item_metadata_url(barcode)).
-      with(headers: { "User-Agent" => "Faraday v1.10.3" }).
+      with(headers: { 'User-Agent' => 'Faraday v1.10.3' }).
       to_return(status: status_code, body: body, headers: {})
   end
 
   def api_item_metadata_json(barcode)
-    data = api_fixture_data("item_metadata.json")
+    data = api_fixture_data('item_metadata.json')
     hash = JSON.parse(data)
-    hash["barcode"] = barcode
+    hash['barcode'] = barcode
     hash.to_json
   end
 
   def api_fixture_data(filename)
-    File.read(Rails.root.join("spec/fixtures/api", filename))
+    File.read(Rails.root.join('spec/fixtures/api', filename))
   end
 end

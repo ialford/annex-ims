@@ -10,7 +10,7 @@ class UpdateController < ApplicationController
     if IsItemBarcode.call(params[:old_barcode])
       @old_item = Item.where(barcode: params[:old_barcode]).take
     else
-      flash[:error] = "barcode is not an item"
+      flash[:error] = 'barcode is not an item'
       redirect_to update_path
       return
     end
@@ -34,7 +34,7 @@ class UpdateController < ApplicationController
     if IsItemBarcode.call(params[:old_barcode])
       @old_item = Item.where(barcode: params[:old_barcode]).take
     else
-      flash[:error] = "old barcode is not an item"
+      flash[:error] = 'old barcode is not an item'
       redirect_to update_path
       return
     end
@@ -55,7 +55,7 @@ class UpdateController < ApplicationController
 
       @new_item = GetItemFromMetadata.call(barcode: params[:new_barcode], user_id: current_user.id)
     rescue StandardError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       flash[:error] = e.message
       redirect_to show_old_update_path(id: @old_item.id)
       return
@@ -77,7 +77,7 @@ class UpdateController < ApplicationController
     begin
       @new_item = GetItemFromMetadata.call(barcode: params[:new_barcode], user_id: current_user.id)
     rescue StandardError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       flash[:error] = e.message
       redirect_to show_old_update_path(id: @old_item.id)
       nil
@@ -95,7 +95,7 @@ class UpdateController < ApplicationController
       MergeNewMetadataToOldItem.call(old_id: params[:old_id],
                                      new_barcode: params[:new_barcode], user_id: current_user.id)
     rescue StandardError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       flash[:error] = e.message
       redirect_to show_old_update_path(id: @old_item.id)
       return

@@ -10,7 +10,7 @@ class AcceptMatch
   end
 
   def accept!
-    @match.processed = "accepted"
+    @match.processed = 'accepted'
     @match.save!
 
     @match.request.filled_by_item = @match.item

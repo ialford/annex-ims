@@ -12,7 +12,7 @@ class DissociateTrayFromShelf
 
   def dissociate!
     unless UnshelveTray.call(tray, user)
-      raise "unable to unshelve tray"
+      raise 'unable to unshelve tray'
     end
 
     shelf = tray.shelf

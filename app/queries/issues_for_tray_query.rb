@@ -10,7 +10,7 @@ class IssuesForTrayQuery
   end
 
   def invalid_count_issues?
-    relation.where(issue_type: "incorrect_count", resolver_id: nil).count >= 1
+    relation.where(issue_type: 'incorrect_count', resolver_id: nil).count >= 1
   end
 
   def issues_by_type(type:)

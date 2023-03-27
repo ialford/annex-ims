@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-  let(:user) { FactoryBot.create(:user, id: 1, admin: true) }
+  let(:user) { create(:user, id: 1, admin: true) }
 
   before(:each) do
     sign_in(user)
@@ -42,13 +42,13 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'does not try to create the user if one already exists by that name' do
-      FactoryBot.create(:user, id: 2, username: 'tester', admin: true)
+      create(:user, id: 2, username: 'tester', admin: true)
       expect(User).not_to receive(:new)
       put :create, params: { user_name: 'tester' }
     end
 
     it 'flashes an error if a user already exists by that name' do
-      FactoryBot.create(:user, id: 2, username: 'tester', admin: true)
+      create(:user, id: 2, username: 'tester', admin: true)
       put :create, params: { user_name: 'tester' }
       expect(flash[:error]).to be_present
     end

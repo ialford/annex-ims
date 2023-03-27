@@ -2,6 +2,10 @@
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  Sentry.init do |sentry|
+    config.environment = 'production'
+    sentry.dsn = Rails.application.secrets.sentry['dsn']
+  end
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -26,7 +30,9 @@ Rails.application.configure do
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
-  # config.assets.css_compressor = :sass
+
+  # Compress CSS using a preprocessor.
+  config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
@@ -110,7 +116,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Configures a user as an administrator
-  config.admin_user_name = 'mvanneve'
+  config.admin_user_name = 'rfox2'
 
   # Configures time before user is logged out due to inactivity
   config.user_timeout = 10.hours

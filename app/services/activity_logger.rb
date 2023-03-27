@@ -3,163 +3,163 @@ class ActivityLogger
   attr_reader :action, :user, :data_objects
 
   def self.accept_item(item:, request:, user:)
-    call(action: "AcceptedItem", user: user, item: item, request: request)
+    call(action: 'AcceptedItem', user: user, item: item, request: request)
   end
 
   def self.api_get_item_metadata(item:, params:, api_response:)
-    call(action: "ApiGetItemMetadata", item: item, params: params, api_response: api_response)
+    call(action: 'ApiGetItemMetadata', item: item, params: params, api_response: api_response)
   end
 
   def self.api_get_request_list(api_response:)
-    call(action: "ApiGetRequestList", api_response: api_response)
+    call(action: 'ApiGetRequestList', api_response: api_response)
   end
 
   def self.api_scan_item(item:, params:, api_response:)
-    call(action: "ApiScanItem", item: item, params: params, api_response: api_response)
+    call(action: 'ApiScanItem', item: item, params: params, api_response: api_response)
   end
 
   def self.api_send_item(item:, params:, api_response:)
-    call(action: "ApiSendItem", item: item, params: params, api_response: api_response)
+    call(action: 'ApiSendItem', item: item, params: params, api_response: api_response)
   end
 
   def self.api_stock_item(item:, params:, api_response:)
-    call(action: "ApiStockItem", item: item, params: params, api_response: api_response)
+    call(action: 'ApiStockItem', item: item, params: params, api_response: api_response)
   end
 
   def self.api_deaccession_item(item:, params:, api_response:)
-    call(action: "ApiDeaccessionItem", item: item, params: params, api_response: api_response)
+    call(action: 'ApiDeaccessionItem', item: item, params: params, api_response: api_response)
   end
 
   def self.api_remove_request(request:, params:, api_response:)
-    call(action: "ApiRemoveRequest", request: request, params: params, api_response: api_response)
+    call(action: 'ApiRemoveRequest', request: request, params: params, api_response: api_response)
   end
 
   def self.associate_item_and_bin(item:, bin:, user:)
-    call(action: "AssociatedItemAndBin", user: user, item: item, bin: bin)
+    call(action: 'AssociatedItemAndBin', user: user, item: item, bin: bin)
   end
 
   def self.associate_item_and_tray(item:, tray:, user:)
-    call(action: "AssociatedItemAndTray", user: user, item: item, tray: tray)
+    call(action: 'AssociatedItemAndTray', user: user, item: item, tray: tray)
   end
 
   def self.associate_tray_and_shelf(tray:, shelf:, user:)
-    call(action: "AssociatedTrayAndShelf", user: user, tray: tray, shelf: shelf)
+    call(action: 'AssociatedTrayAndShelf', user: user, tray: tray, shelf: shelf)
   end
 
   def self.batch_request(request:, user:)
-    call(action: "BatchedRequest", user: user, request: request)
+    call(action: 'BatchedRequest', user: user, request: request)
   end
 
   def self.create_issue(issue:, item:, user:)
-    call(action: "CreatedIssue", issue: issue, item: item, user: user)
+    call(action: 'CreatedIssue', issue: issue, item: item, user: user)
   end
 
   def self.create_tray_issue(issue:, tray:, user:)
-    call(action: "CreatedTrayIssue", issue: issue, tray: tray, user: user)
+    call(action: 'CreatedTrayIssue', issue: issue, tray: tray, user: user)
   end
 
   def self.create_item(item:, user:)
-    call(action: "CreatedItem", item: item, user: user)
+    call(action: 'CreatedItem', item: item, user: user)
   end
 
   def self.create_tray(tray:, user:)
-    call(action: "CreatedTray", tray: tray, user: user)
+    call(action: 'CreatedTray', tray: tray, user: user)
   end
 
   def self.create_transfer(shelf:, transfer:, user:)
-    call(action: "CreatedTransfer", shelf: shelf, transfer: transfer, user: user)
+    call(action: 'CreatedTransfer', shelf: shelf, transfer: transfer, user: user)
   end
 
   def self.destroy_item(item:, user:)
-    call(action: "DestroyedItem", item: item, user: user)
+    call(action: 'DestroyedItem', item: item, user: user)
   end
 
   def self.destroy_transfer(shelf:, transfer:, user:)
-    call(action: "DestroyedTransfer", shelf: shelf, transfer: transfer, user: user)
+    call(action: 'DestroyedTransfer', shelf: shelf, transfer: transfer, user: user)
   end
 
   def self.dissociate_item_and_bin(item:, bin:, user:)
-    call(action: "DissociatedItemAndBin", user: user, item: item, bin: bin)
+    call(action: 'DissociatedItemAndBin', user: user, item: item, bin: bin)
   end
 
   def self.dissociate_item_and_tray(item:, tray:, user:)
-    call(action: "DissociatedItemAndTray", user: user, item: item, tray: tray)
+    call(action: 'DissociatedItemAndTray', user: user, item: item, tray: tray)
   end
 
   def self.dissociate_tray_and_shelf(tray:, shelf:, user:)
-    call(action: "DissociatedTrayAndShelf", user: user, tray: tray, shelf: shelf)
+    call(action: 'DissociatedTrayAndShelf', user: user, tray: tray, shelf: shelf)
   end
 
   def self.fill_request(user:, request:)
-    call(action: "FilledRequest", user: user, request: request)
+    call(action: 'FilledRequest', user: user, request: request)
   end
 
   def self.match_item(item:, request:, user:)
-    call(action: "MatchedItem", item: item, request: request, user: user)
+    call(action: 'MatchedItem', item: item, request: request, user: user)
   end
 
   def self.receive_request(request:)
-    call(action: "ReceivedRequest", request: request)
+    call(action: 'ReceivedRequest', request: request)
   end
 
   def self.remove_match(item:, request:, user:)
-    call(action: "RemovedMatch", item: item, request: request, user: user)
+    call(action: 'RemovedMatch', item: item, request: request, user: user)
   end
 
   def self.remove_request(request:, user:)
-    call(action: "RemovedRequest", request: request, user: user)
+    call(action: 'RemovedRequest', request: request, user: user)
   end
 
   def self.resolve_issue(item:, issue:, user:)
-    call(action: "ResolvedIssue", item: item, issue: issue, user: user)
+    call(action: 'ResolvedIssue', item: item, issue: issue, user: user)
   end
 
   def self.resolve_tray_issue(tray:, issue:, user:)
-    call(action: "ResolvedTrayIssue", tray: tray, issue: issue, user: user)
+    call(action: 'ResolvedTrayIssue', tray: tray, issue: issue, user: user)
   end
 
   def self.scan_item(item:, request:, user:)
-    call(action: "ScannedItem", item: item, request: request, user: user)
+    call(action: 'ScannedItem', item: item, request: request, user: user)
   end
 
   def self.set_item_disposition(item:, disposition:)
-    call(action: "SetItemDisposition", item: item, disposition: disposition)
+    call(action: 'SetItemDisposition', item: item, disposition: disposition)
   end
 
   def self.shelve_tray(tray:, shelf:, user:)
-    call(action: "ShelvedTray", user: user, tray: tray, shelf: shelf)
+    call(action: 'ShelvedTray', user: user, tray: tray, shelf: shelf)
   end
 
   def self.ship_item(item:, request:, user:)
-    call(action: "ShippedItem", item: item, request: request, user: user)
+    call(action: 'ShippedItem', item: item, request: request, user: user)
   end
 
   def self.skip_item(item:, request:, user:)
-    call(action: "SkippedItem", user: user, item: item, request: request)
+    call(action: 'SkippedItem', user: user, item: item, request: request)
   end
 
   def self.stock_item(item:, tray:, user:)
-    call(action: "StockedItem", user: user, item: item, tray: tray)
+    call(action: 'StockedItem', user: user, item: item, tray: tray)
   end
 
   def self.deaccession_item(item:, user:, disposition:, comment:)
-    call(action: "DeaccessionedItem", user: user, item: item, disposition: disposition, comment: comment)
+    call(action: 'DeaccessionedItem', user: user, item: item, disposition: disposition, comment: comment)
   end
 
   def self.unshelve_tray(tray:, shelf:, user:)
-    call(action: "UnshelvedTray", user: user, tray: tray, shelf: shelf)
+    call(action: 'UnshelvedTray', user: user, tray: tray, shelf: shelf)
   end
 
   def self.unstock_item(item:, tray:, user:)
-    call(action: "UnstockedItem", user: user, item: item, tray: tray)
+    call(action: 'UnstockedItem', user: user, item: item, tray: tray)
   end
 
   def self.update_barcode(item:, user:)
-    call(action: "UpdatedBarcode", item: item, user: user)
+    call(action: 'UpdatedBarcode', item: item, user: user)
   end
 
   def self.update_item_metadata(item:)
-    call(action: "UpdatedItemMetadata", item: item)
+    call(action: 'UpdatedItemMetadata', item: item)
   end
 
   def self.call(action:, user: nil, **data_objects)

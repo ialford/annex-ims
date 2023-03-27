@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe TraysController, type: :controller do
-  let(:user) { FactoryBot.create(:user, admin: true) }
+  let(:user) { create(:user, admin: true) }
 
   before(:each) do
     sign_in(user)
@@ -18,7 +18,7 @@ RSpec.describe TraysController, type: :controller do
     end
 
     context 'worker' do
-      let(:user) { FactoryBot.create(:user, worker: true) }
+      let(:user) { create(:user, worker: true) }
 
       it 'returns http success' do
         get :index
@@ -36,14 +36,14 @@ RSpec.describe TraysController, type: :controller do
       end
 
       it 'calls capture_exception on error and redirects to the trays path' do
-        expect(Raven).to receive(:capture_exception).with(kind_of(RuntimeError))
+        expect(Sentry).to receive(:capture_exception).with(kind_of(RuntimeError))
         post :scan, params: { tray: { barcode: '12345' } }
         expect(response).to redirect_to(trays_path)
       end
     end
 
     context 'worker' do
-      let(:user) { FactoryBot.create(:user, worker: true) }
+      let(:user) { create(:user, worker: true) }
 
       it 'redirects' do
         post :scan, params: { tray: { barcode: 'TRAY-AL123' } }
@@ -52,7 +52,7 @@ RSpec.describe TraysController, type: :controller do
       end
 
       it 'calls capture_exception on error and redirects to the trays path' do
-        expect(Raven).to receive(:capture_exception).with(kind_of(RuntimeError))
+        expect(Sentry).to receive(:capture_exception).with(kind_of(RuntimeError))
         post :scan, params: { tray: { barcode: '12345' } }
         expect(response).to redirect_to(trays_path)
       end
@@ -94,8 +94,8 @@ RSpec.describe TraysController, type: :controller do
   end
 
   describe 'POST validate_items' do
-    let(:tray) { FactoryBot.create(:tray) }
-    let(:item) { FactoryBot.create(:item, tray: tray) }
+    let(:tray) { create(:tray) }
+    let(:item) { create(:item, tray: tray) }
     subject { get :validate_items, params: { barcode: tray.barcode } }
 
     before(:each) do
@@ -129,7 +129,7 @@ RSpec.describe TraysController, type: :controller do
     end
 
     context 'for a valid barcode thats not found' do
-      let(:tray) { FactoryBot.create(:tray) }
+      let(:tray) { create(:tray) }
       subject { post :validate_items, params: { barcode: tray.barcode, item_barcode: 'valid barcode' } }
 
       before(:each) do
@@ -201,8 +201,8 @@ RSpec.describe TraysController, type: :controller do
     end
 
     context 'for a valid item that is associated to the tray' do
-      let(:tray) { FactoryBot.create(:tray) }
-      let(:item) { FactoryBot.create(:item, tray: tray) }
+      let(:tray) { create(:tray) }
+      let(:item) { create(:item, tray: tray) }
       subject { post :validate_items, params: { barcode: tray.barcode, item_barcode: item.barcode } }
 
       it "adds the item's barcode to the scanned list" do

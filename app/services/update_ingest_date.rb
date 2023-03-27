@@ -28,7 +28,7 @@ class UpdateIngestDate
     if IsObjectItem.call(item)
       true
     else
-      raise "object is not an item"
+      raise 'object is not an item'
     end
   end
 end

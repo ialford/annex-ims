@@ -40,7 +40,7 @@ namespace :sample do
 			i = Item.new
 			i.barcode = '63425194857103'
 			i.title = 'The Thing'
-			i.author = 'Mark Twain'
+			i.author = 'Brandon Thing'
 			i.thickness = 3
 			i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-1').first.id
 			i.created_at = DateTime.now
@@ -59,7 +59,7 @@ namespace :sample do
 			i.title = 'Life is Wonderful'
 			i.author = 'Mark Twain'
 			i.thickness = 2
-			i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-1').first.id
+			i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-2').first.id
 			i.created_at = DateTime.now
 			i.updated_at = DateTime.now
 			i.bib_number = '000191132'
@@ -125,7 +125,7 @@ namespace :sample do
 			i = Item.new
 			i.barcode = '0128374653527475632'
 			i.title = 'Event Horizon'
-			i.author = 'Mark Twain'
+			i.author = 'Dr. Worm Holeheimer'
 			i.thickness = 2
 			i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-2').first.id
 			i.created_at = DateTime.now
@@ -142,13 +142,77 @@ namespace :sample do
 			i = Item.new
       i.barcode = '3916300254816378'
       i.title = 'Max and Moritz'
-      i.author = 'Mark Twain'
+      i.author = 'Max and Moritz'
       i.thickness = 2
       i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-1').first.id
       i.created_at = DateTime.now
       i.updated_at = DateTime.now
       i.bib_number = '000357098'
       i.isbn_issn = '0520053370'
+      i.initial_ingest = DateTime.now
+      i.disposition_id = Disposition.where(code: 'GREAT').first.id
+      i.save!
+    end
+		i = Item.where(barcode: '4304995837374878').first
+		if (i.nil?)
+			i = Item.new
+      i.barcode = '4304995837374878'
+      i.title = 'Beyond the lens of conservation : Malagasy and Swiss imaginations of one another'
+      i.author = 'Eva Keller'
+      i.thickness = 2
+      i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-1').first.id
+      i.created_at = DateTime.now
+      i.updated_at = DateTime.now
+      i.bib_number = '003877916'
+      i.isbn_issn = '9781782385523'
+      i.initial_ingest = DateTime.now
+      i.disposition_id = Disposition.where(code: 'GREAT').first.id
+      i.save!
+    end
+		i = Item.where(barcode: '391630045823451').first
+		if (i.nil?)
+			i = Item.new
+      i.barcode = '391630045823451'
+      i.title = 'Madagascar'
+      i.author = 'Roland Fritz'
+      i.thickness = 2
+      i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-2').first.id
+      i.created_at = DateTime.now
+      i.updated_at = DateTime.now
+      i.bib_number = '000631915'
+      i.isbn_issn = '0080280021'
+      i.initial_ingest = DateTime.now
+      i.disposition_id = Disposition.where(code: 'GREAT').first.id
+      i.save!
+    end
+		i = Item.where(barcode: '5493995838956373').first
+		if (i.nil?)
+			i = Item.new
+      i.barcode = '5493995838956373'
+      i.title = 'Extinct Madagascar : Picturing the Island Past'
+      i.author = 'George Donaldson'
+      i.thickness = 2
+      i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-2').first.id
+      i.created_at = DateTime.now
+      i.updated_at = DateTime.now
+      i.bib_number = '006199306'
+      i.isbn_issn = '0226113310'
+      i.initial_ingest = DateTime.now
+      i.disposition_id = Disposition.where(code: 'GREAT').first.id
+      i.save!
+    end
+		i = Item.where(barcode: '3916300593920398').first
+		if (i.nil?)
+			i = Item.new
+      i.barcode = '3916300593920398'
+      i.title = 'Historical dictionary of Madagascar'
+      i.author = 'Philip Allen'
+      i.thickness = 2
+      i.tray_id = Tray.where(barcode: 'TRAY-TYPE_ONE-1').first.id
+      i.created_at = DateTime.now
+      i.updated_at = DateTime.now
+      i.bib_number = '002182310'
+      i.isbn_issn = '0810846365'
       i.initial_ingest = DateTime.now
       i.disposition_id = Disposition.where(code: 'GREAT').first.id
       i.save!

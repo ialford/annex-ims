@@ -1,4 +1,4 @@
-require "item_metadata"
+require 'item_metadata'
 
 class GetItemFromMetadata
   include ItemMetadata

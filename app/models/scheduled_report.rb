@@ -49,7 +49,7 @@ class ScheduledReport < ApplicationRecord
 
   def canned_report_exists
     if canned_report.nil?
-      errors.add(:canned_report_id, "must be a valid canned report")
+      errors.add(:canned_report_id, 'must be a valid canned report')
     end
   end
 

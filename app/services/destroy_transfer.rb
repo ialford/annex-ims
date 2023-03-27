@@ -14,10 +14,10 @@ class DestroyTransfer
       @transfer.destroy!
       self.class.send :shelve_trays, @shelf, @user
       ActivityLogger.destroy_transfer(shelf: @shelf, transfer: @transfer, user: @user)
-      "success"
+      'success'
     end
   rescue StandardError => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
     e.message
   end
 

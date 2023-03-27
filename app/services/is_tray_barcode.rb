@@ -5,7 +5,7 @@ module IsTrayBarcode
 
   def self.prefix
     codes = TrayType.where(active: true).pluck(:code)
-    codes_str = codes.join(")|(")
+    codes_str = codes.join(')|(')
     "(TRAY-)((#{codes_str}))"
   end
 end

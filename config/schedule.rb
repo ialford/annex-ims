@@ -19,18 +19,18 @@
 
 # Learn more: http://github.com/javan/whenever
 
-set :output, File.join("log", "cron.log")
+set :output, File.join('log', 'cron.log')
 
-env :PATH, "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+env :PATH, '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin'
 
 every 1.hour do
-  rake "sneakers:ensure_running"
+  rake 'sneakers:ensure_running'
 end
 
 every 5.minutes do
-  rake "annex:get_active_requests"
+  rake 'annex:get_active_requests'
 end
 
 every 1.day, at: 'midnight' do
-  rake "annex:run_scheduled_reports"
+  rake 'annex:run_scheduled_reports'
 end

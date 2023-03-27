@@ -8,13 +8,13 @@ module AuthenticationHelper
   end
 
   def login_admin
-    @user = FactoryBot.create(:user, admin: true)
+    @user = create(:user, admin: true)
     login_as @user, scope: :user
     @user
   end
 
   def login_worker
-    @user = FactoryBot.create(:user, admin: false, worker: true)
+    @user = create(:user, admin: false, worker: true)
     login_as @user, scope: :user
     @user
   end

@@ -12,7 +12,7 @@ class BinsController < ApplicationController
     ActiveRecord::Base.transaction do
       DestroyMatch.call(match: @match, user: current_user)
       FinishBatch.call(@match.batch, current_user)
-      try_dissociate_item_and_bin(warning_verb: "Removed")
+      try_dissociate_item_and_bin(warning_verb: 'Removed')
     end
 
     redirect_to show_bin_path(id: @match.bin.id)
@@ -23,7 +23,7 @@ class BinsController < ApplicationController
     bin = @match.bin
     ActiveRecord::Base.transaction do
       ProcessMatch.call(match: @match, user: current_user)
-      try_dissociate_item_and_bin(warning_verb: "Processed")
+      try_dissociate_item_and_bin(warning_verb: 'Processed')
     end
 
     redirect_to show_bin_path(id: bin.id)

@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe UpdateController, type: :controller do
-  let(:user) { FactoryBot.create(:user, admin: true) }
-  let(:item) { FactoryBot.create(:item) }
+  let(:user) { create(:user, admin: true) }
+  let(:item) { create(:item) }
   let(:new_item) { FactoryBot.build(:item) }
 
   before(:each) do

@@ -4,10 +4,10 @@ module ActivityLogQuery
   def shelf_history(shelf)
     for_shelf(shelf).
       where(action: [
-              "AssociatedTrayAndShelf",
-              "DissociatedTrayAndShelf",
-              "ShelvedTray",
-              "UnshelvedTray"
+              'AssociatedTrayAndShelf',
+              'DissociatedTrayAndShelf',
+              'ShelvedTray',
+              'UnshelvedTray'
             ]).
       order(action_timestamp: :desc)
   end
@@ -15,18 +15,18 @@ module ActivityLogQuery
   def item_history(item)
     for_item(item).
       where(action: [
-              "AcceptedItem",
-              "StockedItem",
-              "UnstockedItem",
-              "CreatedItem",
-              "CreatedIssue",
-              "DestroyedItem",
-              "DissociatedItemAndTray",
-              "DissociatedItemAndBin",
-              "DeaccessionedItem",
-              "ResolvedIssue",
-              "UpdatedBarcode",
-              "ShippedItem"
+              'AcceptedItem',
+              'StockedItem',
+              'UnstockedItem',
+              'CreatedItem',
+              'CreatedIssue',
+              'DestroyedItem',
+              'DissociatedItemAndTray',
+              'DissociatedItemAndBin',
+              'DeaccessionedItem',
+              'ResolvedIssue',
+              'UpdatedBarcode',
+              'ShippedItem'
             ]).
       order(action_timestamp: :desc)
   end
@@ -34,19 +34,19 @@ module ActivityLogQuery
   def tray_history(tray)
     for_tray(tray).
       where(action: [
-              "AssociatedTrayAndShelf",
-              "CreatedTrayIssue",
-              "DissociatedTrayAndShelf",
-              "ResolvedTrayIssue",
-              "ShelvedTray",
-              "UnshelvedTray"
+              'AssociatedTrayAndShelf',
+              'CreatedTrayIssue',
+              'DissociatedTrayAndShelf',
+              'ResolvedTrayIssue',
+              'ShelvedTray',
+              'UnshelvedTray'
             ]).
       order(action_timestamp: :desc)
   end
 
   def item_usage(item)
     for_item(item).
-      where(action: ["ScannedItem", "ShippedItem"]).
+      where(action: ['ScannedItem', 'ShippedItem']).
       order(action_timestamp: :desc)
   end
 
@@ -70,10 +70,10 @@ module ActivityLogQuery
   end
 
   def tray_barcode(record)
-    return record.data["tray"]["barcode"] if record.data["tray"].present?
-    return Tray.find(record.data["item"]["tray_id"]).barcode if record.data["item"]["tray_id"].present?
+    return record.data['tray']['barcode'] if record.data['tray'].present?
+    return Tray.find(record.data['item']['tray_id']).barcode if record.data['item']['tray_id'].present?
 
-    "STAGING"
+    'STAGING'
   end
 
   private_class_method :relation

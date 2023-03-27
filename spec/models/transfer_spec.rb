@@ -1,4 +1,4 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe Transfer, type: :model do
   [:shelf, :initiated_by, :transfer_type].each do |field|

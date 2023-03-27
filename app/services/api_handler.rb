@@ -1,5 +1,5 @@
 class ApiHandler
-  BASE_PATH = "/1.0/resources/items".freeze
+  BASE_PATH = '/1.0/resources/items'.freeze
 
   attr_reader :verb, :action, :params, :response, :connection_opts
 
@@ -10,11 +10,11 @@ class ApiHandler
   end
 
   def self.get(action:, params: {}, connection_opts: {})
-    call(verb: "GET", action: action, params: params, connection_opts: connection_opts)
+    call(verb: 'GET', action: action, params: params, connection_opts: connection_opts)
   end
 
   def self.post(action:, params: {}, connection_opts: {})
-    call(verb: "POST", action: action, params: params, connection_opts: connection_opts)
+    call(verb: 'POST', action: action, params: params, connection_opts: connection_opts)
   end
 
   def self.path(action)
@@ -44,28 +44,28 @@ class ApiHandler
     raw_response = raw_transact!
     ApiResponse.new(status_code: raw_response[:status], body: raw_response[:results])
   rescue Timeout::Error => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
     handle_timeout_exception(e)
   rescue Faraday::TimeoutError => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
     handle_timeout_exception(e)
   end
 
   private
 
   def handle_timeout_exception(exception)
-    NotifyError.call(exception: exception, parameters: { action: action, params: params }, component: self.class.to_s, action: "transact!")
+    NotifyError.call(exception: exception, parameters: { action: action, params: params }, component: self.class.to_s, action: 'transact!')
     ApiResponse.new(status_code: 599, body: {})
   end
 
   def raw_transact!
     case verb
-    when "GET"
+    when 'GET'
       connection.get(path_with_params)
-    when "POST"
+    when 'POST'
       connection.post(path, params)
     else
-      raise HTTPMethodNotImplemented, "Only GET and POST have been implemented."
+      raise HTTPMethodNotImplemented, 'Only GET and POST have been implemented.'
     end
   end
 

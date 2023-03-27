@@ -21,7 +21,7 @@ class ItemRestockToTray
     tray = GetTrayFromBarcode.call(barcode)
 
     if item.tray.blank? # couldn't figure out how to make link_to work here with doing an include
-      results[:error] = "This item has no tray to stock to."
+      results[:error] = 'This item has no tray to stock to.'
       results[:path] = h.show_item_path(id: @item_id)
     else
       if item.tray != tray # this isn't the place to be putting items in the wrong tray

@@ -13,7 +13,7 @@ class GetBinFromBarcode
     if valid?
       Bin.where(barcode: barcode).first_or_create!
     else
-      raise "barcode is not a bin"
+      raise 'barcode is not a bin'
     end
   end
 

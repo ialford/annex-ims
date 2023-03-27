@@ -9,10 +9,10 @@ class MatchQuery
     set = {}
     relation.where(request: match.request).
       includes(item: { tray: :shelf }).
-      order("shelves.barcode").
-      order("trays.barcode").
-      order("items.title").
-      order("items.chron").
+      order('shelves.barcode').
+      order('trays.barcode').
+      order('items.title').
+      order('items.chron').
       map.
       with_index { |m, i| set[m.item.id] = (i + 1).ordinalize }
     set

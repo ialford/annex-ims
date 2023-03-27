@@ -1,20 +1,20 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe ActivityLogger do
-  let(:item) { FactoryBot.create(:item) }
-  let(:bin) { FactoryBot.create(:bin) }
-  let(:tray) { FactoryBot.create(:tray) }
-  let(:shelf) { FactoryBot.create(:shelf) }
-  let(:user) { FactoryBot.create(:user) }
-  let(:issue) { FactoryBot.create(:issue) }
-  let(:tray_issue) { FactoryBot.create(:tray_issue) }
-  let(:request) { FactoryBot.create(:request) }
-  let(:transfer) { FactoryBot.create(:transfer) }
-  let(:api_response) { ApiResponse.new(status_code: 200, body: { status: "OK" }) }
-  let(:disposition) { FactoryBot.create(:disposition) }
-  let(:comment) { { comment: "A deaccessioning comment." } }
+  let(:item) { create(:item) }
+  let(:bin) { create(:bin) }
+  let(:tray) { create(:tray) }
+  let(:shelf) { create(:shelf) }
+  let(:user) { create(:user) }
+  let(:issue) { create(:issue) }
+  let(:tray_issue) { create(:tray_issue) }
+  let(:request) { create(:request) }
+  let(:transfer) { create(:transfer) }
+  let(:api_response) { ApiResponse.new(status_code: 200, body: { status: 'OK' }) }
+  let(:disposition) { create(:disposition) }
+  let(:comment) { { comment: 'A deaccessioning comment.' } }
 
-  shared_examples "an activity log" do |message|
+  shared_examples 'an activity log' do |message|
     def compare_user(activity_log, user)
       if user
         expect(activity_log.username).to eq(user.username)
@@ -34,7 +34,7 @@ RSpec.describe ActivityLogger do
       JSON.parse(data.to_json)
     end
 
-    it "sets the correct message and data" do
+    it 'sets the correct message and data' do
       expect(subject.action).to eq(message)
       arguments.each do |key, object|
         if key == :user
@@ -46,282 +46,282 @@ RSpec.describe ActivityLogger do
     end
   end
 
-  context "AcceptedItem" do
+  context 'AcceptedItem' do
     let(:arguments) { { item: item, user: user, request: request } }
     subject { described_class.accept_item(**arguments) }
 
-    it_behaves_like "an activity log", "AcceptedItem"
+    it_behaves_like 'an activity log', 'AcceptedItem'
   end
 
-  context "ApiGetItemMetadata" do
+  context 'ApiGetItemMetadata' do
     let(:arguments) do
       {
         item: item,
-        params: { barcode: "1234" },
+        params: { barcode: '1234' },
         api_response: api_response,
       }
     end
     subject { described_class.api_get_item_metadata(**arguments) }
 
-    it_behaves_like "an activity log", "ApiGetItemMetadata"
+    it_behaves_like 'an activity log', 'ApiGetItemMetadata'
   end
 
-  context "ApiGetRequestList" do
+  context 'ApiGetRequestList' do
     let(:arguments) { { api_response: api_response } }
     subject { described_class.api_get_request_list(**arguments) }
 
-    it_behaves_like "an activity log", "ApiGetRequestList"
+    it_behaves_like 'an activity log', 'ApiGetRequestList'
   end
 
-  context "ApiStockItem" do
-    let(:arguments) { { item: item, params: { test: "test" }, api_response: api_response } }
+  context 'ApiStockItem' do
+    let(:arguments) { { item: item, params: { test: 'test' }, api_response: api_response } }
     subject { described_class.api_stock_item(**arguments) }
 
-    it_behaves_like "an activity log", "ApiStockItem"
+    it_behaves_like 'an activity log', 'ApiStockItem'
   end
 
-  context "ApiDeaccessionItem" do
-    let(:arguments) { { item: item, params: { test: "test" }, api_response: api_response } }
+  context 'ApiDeaccessionItem' do
+    let(:arguments) { { item: item, params: { test: 'test' }, api_response: api_response } }
     subject { described_class.api_deaccession_item(**arguments) }
 
-    it_behaves_like "an activity log", "ApiDeaccessionItem"
+    it_behaves_like 'an activity log', 'ApiDeaccessionItem'
   end
 
-  context "ApiRemoveRequest" do
-    let(:arguments) { { request: request, params: { test: "test" }, api_response: api_response } }
+  context 'ApiRemoveRequest' do
+    let(:arguments) { { request: request, params: { test: 'test' }, api_response: api_response } }
     subject { described_class.api_remove_request(**arguments) }
 
-    it_behaves_like "an activity log", "ApiRemoveRequest"
+    it_behaves_like 'an activity log', 'ApiRemoveRequest'
   end
 
-  context "ApiScanItem" do
-    let(:arguments) { { item: item, params: { test: "test" }, api_response: api_response } }
+  context 'ApiScanItem' do
+    let(:arguments) { { item: item, params: { test: 'test' }, api_response: api_response } }
     subject { described_class.api_scan_item(**arguments) }
 
-    it_behaves_like "an activity log", "ApiScanItem"
+    it_behaves_like 'an activity log', 'ApiScanItem'
   end
 
-  context "ApiSendItem" do
-    let(:arguments) { { item: item, params: { test: "test" }, api_response: api_response } }
+  context 'ApiSendItem' do
+    let(:arguments) { { item: item, params: { test: 'test' }, api_response: api_response } }
     subject { described_class.api_send_item(**arguments) }
 
-    it_behaves_like "an activity log", "ApiSendItem"
+    it_behaves_like 'an activity log', 'ApiSendItem'
   end
 
-  context "AssociatedItemAndBin" do
+  context 'AssociatedItemAndBin' do
     let(:arguments) { { item: item, bin: bin, user: user } }
     subject { described_class.associate_item_and_bin(**arguments) }
 
-    it_behaves_like "an activity log", "AssociatedItemAndBin"
+    it_behaves_like 'an activity log', 'AssociatedItemAndBin'
   end
 
-  context "AssociatedItemAndTray" do
+  context 'AssociatedItemAndTray' do
     let(:arguments) { { item: item, tray: tray, user: user } }
     subject { described_class.associate_item_and_tray(**arguments) }
 
-    it_behaves_like "an activity log", "AssociatedItemAndTray"
+    it_behaves_like 'an activity log', 'AssociatedItemAndTray'
   end
 
-  context "AssociatedTrayAndShelf" do
+  context 'AssociatedTrayAndShelf' do
     let(:arguments) { { shelf: shelf, tray: tray, user: user } }
     subject { described_class.associate_tray_and_shelf(**arguments) }
 
-    it_behaves_like "an activity log", "AssociatedTrayAndShelf"
+    it_behaves_like 'an activity log', 'AssociatedTrayAndShelf'
   end
 
-  context "BatchedRequest" do
+  context 'BatchedRequest' do
     let(:arguments) { { request: request, user: user } }
     subject { described_class.batch_request(**arguments) }
 
-    it_behaves_like "an activity log", "BatchedRequest"
+    it_behaves_like 'an activity log', 'BatchedRequest'
   end
 
-  context "CreatedIssue" do
+  context 'CreatedIssue' do
     let(:arguments) { { issue: issue, item: item, user: user } }
     subject { described_class.create_issue(**arguments) }
 
-    it_behaves_like "an activity log", "CreatedIssue"
+    it_behaves_like 'an activity log', 'CreatedIssue'
   end
 
-  context "CreatedTrayIssue" do
+  context 'CreatedTrayIssue' do
     let(:arguments) { { issue: issue, tray: tray, user: user } }
     subject { described_class.create_tray_issue(**arguments) }
 
-    it_behaves_like "an activity log", "CreatedTrayIssue"
+    it_behaves_like 'an activity log', 'CreatedTrayIssue'
   end
 
-  context "CreatedItem" do
+  context 'CreatedItem' do
     let(:arguments) { { item: item, user: user } }
     subject { described_class.create_item(**arguments) }
 
-    it_behaves_like "an activity log", "CreatedItem"
+    it_behaves_like 'an activity log', 'CreatedItem'
   end
 
-  context "CreatedTransfer" do
+  context 'CreatedTransfer' do
     let(:arguments) { { shelf: shelf, transfer: transfer, user: user } }
     subject { described_class.create_transfer(**arguments) }
 
-    it_behaves_like "an activity log", "CreatedTransfer"
+    it_behaves_like 'an activity log', 'CreatedTransfer'
   end
 
-  context "DestroyedItem" do
+  context 'DestroyedItem' do
     let(:arguments) { { item: item, user: user } }
     subject { described_class.destroy_item(**arguments) }
 
-    it_behaves_like "an activity log", "DestroyedItem"
+    it_behaves_like 'an activity log', 'DestroyedItem'
   end
 
-  context "DestroyedTransfer" do
+  context 'DestroyedTransfer' do
     let(:arguments) { { shelf: shelf, transfer: transfer, user: user } }
     subject { described_class.destroy_transfer(**arguments) }
 
-    it_behaves_like "an activity log", "DestroyedTransfer"
+    it_behaves_like 'an activity log', 'DestroyedTransfer'
   end
 
-  context "DissociatedItemAndBin" do
+  context 'DissociatedItemAndBin' do
     let(:arguments) { { item: item, bin: bin, user: user } }
     subject { described_class.dissociate_item_and_bin(**arguments) }
 
-    it_behaves_like "an activity log", "DissociatedItemAndBin"
+    it_behaves_like 'an activity log', 'DissociatedItemAndBin'
   end
 
-  context "DissociatedItemAndTray" do
+  context 'DissociatedItemAndTray' do
     let(:arguments) { { item: item, tray: tray, user: user } }
     subject { described_class.dissociate_item_and_tray(**arguments) }
 
-    it_behaves_like "an activity log", "DissociatedItemAndTray"
+    it_behaves_like 'an activity log', 'DissociatedItemAndTray'
   end
 
-  context "DissociatedTrayAndShelf" do
+  context 'DissociatedTrayAndShelf' do
     let(:arguments) { { shelf: shelf, tray: tray, user: user } }
     subject { described_class.dissociate_tray_and_shelf(**arguments) }
 
-    it_behaves_like "an activity log", "DissociatedTrayAndShelf"
+    it_behaves_like 'an activity log', 'DissociatedTrayAndShelf'
   end
 
-  context "FilledRequest" do
+  context 'FilledRequest' do
     let(:arguments) { { request: request, user: user } }
     subject { described_class.fill_request(**arguments) }
 
-    it_behaves_like "an activity log", "FilledRequest"
+    it_behaves_like 'an activity log', 'FilledRequest'
   end
 
-  context "MatchedItem" do
+  context 'MatchedItem' do
     let(:arguments) { { item: item, request: request, user: user } }
     subject { described_class.match_item(**arguments) }
 
-    it_behaves_like "an activity log", "MatchedItem"
+    it_behaves_like 'an activity log', 'MatchedItem'
   end
 
-  context "ReceivedRequest" do
+  context 'ReceivedRequest' do
     let(:arguments) { { request: request } }
     subject { described_class.receive_request(**arguments) }
 
-    it_behaves_like "an activity log", "ReceivedRequest"
+    it_behaves_like 'an activity log', 'ReceivedRequest'
   end
 
-  context "RemovedMatch" do
+  context 'RemovedMatch' do
     let(:arguments) { { item: item, request: request, user: user } }
     subject { described_class.remove_match(**arguments) }
 
-    it_behaves_like "an activity log", "RemovedMatch"
+    it_behaves_like 'an activity log', 'RemovedMatch'
   end
 
-  context "RemovedRequest" do
+  context 'RemovedRequest' do
     let(:arguments) { { request: request, user: user } }
     subject { described_class.remove_request(**arguments) }
 
-    it_behaves_like "an activity log", "RemovedRequest"
+    it_behaves_like 'an activity log', 'RemovedRequest'
   end
 
-  context "ResolvedIssue" do
+  context 'ResolvedIssue' do
     let(:arguments) { { item: item, issue: issue, user: user } }
     subject { described_class.resolve_issue(**arguments) }
 
-    it_behaves_like "an activity log", "ResolvedIssue"
+    it_behaves_like 'an activity log', 'ResolvedIssue'
   end
 
-  context "ResolvedTrayIssue" do
+  context 'ResolvedTrayIssue' do
     let(:arguments) { { tray: tray, issue: tray_issue, user: user } }
     subject { described_class.resolve_tray_issue(**arguments) }
 
-    it_behaves_like "an activity log", "ResolvedTrayIssue"
+    it_behaves_like 'an activity log', 'ResolvedTrayIssue'
   end
 
-  context "ScannedItem" do
+  context 'ScannedItem' do
     let(:arguments) { { item: item, request: request, user: user } }
     subject { described_class.scan_item(**arguments) }
 
-    it_behaves_like "an activity log", "ScannedItem"
+    it_behaves_like 'an activity log', 'ScannedItem'
   end
 
-  context "SetItemDisposition" do
+  context 'SetItemDisposition' do
     let(:arguments) { { item: item, disposition: disposition } }
     subject { described_class.set_item_disposition(**arguments) }
 
-    it_behaves_like "an activity log", "SetItemDisposition"
+    it_behaves_like 'an activity log', 'SetItemDisposition'
   end
 
-  context "ShelvedTray" do
+  context 'ShelvedTray' do
     let(:arguments) { { shelf: shelf, tray: tray, user: user } }
     subject { described_class.shelve_tray(**arguments) }
 
-    it_behaves_like "an activity log", "ShelvedTray"
+    it_behaves_like 'an activity log', 'ShelvedTray'
   end
 
-  context "ShippedItem" do
+  context 'ShippedItem' do
     let(:arguments) { { item: item, request: request, user: user } }
     subject { described_class.ship_item(**arguments) }
 
-    it_behaves_like "an activity log", "ShippedItem"
+    it_behaves_like 'an activity log', 'ShippedItem'
   end
 
-  context "SkippedItem" do
+  context 'SkippedItem' do
     let(:arguments) { { item: item, request: request, user: user } }
     subject { described_class.skip_item(**arguments) }
 
-    it_behaves_like "an activity log", "SkippedItem"
+    it_behaves_like 'an activity log', 'SkippedItem'
   end
 
-  context "StockedItem" do
+  context 'StockedItem' do
     let(:arguments) { { item: item, tray: tray, user: user } }
     subject { described_class.stock_item(**arguments) }
 
-    it_behaves_like "an activity log", "StockedItem"
+    it_behaves_like 'an activity log', 'StockedItem'
   end
 
-  context "DeaccessionedItem" do
+  context 'DeaccessionedItem' do
     let(:arguments) { { item: item, user: user, disposition: disposition, comment: comment } }
     subject { described_class.deaccession_item(**arguments) }
 
-    it_behaves_like "an activity log", "DeaccessionedItem"
+    it_behaves_like 'an activity log', 'DeaccessionedItem'
   end
 
-  context "UnshelvedTray" do
+  context 'UnshelvedTray' do
     let(:arguments) { { shelf: shelf, tray: tray, user: user } }
     subject { described_class.unshelve_tray(**arguments) }
 
-    it_behaves_like "an activity log", "UnshelvedTray"
+    it_behaves_like 'an activity log', 'UnshelvedTray'
   end
 
-  context "UnstockedItem" do
+  context 'UnstockedItem' do
     let(:arguments) { { item: item, tray: tray, user: user } }
     subject { described_class.unstock_item(**arguments) }
 
-    it_behaves_like "an activity log", "UnstockedItem"
+    it_behaves_like 'an activity log', 'UnstockedItem'
   end
 
-  context "UpdatedBarcode" do
+  context 'UpdatedBarcode' do
     let(:arguments) { { item: item, user: user } }
     subject { described_class.update_barcode(**arguments) }
 
-    it_behaves_like "an activity log", "UpdatedBarcode"
+    it_behaves_like 'an activity log', 'UpdatedBarcode'
   end
 
-  context "UpdatedItemMetadata" do
+  context 'UpdatedItemMetadata' do
     let(:arguments) { { item: item } }
     subject { described_class.update_item_metadata(**arguments) }
 
-    it_behaves_like "an activity log", "UpdatedItemMetadata"
+    it_behaves_like 'an activity log', 'UpdatedItemMetadata'
   end
 end

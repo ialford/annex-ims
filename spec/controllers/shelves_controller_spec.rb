@@ -3,14 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe ShelvesController, type: :controller do
-  let(:user) { FactoryBot.create(:user, admin: true) }
-  let(:shelf) { FactoryBot.create(:shelf) }
-  let(:tray) { FactoryBot.create(:tray, shelf: shelf) }
+  let(:user) { create(:user, admin: true) }
+  let(:shelf) { create(:shelf) }
+  let(:tray) { create(:tray, shelf: shelf) }
   let(:bogus) { 'BOGUS' }
   let(:barcode) { '00000007819006' }
   let(:metadata_status) { 'not_found' }
   let(:item) { instance_double(Item, barcode: bogus, metadata_status: metadata_status, metadata_updated_at: 1.day.ago, attributes: {}, update!: true) }
-  let(:item2) { FactoryBot.create(:item, tray: tray) }
+  let(:item2) { create(:item, tray: tray) }
 
   before(:each) do
     sign_in(user)
@@ -30,7 +30,7 @@ RSpec.describe ShelvesController, type: :controller do
     end
 
     it 'calls capture_exception on error and redirects to the trays path' do
-      expect(Raven).to receive(:capture_exception).with(kind_of(RuntimeError))
+      expect(Sentry).to receive(:capture_exception).with(kind_of(RuntimeError))
       post :scan, params: { shelf: { barcode: '12345' } }
       expect(response).to redirect_to(shelves_path)
     end
@@ -49,7 +49,7 @@ RSpec.describe ShelvesController, type: :controller do
       item2.save!
       allow(GetItemFromBarcode).to receive(:call).and_return(item2)
       allow(AssociateShelfWithItemBarcode).to receive(:call).and_raise(StandardError)
-      expect(Raven).to receive(:capture_exception).with(kind_of(StandardError))
+      expect(Sentry).to receive(:capture_exception).with(kind_of(StandardError))
       post :associate, params: { id: shelf.id, barcode: item2.barcode }
       expect(response).to be_redirect
       expect(response.location).to match(%r{shelves/items/\d+})

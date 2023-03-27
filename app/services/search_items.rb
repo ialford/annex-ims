@@ -47,18 +47,14 @@ class SearchItems
 
   private
 
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/CyclomaticComplexity
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/PerceivedComplexity
   def search_results
     Item.search do
-      without(:bin_barcode, "BIN-DEAC-HAND-01")
+      without(:bin_barcode, 'BIN-DEAC-HAND-01')
 
-      without(:bin_barcode, "BIN-REM-HAND-01")
+      without(:bin_barcode, 'BIN-REM-HAND-01')
 
       unless search?
-        without(:status, "deaccessioned")
+        without(:status, 'deaccessioned')
       end
 
       paginate page: page, per_page: per_page
@@ -76,25 +72,25 @@ class SearchItems
       if search_fulltext?
         # remove the special character '-' because they screw with isbn queries
         # we may also want to consider removing other special chars eg. *,+,"
-        criteria = fetch(:criteria).gsub(/[\-\.]/, "")
+        criteria = fetch(:criteria).gsub(/[\-\.]/, '')
         fulltext(criteria, fields: fulltext_fields) do
-          minimum_match "75%"
+          minimum_match '75%'
         end
       end
 
       if search_conditions?
         case fetch(:condition_bool)
-        when "all"
+        when 'all'
           all_of do
             conditions.each do |condition|
               with(:conditions, condition)
             end
           end
-        when "any"
+        when 'any'
           any_of do
             with(:conditions, conditions)
           end
-        when "none"
+        when 'none'
           all_of do
             conditions.each do |condition|
               without(:conditions, condition)
@@ -129,11 +125,11 @@ class SearchItems
 
   def date_field
     case fetch(:date_type)
-    when "request"
+    when 'request'
       :requested
-    when "initial"
+    when 'initial'
       :initial_ingest
-    when "last"
+    when 'last'
       :last_ingest
     end
   end
@@ -150,11 +146,11 @@ class SearchItems
   end
 
   def search_tray?
-    filter?(:criteria_type) && (fetch(:criteria_type) == "tray") && filter?(:criteria)
+    filter?(:criteria_type) && (fetch(:criteria_type) == 'tray') && filter?(:criteria)
   end
 
   def search_shelf?
-    filter?(:criteria_type) && (fetch(:criteria_type) == "shelf") && filter?(:criteria)
+    filter?(:criteria_type) && (fetch(:criteria_type) == 'shelf') && filter?(:criteria)
   end
 
   def search_date?
@@ -162,7 +158,7 @@ class SearchItems
   end
 
   def search?
-    filter?(:type) && (fetch(:type) == "search")
+    filter?(:type) && (fetch(:type) == 'search')
   end
 
   def fulltext_fields
@@ -170,11 +166,11 @@ class SearchItems
   end
 
   def fulltext_field_to_symbol
-    if fetch(:criteria_type) == "any"
+    if fetch(:criteria_type) == 'any'
       [:barcode, :bib_number, :call_number, :isbn_issn, :title, :author]
-    elsif fetch(:criteria_type) == "tray"
+    elsif fetch(:criteria_type) == 'tray'
       nil
-    elsif fetch(:criteria_type) == "shelf"
+    elsif fetch(:criteria_type) == 'shelf'
       nil
     else
       fetch(:criteria_type).to_sym

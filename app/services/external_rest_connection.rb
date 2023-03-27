@@ -55,8 +55,14 @@ class ExternalRestConnection
   end
 
   def establish_connection
-    Faraday.new(url: base_url) do |conn|
-      setup_connection(conn)
+    if Rails.env.development?
+      Faraday.new(url: base_url, ssl: { verify: false }) do |conn|
+        setup_connection(conn)
+      end
+    else
+      Faraday.new(url: base_url) do |conn|
+        setup_connection(conn)
+      end
     end
   end
 

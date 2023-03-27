@@ -65,6 +65,8 @@ group :application do
   gem 'bigdecimal'
   gem 'rake', '~> 13.0'
 
+  # gem 'psych', '< 4.0.0'
+
   # === Not using ===
   gem 'multi_xml'
 end
@@ -104,8 +106,6 @@ group :development, :test do
   # So staging etc can use stand alone Solr
   gem 'sunspot_solr' # , :git => "https://github.com/sunspot/sunspot.git"
 
-  gem 'thin', '~> 1.8.1'
-
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', '1.1.0'
 end
@@ -126,7 +126,7 @@ group :development do
   gem 'letter_opener'
   gem 'spring'
   gem 'web-console', '~> 4.1.0'
-  # gem 'bullet'
+  gem 'puma'
 
   # ==== Remove after Rails 7 upgrade
   gem 'rails_layout' # Simple generators for layouts

@@ -124,7 +124,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Configures a user as an administrator
-  config.admin_user_name = 'mvanneve'
+  config.admin_user_name = 'rfox2'
 
   # Configures time before user is logged out due to inactivity
   config.user_timeout = 10.hours

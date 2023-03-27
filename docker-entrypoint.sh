@@ -34,7 +34,7 @@ fi
 sed -i 's/{{ coral_password }}/'"$CORAL_PASSWORD"'/g' "$APP_DIR/config/secrets.yml"
 sed -i 's/{{ service_password }}/'"$SERVICE_PASSWORD"'/g' "$APP_DIR/config/secrets.yml"
 sed -i 's/{{ refworks_password }}/'"$REFWORKS_PASSWORD"'/g' "$APP_DIR/config/secrets.yml"
-sed -i 's/{{ sentrydn }}/'"$SENTRYDN"'/g' "$APP_DIR/config/secrets.yml"
+sed -i 's/{{ sentrydsn }}/'"$SENTRYDN"'/g' "$APP_DIR/config/secrets.yml"
 sed -i 's/{{ illiad_password }}/'"$ILLIAD_PASSWORD"'/g' "$APP_DIR/config/secrets.yml"
 sed -i 's/{{ rabbitmq_host }}/'"$RABBITMQ_HOST"'/g' "$APP_DIR/config/secrets.yml"
 

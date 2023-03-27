@@ -4,7 +4,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   Sentry.init do |sentry|
     config.environment = 'production'
-    sentry.dsn = Rails.application.secrets.sentry['dsn']
+    sentry.dsn = Rails.application.secrets.sentry[:dsn]
   end
 
   # Code is not reloaded between requests.

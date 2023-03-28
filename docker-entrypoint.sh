@@ -44,20 +44,14 @@ sed -i 's/{{ solr_host }}/'"$SOLR_HOST"'/g' "$APP_DIR/config/sunspot.yml"
 echo "Modify webapp config file for PASSENGER_APP_ENV setting"
 sed -i 's/{{ passenger_app_env }}/'"$PASSENGER_APP_ENV"'/g' "/etc/nginx/sites-enabled/webapp.conf"
 
-echo "Need to wait for RabbitMQ HOST before running rake jobs"
-if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:15672 -t 60; then exit 1; fi
-
-echo "Need to wait for SOLR before running rake jobs"
-if ! "$APP_DIR/wait-for-it.sh" $SOLR_HOST:8983 -t 60; then exit 1; fi
-
-echo "Wait an additional 30 seconds"
-sleep 30
-
 echo "Run the assests precompile rake job"
 RAILS_ENV=$PASSENGER_APP_ENV bundle exec rake assets:precompile
 
 echo "Fix permissions on $APP_DIR folder"
 chown -R app:app $APP_DIR
+
+echo "Need to wait for SOLR before running rake jobs"
+if ! "$APP_DIR/wait-for-it.sh" $SOLR_HOST:8983 -t 180; then exit 1; fi
 
 if [[ "$PASSENGER_APP_ENV" == "development" ]]; then
     if  [[ $RUN_TASK == 1 ]]; then  
@@ -81,6 +75,12 @@ if [[ "$PASSENGER_APP_ENV" == "development" ]]; then
     fi
 fi
 
+echo "Need to wait for RabbitMQ HOST before running rake jobs"
+if ! "$APP_DIR/wait-for-it.sh" $RABBITMQ_HOST:15672 -t 180; then exit 1; fi
+
+echo "Wait an additional 15 seconds"
+sleep 15
+
 if  [[ $RUN_TASK == 1 ]]; then
     if [[ "$PASSENGER_APP_ENV" != "development" ]]; then 
         echo "Run database migrations"
@@ -89,8 +89,6 @@ if  [[ $RUN_TASK == 1 ]]; then
     echo "Start Passenger Service as $PASSENGER_APP_ENV"
     exec /sbin/my_init
 fi
-
-
 
 if  [[ $RUN_TASK == 2 ]]
 then

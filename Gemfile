@@ -81,7 +81,7 @@ group :deployment do
   gem 'capistrano-rails', '~> 1.1'
 end
 
-group :development, :test, :staging do
+group :development, :test do
   gem 'faker', '~> 1.4'
   gem 'haml_lint', require: false
   gem 'rubocop', '= 0.75.0' # this is the latest version hound supports

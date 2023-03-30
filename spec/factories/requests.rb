@@ -4,7 +4,7 @@ FactoryBot.define do
     sequence(:criteria, &:to_s)
     sequence(:barcode) { |n| "12345#{n}" }
     sequence(:trans) { |n| "aleph_12345#{n}" }
-    requested Faker::Date.between(2.days.ago, Date.today)
+    requested Faker::Date.between(from: 2.days.ago, to: Date.today)
     rapid false
     source 'aleph'
     del_type 'loan'

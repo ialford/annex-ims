@@ -82,7 +82,7 @@ group :deployment do
 end
 
 group :development, :test do
-  gem 'faker', '~> 1.4'
+  gem 'faker'
   gem 'haml_lint', require: false
   gem 'rubocop', '= 0.75.0' # this is the latest version hound supports
   gem 'rubocop-rails'

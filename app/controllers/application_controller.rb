@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :check_authentication
   before_action :check_activity
-  before_action :set_raven_context
+  before_action :set_sentry_context
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -29,7 +29,8 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_to_sign_in
-    redirect_to user_oktaoauth_omniauth_authorize_path
+    # repost gem will redirect as a method: :post
+    repost(user_oktaoauth_omniauth_authorize_path, options: { authenticity_token: :auto })
   end
 
   def redirect_to_unauthorized
@@ -62,7 +63,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def set_raven_context
+  def set_sentry_context
     Sentry.set_user(id: session[:current_user_id]) # or anything else in session
     Sentry.set_extras(params: params.to_unsafe_h, url: request.url)
   end
